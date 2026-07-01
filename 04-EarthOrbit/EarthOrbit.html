@@ -1,259 +1,1075 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>EarthOrbit</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EarthOrbit – Help File | GFtGU Programs</title>
 
-  <meta name="Author" content="Bernard F. Schutz">
-  <meta name="Description" content="Help file for the Python program EarthOrbit, part of the Gravity From the Ground Up Python suite.">
-  <meta name="KeyWords" content="Gravity from the Ground Up, EarthOrbit, Python, help file">
+  <!-- MathJax 3 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath:  [['\\(','\\)']],
+        displayMath: [['\\[','\\]']],
+        tags: 'ams'
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+          id="MathJax-script" async></script>
 
   <style>
-    body { background-color: #fdf5e6; color: #000; font-family: Arial, sans-serif; }
-    tt { font-family: monospace; }
+    /* ── Reset & custom properties ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:            #fdf5e6;
+      --surface:       #ffffff;
+      --border:        #c8bfa0;
+      --accent:        #7b2d00;
+      --accent2:       #a04010;
+      --gold:          #b5811a;
+      --text:          #1c1c1c;
+      --muted:         #5a4a3a;
+      --code-bg:       #f0ede4;
+      --note-bg:       #f4f0e8;
+      --eq-bg:         #f7f2e8;
+      --warn-bg:       #fef8ec;
+      --warn-border:   #c08020;
+      --radius:        5px;
+      --shadow:        0 2px 8px rgba(0,0,0,0.10);
+      --mono:          "Courier New", Courier, monospace;
+      --sans:          "Helvetica Neue", Arial, sans-serif;
+      --serif:         Georgia, "Times New Roman", Times, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 1.80;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Page grid ── */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      grid-column: 1 / -1;
+      background: var(--accent);
+      color: #fff;
+      padding: 26px 38px 20px;
+      border-bottom: 4px solid var(--gold);
+    }
+    header .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 3px;
+      padding: 2px 7px;
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 1.95rem;
+      font-weight: normal;
+      letter-spacing: -.02em;
+    }
+    header h1 em { font-style: normal; color: #ffc9a0; }
+    header .sub {
+      margin-top: 6px;
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: #f0d0b8;
+      line-height: 1.55;
+    }
+    header .sub a {
+      color: #ffd8b8;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,200,150,.4);
+    }
+    header .sub a:hover { border-bottom-color: #ffd8b8; }
+
+    /* ── Sidebar ── */
+    nav {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 0 40px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .nav-label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 16px 18px 4px;
+    }
+    nav a {
+      display: block;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 5px 18px 5px 22px;
+      border-left: 3px solid transparent;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    nav a:hover {
+      color: var(--accent);
+      background: #fdf0e0;
+      border-left-color: var(--gold);
+    }
+    nav a.active {
+      color: var(--accent);
+      font-weight: 600;
+      border-left-color: var(--accent);
+      background: #fdecd8;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 40px 52px 60px;
+      max-width: 870px;
+    }
+
+    /* ── Section headings ── */
+    h2 {
+      font-size: 1.38rem;
+      font-weight: normal;
+      color: var(--accent);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+      margin: 2.4rem 0 1.0rem;
+      letter-spacing: -.01em;
+    }
+    h2:first-of-type { margin-top: 0; }
+    h3 {
+      font-size: 1.07rem;
+      font-weight: 700;
+      color: var(--accent2);
+      margin: 1.6rem 0 .5rem;
+    }
+
+    p { margin-bottom: .85rem; }
+    ul, ol { margin: .4rem 0 .85rem 1.55rem; }
+    li { margin-bottom: .3rem; }
+
+    /* ── Equation blocks ── */
+    .eq-block {
+      background: var(--eq-bg);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 22px 10px;
+      margin: 1.1rem 0 1.3rem;
+      overflow-x: auto;
+    }
+    .eq-label {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    /* ── Note / warning callouts ── */
+    .note {
+      background: var(--note-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent2);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 11px 16px;
+      margin: 1.0rem 0 1.2rem;
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+    .note strong { color: var(--accent2); }
+
+    .warn {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      border-left: 4px solid var(--warn-border);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 11px 16px;
+      margin: 1.0rem 0 1.2rem;
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      color: #5c3a00;
+    }
+    .warn strong { color: var(--warn-border); }
+
+    /* ── Code ── */
+    code {
+      font-family: var(--mono);
+      font-size: 0.87em;
+      background: var(--code-bg);
+      border: 1px solid #ddd8cc;
+      border-radius: 3px;
+      padding: 1px 5px;
+    }
+    pre {
+      font-family: var(--mono);
+      font-size: 0.855em;
+      background: var(--code-bg);
+      border: 1px solid #ddd8cc;
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      overflow-x: auto;
+      margin: .8rem 0 1.1rem;
+      line-height: 1.55;
+    }
+
+    /* ── Module cards ── */
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 16px;
+      margin: 1.1rem 0 1.4rem;
+    }
+    .module-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 17px 19px;
+      box-shadow: var(--shadow);
+    }
+    .module-card .mc-name {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+    .module-card .mc-role {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 9px;
+    }
+    .module-card p {
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: .5rem;
+    }
+    .module-card .sig {
+      font-family: var(--mono);
+      font-size: 0.80rem;
+      background: var(--code-bg);
+      border: 1px solid #ddd8cc;
+      border-radius: 3px;
+      padding: 7px 10px;
+      color: var(--text);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    /* ── Parameter table ── */
+    .param-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin: 1.0rem 0 1.4rem;
+    }
+    .param-table th {
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .param-table td {
+      padding: 7px 12px;
+      border-bottom: 1px solid #e0d8c8;
+      vertical-align: top;
+    }
+    .param-table tr:nth-child(even) td { background: #faf5ec; }
+    .param-table tr:hover td { background: #f3ecdf; }
+    .pname { font-family: var(--mono); font-size: 0.83rem; color: var(--accent2); }
+    .pdefault { font-family: var(--mono); font-size: 0.83rem; }
+
+    /* ── Experiment cards ── */
+    .exp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+      gap: 14px;
+      margin: 1.0rem 0 1.4rem;
+    }
+    .exp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 15px 17px;
+      box-shadow: var(--shadow);
+    }
+    .exp-card .ec-num {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 11px;
+      border-radius: 3px;
+      padding: 1px 7px;
+      margin-bottom: 6px;
+    }
+    .exp-card h4 {
+      font-family: var(--sans);
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: var(--accent2);
+      margin: 0 0 5px;
+    }
+    .exp-card p {
+      font-family: var(--sans);
+      font-size: 0.855rem;
+      color: var(--muted);
+      margin: 0 0 6px;
+    }
+    .exp-card .ep {
+      font-family: var(--mono);
+      font-size: 0.79rem;
+      background: var(--code-bg);
+      border: 1px solid #ddd8cc;
+      border-radius: 3px;
+      padding: 5px 8px;
+      line-height: 1.6;
+    }
+
+    /* ── Related programs ── */
+    .related-list {
+      list-style: none;
+      padding: 0;
+      margin: .6rem 0 1.2rem;
+    }
+    .related-list li {
+      padding: 8px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 7px;
+      font-family: var(--sans);
+      font-size: 0.90rem;
+    }
+    .related-list li strong {
+      font-family: var(--mono);
+      color: var(--accent2);
+    }
+
+    /* ── Footer ── */
+    footer {
+      grid-column: 1 / -1;
+      background: #2c1a0e;
+      color: #c8b090;
+      font-family: var(--sans);
+      font-size: 12.5px;
+      text-align: center;
+      padding: 18px 24px;
+      line-height: 1.7;
+    }
+    footer a { color: #e0c090; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 740px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      nav { position: static; height: auto; border-right: none;
+            border-bottom: 1px solid var(--border); }
+      main { padding: 24px 20px 48px; }
+      header { padding: 20px 20px 16px; }
+      .module-grid, .exp-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 
-<body background="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/BH-posneg.negative.watermark.png">
+<body>
+<div class="page-wrap">
 
-<a href="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license.html">
-  <img src="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/LicenseBanner.png"
-       alt="Creative Commons License Banner"
-       title="Click to view license information."
-       style="border:0; width:375px; height:362px;" align="right">
-</a>
+<!-- ═══════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════ -->
+<header>
+  <div class="badge">Chapter 4 · Gravity from the Ground Up</div>
+  <h1><em>EarthOrbit</em> — Newton's Cannon</h1>
+  <div class="sub">
+    Python port of Bernard Schutz's <em>Gravity from the Ground Up</em> (Cambridge, 2003) Java program ·
+    Source:
+    <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/EarthOrbit"
+       target="_blank">github.com/tomyee3/GFTGU-Programs/EarthOrbit</a> ·
+    <a href="https://www.gravityfromthegroundup.org/programs/EarthOrbit.html"
+       target="_blank">Schutz's original</a>
+  </div>
+</header>
 
-<br>
+<!-- ═══════════════════════════════════════════════
+     SIDEBAR NAV
+══════════════════════════════════════════════ -->
+<nav id="sidebar">
+  <div class="nav-label">Overview</div>
+  <a href="#description">Description</a>
+  <a href="#background">Physical Background</a>
 
-<table cellpadding="2" cellspacing="2" border="3"
-       style="text-align:left; width:50%; margin-left:auto; margin-right:auto;">
-  <tbody>
-    <tr>
-      <td style="vertical-align:top; background-color:#ccc;">
-        <h3 style="color:#ff0000; font-family:monospace; font-weight:bold; text-align:center;">
-          <big><big><big><big>EarthOrbit</big></big></big></big>
-        </h3>
+  <div class="nav-label">Mathematics</div>
+  <a href="#equations">Governing Equations</a>
+  <a href="#algorithm">Integration Algorithm</a>
 
-        <div style="text-align:center;">
-          <big><font size="+2"><big>
-            <span style="color:#000; font-weight:bold;">version 1.0</span>
-          </big></font></big>
-          <br>
-          <big><big>
-            <span lang="EN-GB" style="font-size:12pt; font-family:'Times New Roman'; font-weight:bold;">
-              © 2003 Bernard Schutz
-            </span>
-          </big></big>
-        </div>
+  <div class="nav-label">Code</div>
+  <a href="#modules">Module Overview</a>
+  <a href="#parameters">Parameters</a>
+  <a href="#output">Output</a>
 
-        <h3 style="font-family:helvetica,arial,sans-serif; text-align:center;">
-          <b>
-            Find out how to launch a projectile from near the Earth's surface
-            and get it into orbit. The Python version shows how sensitive the
-            trajectory is to the initial speed and height.
-          </b>
-        </h3>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <div class="nav-label">Experiments</div>
+  <a href="#experiments">Suggested Experiments</a>
 
-<h2>Contents</h2>
-<ul>
-  <li><a href="#description">Description of <tt>EarthOrbit</tt></a></li>
-  <li><a href="#using">Using <tt>EarthOrbit</tt></a></li>
-  <li><a href="#understanding">Understanding <tt>EarthOrbit</tt></a></li>
-  <li><a href="#suggestions">Suggested modifications</a></li>
-  <li><a href="#listing">Python source code</a></li>
-</ul>
+  <div class="nav-label">Reference</div>
+  <a href="#related">Related Programs</a>
+  <a href="#license">License</a>
+</nav>
 
-<hr width="15%" size="4">
+<!-- ═══════════════════════════════════════════════
+     MAIN CONTENT
+══════════════════════════════════════════════ -->
+<main>
 
-<h2 id="description">Description of <tt><font size="+3">EarthOrbit</font></tt></h2>
+  <!-- ── Description ── -->
+  <section id="description">
+    <h2>Description</h2>
+    <p>
+      <strong>EarthOrbit</strong> is a numerical realisation of Newton's Cannon — the thought
+      experiment by which Isaac Newton first explained orbital motion in the <em>Principia</em>
+      (1687). A projectile is launched horizontally from a tower high above Earth's surface.
+      If the launch speed is too low, the trajectory curves back to the ground. At exactly the
+      right speed the curvature of the path matches the curvature of Earth and the projectile
+      orbits indefinitely. Above that speed the orbit becomes an ellipse; above the escape speed
+      it becomes a hyperbola and the projectile leaves Earth permanently.
+    </p>
+    <p>
+      The program integrates the projectile's two-dimensional trajectory using a
+      fixed-timestep symplectic integrator, plotting the result against a reference circle
+      showing Earth's surface. All the parameters — altitude, launch velocity, timestep, and
+      step count — are set in <code>main.py</code>.
+    </p>
+    <div class="note">
+      <strong>Textbook reference:</strong>
+      Bernard Schutz, <em>Gravity from the Ground Up</em>, Cambridge University Press (2003),
+      Chapter 4.
+    </div>
+  </section>
 
-<p>
-The <tt>EarthOrbit</tt> program computes the trajectory of a projectile
-launched near the Earth's surface, allowing the user to explore whether
-the projectile falls back to Earth or achieves orbit. The Python version
-faithfully follows the logic of Bernard Schutz’s original Java program
-from <i>Gravity From the Ground Up</i>, but is organized into modern,
-modular Python files.
-</p>
+  <!-- ── Physical Background ── -->
+  <section id="background">
+    <h2>Physical Background</h2>
 
-<p>
-Unlike <tt>CannonTrajectory</tt>, the acceleration of gravity in
-<tt>EarthOrbit</tt> always points toward the center of the Earth. The
-magnitude of the acceleration is taken to be 9.8 m/s², but its direction
-depends on the projectile’s position. This reflects the mathematics
-developed in Investigations 4.1 and 4.2 of the book.
-</p>
+    <h3>Newton's Cannon Thought Experiment</h3>
+    <p>
+      Newton imagined a cannon mounted on a mountain so high it clears the atmosphere, firing
+      horizontally with increasing powder charges. The sequence of outcomes illustrates a
+      continuous family of trajectories:
+    </p>
+    <ul>
+      <li>
+        <strong>Sub-orbital arc:</strong> below the circular speed the trajectory curves more
+        steeply than Earth's surface and the projectile impacts the ground.
+      </li>
+      <li>
+        <strong>Circular orbit:</strong> at the circular speed \(v_c\) the curvature of the
+        trajectory exactly matches Earth's curvature. The projectile never lands.
+      </li>
+      <li>
+        <strong>Elliptical orbit:</strong> between \(v_c\) and the escape speed \(v_e\) the
+        orbit is a closed ellipse with the launch point as one of the apsides.
+      </li>
+      <li>
+        <strong>Escape trajectory:</strong> at or above the escape speed \(v_e = \sqrt{2}\,v_c\)
+        the projectile leaves Earth and does not return.
+      </li>
+    </ul>
 
-<hr width="15%" size="4">
+    <h3>The Inverse-Square Force Law</h3>
+    <p>
+      At any distance \(r\) from Earth's centre the gravitational acceleration has magnitude
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Gravitational acceleration (inverse-square law) — Eq. 1</div>
+      \[
+        |\mathbf{a}| \;=\; g\!\left(\frac{R_\oplus}{r}\right)^{\!2}
+                       \;=\; \frac{k}{r^2},
+        \qquad k \;\equiv\; g\,R_\oplus^2
+      \]
+    </div>
+    <p>
+      where \(g = 9.8\) m s<sup>−2</sup> is the measured surface value,
+      \(R_\oplus = 6\,378\,200\) m is Earth's mean radius, and the composite constant
+      \(k \equiv g\,R_\oplus^2 \approx 3.987\times10^{14}\) m³ s<sup>−2</sup> is numerically
+      equal to \(GM_\oplus\). The direction is always toward the centre.
+    </p>
 
-<h2 id="using">Using <tt><font size="+3">EarthOrbit</font></tt></h2>
+    <div class="warn">
+      <strong>Force-law correctness:</strong> A common porting error is to use a
+      <em>constant</em> magnitude \(|\mathbf{a}| = g\) (direction toward the centre, magnitude
+      fixed at 9.8 m s<sup>−2</sup>). This is not Newton's law. By <strong>Bertrand's
+      theorem</strong>, only two central force laws produce closed orbits:
+      \(F \propto r^{-2}\) (Newtonian gravity) and \(F \propto r\) (harmonic oscillator).
+      A constant-magnitude force (\(F \propto r^0\)) causes the orbit to
+      <em>precess</em> — it produces a rosette pattern instead of a closed ellipse for any
+      eccentricity \(e > 0\). This precession is genuine physics of the wrong equation;
+      reducing the timestep makes no difference. The corrected code uses
+      <code>r³</code> in the denominator and defines <code>_K = G_SURFACE * R_EARTH**2</code>.
+    </div>
 
-<p>
-The Python version of <tt>EarthOrbit</tt> is located at:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/EarthOrbit">
-  https://github.com/tomyee3/GFTGU-Programs/tree/main/EarthOrbit
-</a>
-</p>
+    <h3>Circular and Escape Speeds</h3>
+    <p>
+      At orbital radius \(r = R_\oplus + h\):
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Circular speed and escape speed — Eq. 2</div>
+      \[
+        v_c \;=\; \sqrt{\frac{k}{r}}, \qquad
+        v_e \;=\; \sqrt{\frac{2k}{r}} \;=\; \sqrt{2}\,v_c
+      \]
+    </div>
 
-<p>
-The program is divided into four modules:
-</p>
+    <table class="param-table" style="margin-top:.6rem;">
+      <thead>
+        <tr>
+          <th>Altitude h</th>
+          <th>Orbital radius r (m)</th>
+          <th>v<sub>c</sub> (m s<sup>−1</sup>)</th>
+          <th>v<sub>e</sub> (m s<sup>−1</sup>)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>300 m (default h0)</td>
+          <td>6 378 500</td>
+          <td>≈ 7 906</td>
+          <td>≈ 11 182</td>
+        </tr>
+        <tr>
+          <td>300 km (LEO)</td>
+          <td>6 678 200</td>
+          <td>≈ 7 730</td>
+          <td>≈ 10 931</td>
+        </tr>
+        <tr>
+          <td>35 786 km (GEO)</td>
+          <td>42 164 200</td>
+          <td>≈ 3 075</td>
+          <td>≈ 4 348</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-<ol>
-  <li>
-    <b>Physics module (<tt>physics.py</tt>):</b><br>
-    Encodes the physical laws governing orbital motion. The only literal
-    numbers in this module represent physical constants, such as the
-    acceleration due to gravity and the radius of the Earth. It provides
-    functions to compute gravitational acceleration and update rules for
-    position and velocity.
-  </li>
+  <!-- ── Governing Equations ── -->
+  <section id="equations">
+    <h2>Governing Equations</h2>
 
-  <li>
-    <b>Driver module (<tt>driver.py</tt>):</b><br>
-    Performs the numerical integration. It updates velocity and position
-    using the average velocity over each time-step, mirroring the
-    constant-acceleration method used in Schutz’s Java program.
-  </li>
+    <h3>Equations of Motion</h3>
+    <p>
+      The state vector is \((x,\,y,\,u,\,v)\) where \((x, y)\) is the projectile position
+      in the equatorial plane (origin at Earth's centre) and \((u, v)\) the velocity.
+      Newton's second law gives four coupled ODEs:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Equations of motion — Eq. 3</div>
+      \[
+        \dot{x} = u, \quad \dot{y} = v,
+        \qquad
+        \dot{u} = a_x = -\frac{k\,x}{r^3}, \quad
+        \dot{v} = a_y = -\frac{k\,y}{r^3}
+      \]
+      \[
+        r = \sqrt{x^2 + y^2}, \qquad k = g\,R_\oplus^2
+      \]
+    </div>
 
-  <li>
-    <b>Plot module (<tt>plot_orbit.py</tt>):</b><br>
-    Uses Matplotlib to display the trajectory and the Earth’s surface.
-    The plot enforces equal horizontal and vertical scales so the orbit
-    appears geometrically correct.
-  </li>
+    <h3>Initial Conditions</h3>
+    <p>
+      By convention the projectile starts on the positive \(y\)-axis (the "top" of the orbit):
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Initial conditions — Eq. 4</div>
+      \[
+        x_0 = 0, \quad
+        y_0 = R_\oplus + h_0, \quad
+        u_0 = u_\text{init}, \quad
+        v_0 = v_\text{init}
+      \]
+    </div>
+    <p>
+      A purely horizontal launch is achieved by setting \(u_\text{init} = 0\) and
+      \(v_\text{init} \neq 0\). This places the launch point at an apsis (periapsis or
+      apoapsis, depending on whether \(v_\text{init}\) is below or above \(v_c\)).
+      Setting \(u_\text{init} \neq 0\) adds a radial velocity component and rotates the
+      orbit's orientation.
+    </p>
+  </section>
 
-  <li>
-    <b>Main module (<tt>main.py</tt>):</b><br>
-    The user-facing entry point. It sets example values for initial
-    height, initial horizontal and vertical speeds, time-step, and
-    maximum number of steps. Users may overwrite these values to
-    experiment with different launch conditions.
-  </li>
-</ol>
+  <!-- ── Integration Algorithm ── -->
+  <section id="algorithm">
+    <h2>Integration Algorithm</h2>
 
-<p>
-To run the program:
-</p>
+    <h3>Averaged-Velocity Euler (Symplectic Leapfrog)</h3>
+    <p>
+      The driver uses a <em>fixed-timestep</em> integrator. At each step the velocity at the
+      end of the interval is estimated first, and the position is then advanced using the
+      average of the old and new velocities:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Integration step — Eq. 5</div>
+      \[
+        u_1 = u_0 + a_x(x_0,y_0)\,\Delta t, \quad
+        v_1 = v_0 + a_y(x_0,y_0)\,\Delta t
+      \]
+      \[
+        x \;\leftarrow\; x_0 + \tfrac{1}{2}(u_0 + u_1)\,\Delta t, \quad
+        y \;\leftarrow\; y_0 + \tfrac{1}{2}(v_0 + v_1)\,\Delta t
+      \]
+    </div>
+    <p>
+      This scheme is equivalent to the velocity Verlet / leapfrog method and is
+      <em>symplectic</em>: it conserves a slightly modified energy exactly, so orbits neither
+      spiral inward nor outward over arbitrarily long integrations. Unlike the plain (forward)
+      Euler method it does not accumulate a secular energy drift.
+    </p>
 
-<pre>
-python main.py
-</pre>
+    <h3>Termination Conditions</h3>
+    <p>
+      After each step the driver evaluates \(r = \sqrt{x^2 + y^2}\) and stops when either:
+    </p>
+    <ul>
+      <li>\(r < R_\oplus\) — the projectile has hit Earth's surface, or</li>
+      <li>the step counter reaches <code>maxSteps</code> — the budget is exhausted.</li>
+    </ul>
+    <p>
+      The trajectory arrays are trimmed to the number of steps actually taken before being
+      returned.
+    </p>
 
-<p>
-The resulting plot shows both the Earth’s surface and the projectile’s
-trajectory. If the projectile achieves orbit, the trajectory will wrap
-around the Earth; otherwise it will fall back to the surface.
-</p>
+    <div class="note">
+      <strong>Choosing dt and maxSteps:</strong>
+      At the default <code>dt = 0.4</code> s and launch speed ≈ 7 900 m s<sup>−1</sup>,
+      one orbital period at 300 m altitude is roughly 5 060 s, requiring about 12 650 steps.
+      The default <code>maxSteps = 15 000</code> therefore covers slightly more than one orbit.
+      For higher altitudes (larger radii) the period is longer; increase
+      <code>maxSteps</code> proportionally, or shrink <code>dt</code> if higher positional
+      accuracy is needed.
+    </div>
+  </section>
 
-<hr width="15%" size="4">
+  <!-- ── Module Overview ── -->
+  <section id="modules">
+    <h2>Module Overview</h2>
 
-<h2 id="understanding">Understanding <tt><font size="+3">EarthOrbit</font></tt></h2>
+    <div class="module-grid">
 
-<p>
-The Python program follows the same conceptual structure as the original
-Java version:
-</p>
+      <!-- physics -->
+      <div class="module-card">
+        <div class="mc-role">Physics Layer</div>
+        <div class="mc-name">physics_earthorbit.py</div>
+        <p>
+          Defines Earth's physical constants and the inverse-square gravitational acceleration.
+          The only literal numbers in this module are the two measured surface parameters
+          \(g\) and \(R_\oplus\); the composite constant <code>_K</code> is derived from them.
+          No integration logic appears here.
+        </p>
+        <div class="sig">G_SURFACE = 9.8            # m/s²  (surface gravity)
+R_EARTH   = 6_378_200.0   # m     (Earth's mean radius)
+_K = G_SURFACE * R_EARTH**2  # m³/s² (= GM_Earth)
 
-<ol>
-  <li>
-    <b>Gravity depends on position.</b><br>
-    The acceleration always points toward the center of the Earth. If
-    <tt>r</tt> is the radial distance from the center, then the
-    acceleration components are:
-    <pre>
-ax = -g * x / r
-ay = -g * y / r
-    </pre>
-  </li>
+def compute_acceleration(x, y) -> (ax, ay)
+    # ax = -_K * x / r³,  ay = -_K * y / r³</div>
+      </div>
 
-  <li>
-    <b>The loop continues while the projectile is above the surface and
-    the step count is below the maximum.</b><br>
-    <pre>
-(r >= rEarth) and (j < maxSteps)
-    </pre>
-    This prevents infinite looping if the projectile escapes.
-  </li>
+      <!-- driver -->
+      <div class="module-card">
+        <div class="mc-role">Driver Layer</div>
+        <div class="mc-name">driver_earthorbit.py</div>
+        <p>
+          Implements the fixed-step symplectic integration loop. Imports
+          <code>compute_acceleration</code> and <code>R_EARTH</code> from the physics module.
+          Builds the 401-point Earth-surface reference circle and advances the projectile until
+          surface impact or <code>maxSteps</code> is reached.
+        </p>
+        <div class="sig">from physics_earthorbit import compute_acceleration, R_EARTH
 
-  <li>
-    <b>Velocity is updated using acceleration.</b><br>
-    The driver keeps track of previous and current velocity components
-    separately, just as in <tt>CannonTrajectory</tt>.
-  </li>
+def run_earth_orbit(
+    h0       = 300.0,    # initial altitude (m)
+    uInit    = 0.0,      # initial x-velocity (m/s)
+    vInit    = 7900.0,   # initial y-velocity (m/s)
+    dt       = 0.4,      # timestep (s)
+    maxSteps = 15000     # max integration steps
+) -> (xs, ys, xEarth, yEarth)</div>
+      </div>
 
-  <li>
-    <b>Position is updated using the average velocity.</b><br>
-    This mirrors Schutz’s improved Euler method.
-  </li>
+      <!-- plot -->
+      <div class="module-card">
+        <div class="mc-role">Plot Layer</div>
+        <div class="mc-name">plot_earthorbit.py</div>
+        <p>
+          Renders the trajectory and Earth's surface circle on a single equal-aspect matplotlib
+          figure. Contains no physics or integration logic. Imports only matplotlib.
+        </p>
+        <div class="sig">def plot_earth_orbit(xs, ys, xEarth, yEarth)
+    # Blue dashed:  Earth surface (xEarth, yEarth)
+    # Red solid:    Projectile trajectory (xs, ys)
+    # Equal aspect, grid, legend
+    # Title: "EarthOrbit — Attempting to Achieve Orbit"</div>
+      </div>
 
-  <li>
-    <b>Output includes both the orbit and the Earth’s surface.</b><br>
-    The plot module draws a circle representing the Earth and overlays
-    the trajectory.
-  </li>
-</ol>
+      <!-- main -->
+      <div class="module-card">
+        <div class="mc-role">Entry Point</div>
+        <div class="mc-name">main.py</div>
+        <p>
+          The only file the user needs to edit. Set the launch parameters here, then run
+          <code>python main.py</code>. The plot appears immediately.
+        </p>
+        <div class="sig">from driver_earthorbit import run_earth_orbit
+from plot_earthorbit  import plot_earth_orbit
 
-<hr width="15%" size="4">
+xs, ys, xEarth, yEarth = run_earth_orbit(
+    h0=300.0, uInit=0.0, vInit=7900.0,
+    dt=0.4, maxSteps=15000)
 
-<h2 id="suggestions">Suggested modifications</h2>
+plot_earth_orbit(xs, ys, xEarth, yEarth)</div>
+      </div>
 
-<p>
-As in <tt>CannonTrajectory</tt>, you may refine the termination
-condition. Instead of stopping when the projectile is already inside the
-Earth, you could interpolate between the last two points to estimate the
-exact impact location.
-</p>
+    </div><!-- /module-grid -->
+  </section>
 
-<p>
-You may also experiment with different time-steps or initial conditions
-to explore the sensitivity of orbital trajectories.
-</p>
+  <!-- ── Parameters ── -->
+  <section id="parameters">
+    <h2>Parameters</h2>
 
-<hr width="15%" size="4">
+    <p>
+      All parameters are set as arguments to <code>run_earth_orbit()</code> in
+      <code>main.py</code>. The defaults produce a nearly circular orbit just 300 m
+      above Earth's surface — the idealised Newton's Cannon scenario.
+    </p>
 
-<h2 id="listing">Python source code</h2>
+    <table class="param-table">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default</th>
+          <th>Units</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="pname">h0</td>
+          <td class="pdefault">300.0</td>
+          <td>m</td>
+          <td>
+            Initial altitude above Earth's surface. The starting position is
+            \((0,\;R_\oplus + h_0)\). The default is 300 <em>metres</em>, not
+            kilometres — just above the height of the Eiffel Tower, representing
+            Newton's idealised mountain-top. For a realistic low-Earth orbit use
+            <code>h0 = 300_000.0</code>.
+          </td>
+        </tr>
+        <tr>
+          <td class="pname">uInit</td>
+          <td class="pdefault">0.0</td>
+          <td>m s<sup>−1</sup></td>
+          <td>
+            Initial x-velocity (radial component at launch). Zero gives a purely
+            tangential launch, placing the start point at an apsis of the orbit.
+            A non-zero value adds a radial component and rotates the orbit orientation.
+          </td>
+        </tr>
+        <tr>
+          <td class="pname">vInit</td>
+          <td class="pdefault">7900.0</td>
+          <td>m s<sup>−1</sup></td>
+          <td>
+            Initial y-velocity (tangential component at launch). The circular speed at
+            300 m altitude is \(v_c \approx 7\,906\) m s<sup>−1</sup>; the default
+            7 900 m s<sup>−1</sup> is marginally below circular, producing a very slightly
+            sub-circular orbit that grazes the surface. Increase to ~7 910 m s<sup>−1</sup>
+            for a clean circular orbit at this altitude.
+          </td>
+        </tr>
+        <tr>
+          <td class="pname">dt</td>
+          <td class="pdefault">0.4</td>
+          <td>s</td>
+          <td>
+            Fixed integration timestep. The symplectic integrator is stable for any
+            \(\Delta t\), but positional accuracy improves with smaller values.
+            Halving <code>dt</code> while doubling <code>maxSteps</code> gives the
+            same simulated duration with twice the spatial resolution.
+          </td>
+        </tr>
+        <tr>
+          <td class="pname">maxSteps</td>
+          <td class="pdefault">15000</td>
+          <td>—</td>
+          <td>
+            Maximum number of integration steps. At <code>dt = 0.4</code> s this
+            covers 6 000 s of simulated time — just over one orbital period at 300 m
+            altitude (\(T \approx 5\,060\) s). Increase for longer simulations or
+            higher orbits with longer periods.
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-<p>
-The complete Python implementation of <tt>EarthOrbit</tt> is available at:
-</p>
+    <div class="warn">
+      <strong>Altitude units — common mistake:</strong>
+      <code>h0</code> is in <em>metres</em>. Setting <code>h0 = 300</code> gives an altitude
+      of 300 m (just above the surface), not 300 km. To simulate a realistic low-Earth orbit
+      at the altitude of the International Space Station, use <code>h0 = 408_000</code>
+      (408 km = 408 000 m) with <code>vInit ≈ 7\,670</code> m s<sup>−1</sup>.
+    </div>
+  </section>
 
-<p>
-<a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/EarthOrbit">
-  https://github.com/tomyee3/GFTGU-Programs/tree/main/EarthOrbit
-</a>
-</p>
+  <!-- ── Output ── -->
+  <section id="output">
+    <h2>Output</h2>
 
-<p>
-Updated help documentation is maintained at:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/04-EarthOrbit">
-  https://github.com/tomyee3/GFTGU-Documentation/tree/main/04-EarthOrbit
-</a>
-</p>
+    <p>
+      The program produces a single matplotlib figure with two overlaid curves on shared
+      equal-aspect axes:
+    </p>
+    <ul>
+      <li>
+        <strong>Blue dashed circle</strong> — Earth's surface, drawn as 401 evenly spaced
+        points on a circle of radius \(R_\oplus\). This is pre-computed by the driver and
+        passed to the plotter as <code>xEarth, yEarth</code>.
+      </li>
+      <li>
+        <strong>Red solid line</strong> — the projectile trajectory \((x_j, y_j)\) for
+        all accepted steps, from the launch point until surface impact or step budget
+        exhaustion.
+      </li>
+    </ul>
+    <p>
+      The axis labels are "x (meters)" and "y (meters)". The aspect ratio is forced equal
+      so that the Earth appears as a true circle and orbital ellipses are not distorted.
+      A legend and grid are included; the title reads
+      <em>EarthOrbit — Attempting to Achieve Orbit</em>.
+    </p>
+    <p>
+      The four arrays returned by <code>run_earth_orbit()</code> can also be used directly
+      for custom analyses — for example, computing altitude vs. time, speed vs. time, or
+      overlaying multiple trajectories launched at different speeds on the same figure.
+    </p>
+  </section>
 
-<p>
-This documentation is released under the Creative Commons
-Attribution–NonCommercial–ShareAlike 4.0 International License:
-<br>
-<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
-  https://creativecommons.org/licenses/by-nc-sa/4.0/
-</a>
-</p>
+  <!-- ── Suggested Experiments ── -->
+  <section id="experiments">
+    <h2>Suggested Experiments</h2>
 
-<p>
-Creative Commons address:
-<br>
-Creative Commons  
-PO Box 1866  
-Mountain View, CA 94042  
-USA
-</p>
+    <div class="exp-grid">
+
+      <div class="exp-card">
+        <div class="ec-num">EXP-1</div>
+        <h4>Find the Circular Speed</h4>
+        <p>
+          With a purely tangential launch at 300 m altitude, scan <code>vInit</code>
+          until the red trajectory closes into a circle exactly matching the blue Earth
+          circle. Compare your empirical value with the theoretical prediction
+          \(v_c = \sqrt{k/r}\).
+        </p>
+        <div class="ep">h0=300.0, uInit=0.0
+vInit=7906.0  (scan from 7900)</div>
+      </div>
+
+      <div class="exp-card">
+        <div class="ec-num">EXP-2</div>
+        <h4>Sub-orbital Arc</h4>
+        <p>
+          Reduce the launch speed well below circular. The trajectory should curve
+          back and intersect the Earth-surface circle. Vary the speed and observe how
+          the range increases — a numerical demonstration of Newton's Cannon at low
+          powder charges.
+        </p>
+        <div class="ep">h0=300.0, uInit=0.0
+vInit=5000.0</div>
+      </div>
+
+      <div class="exp-card">
+        <div class="ec-num">EXP-3</div>
+        <h4>Elliptical Orbit at LEO Altitude</h4>
+        <p>
+          Switch to a realistic 300 km altitude. Set the launch speed above the circular
+          value to produce an ellipse with 300 km perigee and a higher apogee. Increase
+          <code>maxSteps</code> to capture the full orbit.
+        </p>
+        <div class="ep">h0=300_000.0, uInit=0.0
+vInit=9000.0, maxSteps=50000</div>
+      </div>
+
+      <div class="exp-card">
+        <div class="ec-num">EXP-4</div>
+        <h4>Approach the Escape Speed</h4>
+        <p>
+          At 300 km altitude, \(v_e \approx 10\,931\) m s<sup>−1</sup>. Set
+          <code>vInit</code> just below this value and watch the orbit open to a very
+          elongated ellipse. At or above \(v_e\) the trajectory never returns.
+        </p>
+        <div class="ep">h0=300_000.0, uInit=0.0
+vInit=10900.0, maxSteps=100000</div>
+      </div>
+
+      <div class="exp-card">
+        <div class="ec-num">EXP-5</div>
+        <h4>Radial Launch Component</h4>
+        <p>
+          Keep the total launch speed fixed at \(v_c\) but split it between
+          <code>uInit</code> (radial) and <code>vInit</code> (tangential). The orbit
+          is no longer circular — its orientation rotates and its eccentricity depends
+          on the fraction of radial velocity.
+        </p>
+        <div class="ep">h0=300.0, vInit=6000.0
+uInit=5000.0  # |v|≈7810 ≈ v_c</div>
+      </div>
+
+      <div class="exp-card">
+        <div class="ec-num">EXP-6</div>
+        <h4>GEO Orbit</h4>
+        <p>
+          A geostationary orbit sits at 35 786 km altitude where \(v_c \approx 3\,075\)
+          m s<sup>−1</sup>. Simulate this orbit and compare the orbital period with the
+          expected 24 hours. You will need a much smaller timestep and many more steps.
+        </p>
+        <div class="ep">h0=35_786_000.0, uInit=0.0
+vInit=3075.0
+dt=10.0, maxSteps=10000</div>
+      </div>
+
+      <div class="exp-card">
+        <div class="ec-num">EXP-7</div>
+        <h4>Verify Kepler's Third Law</h4>
+        <p>
+          Run circular orbits at several altitudes and record the simulated period
+          (step count × dt) each time. Confirm that \(T^2 \propto r^3\) — Kepler's third
+          law — holds numerically across the full range from 300 m to 35 786 km.
+        </p>
+        <div class="ep">h0 = 300, 300_000, 35_786_000
+vInit = v_c at each altitude</div>
+      </div>
+
+      <div class="exp-card">
+        <div class="ec-num">EXP-8</div>
+        <h4>Energy Conservation Check</h4>
+        <p>
+          Add a post-processing step in <code>main.py</code> to compute the specific
+          energy \(\mathcal{E} = \tfrac{1}{2}(u^2+v^2) - k/r\) at every step and plot
+          it vs. time. Confirm that the symplectic integrator keeps \(\mathcal{E}\)
+          bounded without secular drift over many orbits.
+        </p>
+        <div class="ep">Compute from xs, ys returned by driver
+# save velocities in driver first</div>
+      </div>
+
+    </div><!-- /exp-grid -->
+  </section>
+
+  <!-- ── Related Programs ── -->
+  <section id="related">
+    <h2>Related Programs</h2>
+    <ul class="related-list">
+      <li>
+        <strong>Orbit</strong> — the general planetary orbit program (Chapter 4). Uses a
+        full predictor-corrector with adaptive timestep rather than the fixed-step
+        leapfrog; supports five output modes including energy and velocity hodograph.
+        EarthOrbit is the pedagogically simpler version focused specifically on Newton's Cannon.
+      </li>
+      <li>
+        <strong>RelativisticOrbit</strong> — integrates the Schwarzschild geodesic in the
+        equatorial plane of a non-rotating black hole (Chapter 8). Shares the same
+        predictor-corrector integration core as Orbit but adds the GR correction term
+        \(Q/r^2\) to the effective acceleration.
+      </li>
+      <li>
+        <strong>Binary</strong> — extends the Orbit integrator to a two-body system with
+        mutual gravitational interaction (Chapter 4). Both bodies move under Newton's
+        law; the predictor-corrector loop handles the coupled equations simultaneously.
+      </li>
+      <li>
+        <strong>Atmosphere</strong> — companion program (Chapter 7) covering the related
+        problem of vertical hydrostatic equilibrium in a planetary atmosphere, where the
+        same constant-g vs. inverse-square distinction arises.
+      </li>
+    </ul>
+  </section>
+
+  <!-- ── License ── -->
+  <section id="license">
+    <h2>License</h2>
+    <p>
+      This program is released under the
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+        Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>
+      (CC BY-NC-SA 4.0). You are free to share and adapt the material for non-commercial
+      purposes, provided you give appropriate credit and distribute any derivatives under
+      the same license.
+    </p>
+    <p>
+      The original Java programs were written by Bernard Schutz and are described in
+      <em>Gravity from the Ground Up</em>, Cambridge University Press, 2003.
+    </p>
+  </section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════ -->
+<footer>
+  &copy; 2024 Thomas Yee &mdash;
+  Released under the
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+    Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br>
+  Based on Bernard Schutz, <em>Gravity from the Ground Up</em> (Cambridge University Press, 2003).
+</footer>
+
+</div><!-- /page-wrap -->
+
+<!-- ── Active-link tracker ── -->
+<script>
+  const sections = document.querySelectorAll('section[id]');
+  const links    = document.querySelectorAll('nav a[href^="#"]');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => io.observe(s));
+</script>
 
 </body>
 </html>
