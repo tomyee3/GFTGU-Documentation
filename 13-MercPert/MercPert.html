@@ -1,1657 +1,1130 @@
-<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
-<!-- saved from url=(0061)https://www.gravityfromthegroundup.org/programs/MercPert.html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-  
-  <meta name="Generator" content="Microsoft Word 97">
-  <meta name="Template" content="C:\PROGRAM FILES\MICROSOFT OFFICE\OFFICE\html.dot">
-  <meta name="GENERATOR" content="Mozilla/4.79 [en] (Windows NT 5.0; U) [Netscape]">
-  <meta name="Author" content="Bernard F Schutz">
-  <meta name="Description" content="Help file for Triana unit MercPert, part of the toolbox for the book Gravity from the Ground Up.This unit simulates the orbit of a small planet in the gravitational field of a binary system of two stars or a star and a massive planet.">
-  <meta name="KeyWords" content="Gravity from the ground up, Triana, help file">
-  <title>MercPert</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MercPert – Help File | GFtGU Programs</title>
+
+  <!-- MathJax 3 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath:  [['\\(','\\)']],
+        displayMath: [['\\[','\\]']],
+        tags: 'ams'
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+          id="MathJax-script" async></script>
+
+  <style>
+    /* ── Reset & custom properties ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #fdf5e6;
+      --surface:  #ffffff;
+      --border:   #c8bfa0;
+      --accent:   #7b2d00;
+      --accent2:  #a04010;
+      --gold:     #b5811a;
+      --text:     #1c1c1c;
+      --muted:    #5a4a3a;
+      --code-bg:  #f0ede4;
+      --note-bg:  #f4f0e8;
+      --eq-bg:    #f7f2e8;
+      --radius:   5px;
+      --shadow:   0 2px 8px rgba(0,0,0,0.10);
+      --mono:     "Courier New", Courier, monospace;
+      --sans:     "Helvetica Neue", Arial, sans-serif;
+      --serif:    Georgia, "Times New Roman", Times, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 1.80;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Page grid ── */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      grid-column: 1 / -1;
+      background: var(--accent);
+      color: #fff;
+      padding: 26px 38px 20px;
+      border-bottom: 4px solid var(--gold);
+    }
+    header .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 3px;
+      padding: 2px 7px;
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 1.95rem;
+      font-weight: normal;
+      letter-spacing: -.02em;
+    }
+    header h1 em { font-style: normal; color: #ffc9a0; }
+    header .sub {
+      margin-top: 6px;
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: #f0d0b8;
+      line-height: 1.55;
+    }
+    header .sub a {
+      color: #ffd8b8;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,200,150,.4);
+    }
+    header .sub a:hover { border-bottom-color: #ffd8b8; }
+
+    /* ── Sidebar ── */
+    nav {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 0 40px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .nav-label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--muted);
+      padding: 14px 18px 4px;
+    }
+    nav a {
+      display: block;
+      padding: 6px 18px 6px 22px;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: background .15s, border-color .15s;
+    }
+    nav a:hover {
+      background: var(--bg);
+      border-left-color: var(--accent2);
+      color: var(--accent);
+    }
+    nav a.active {
+      background: var(--note-bg);
+      border-left-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    nav hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 10px 14px;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 38px 48px 60px;
+      max-width: 860px;
+    }
+
+    section { margin-bottom: 52px; }
+
+    h2 {
+      font-size: 1.30rem;
+      font-weight: normal;
+      color: var(--accent);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+      margin-bottom: 18px;
+      letter-spacing: -.01em;
+    }
+    h3 {
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: var(--accent2);
+      margin: 24px 0 8px;
+    }
+    h4 {
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      margin: 18px 0 6px;
+    }
+
+    p { margin-bottom: 14px; }
+
+    /* ── Equation block ── */
+    .eq {
+      background: var(--eq-bg);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 20px;
+      margin: 18px 0;
+      overflow-x: auto;
+      font-size: 1.05em;
+    }
+    .eq-label {
+      float: right;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--muted);
+      padding-top: 2px;
+    }
+
+    /* ── Note / tip box ── */
+    .note {
+      background: var(--note-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent2);
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      margin: 18px 0;
+      font-size: 0.93rem;
+    }
+    .note strong { color: var(--accent); }
+
+    /* ── Code ── */
+    pre {
+      background: #2b2b2b;
+      color: #f0ede4;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.55;
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+    code {
+      font-family: var(--mono);
+      font-size: 0.91em;
+      background: var(--code-bg);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    pre code { background: none; padding: 0; font-size: inherit; }
+
+    /* ── Module cards ── */
+    .mc { display: grid; gap: 14px; margin: 18px 0; }
+    .mc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 20px;
+    }
+    .mc-card .mc-name {
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .mc-card .mc-role {
+      font-family: var(--sans);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .mc-card p { font-size: 0.92rem; margin-bottom: 0; color: var(--muted); }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      margin: 16px 0;
+    }
+    th {
+      font-family: var(--sans);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--muted);
+      background: var(--note-bg);
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+    }
+    td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { font-family: var(--mono); color: var(--accent2); }
+
+    /* ── Footer ── */
+    footer {
+      grid-column: 1 / -1;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 18px 38px;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    footer a { color: var(--accent2); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── License banner ── */
+    .license-banner {
+      margin: 18px 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .license-banner img { display: block; width: 100%; height: auto; }
+
+    /* ── Responsive ── */
+    @media (max-width: 720px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      nav { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+      main { padding: 24px 20px 48px; }
+    }
+  </style>
 </head>
-<body text="#000000" bgcolor="#fdf5e6" link="#808080" vlink="#808080" alink="#ff0000" background="./MercPert_files/BH-posneg.negative.watermark.png">
-<span style="font-weight: bold;"><br>
-<a href="https://www.gravityfromthegroundup.org/programs/license.html"><img src="./MercPert_files/HelpfileBanner.png" title="Click to view license information." alt="" style="border: 0px solid ; width: 375px; height: 362px;" align="right"></a></span>
-<table cellpadding="2" cellspacing="2" border="3" style="text-align: left; width: 50%; margin-left: auto; margin-right: auto;">
-  <tbody>
-    <tr>
-      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">
-      <h3 style="color: rgb(102, 255, 153); font-family: monospace; font-weight: bold; text-align: center;"><big><big><big><big><span style="color: rgb(255, 0, 0);">MercPert</span></big></big></big></big></h3>
-      <div style="text-align: center;"><big><font size="+2"><big><span style="color: rgb(255, 0, 0);"><small><span style="font-weight: bold;"><small><span style="color: rgb(0, 0, 0);">version 1.0<br>
-      </span></small></span></small></span></big></font><big><big><span lang="EN-GB" style="font-size: 12pt; font-family: &quot;Times New Roman&quot;; font-weight: bold;">�
-2003 Bernard Schutz</span></big></big></big><br>
+<body>
+<div class="page-wrap">
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header>
+  <div class="badge">GFtGU Programs</div>
+  <h1>MercPert &nbsp;—&nbsp; <em>Help File</em></h1>
+  <div class="sub">
+    Mercury-like Orbit Perturbed by a Binary Companion &nbsp;·&nbsp;
+    Three-Body Newtonian Gravity &nbsp;·&nbsp; Predictor–Corrector Integration<br>
+    Source:
+    <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/MercPert"
+       target="_blank">github.com/tomyee3/GFTGU-Programs / MercPert</a>
+  </div>
+</header>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<nav id="sidebar">
+
+  <div class="nav-label">Contents</div>
+  <a href="#overview">Overview</a>
+  <a href="#quickstart">Quick Start</a>
+  <a href="#modules">Program Files</a>
+
+  <hr>
+  <div class="nav-label">Physics</div>
+  <a href="#three-body">Three-Body Setup</a>
+  <a href="#binary-motion">Binary Motion</a>
+  <a href="#eom">Mercury's Equation of Motion</a>
+  <a href="#energy">Initial Conditions &amp; Orbits</a>
+
+  <hr>
+  <div class="nav-label">Numerical Methods</div>
+  <a href="#predictor-corrector">Predictor–Corrector</a>
+  <a href="#timestep">Adaptive Timestep</a>
+  <a href="#convergence">Convergence Criteria</a>
+
+  <hr>
+  <div class="nav-label">Reference</div>
+  <a href="#parameters">Parameters</a>
+  <a href="#output">Output</a>
+  <a href="#related">Related Programs</a>
+  <a href="#license">License</a>
+
+</nav>
+
+<!-- ═══════════════════ MAIN ═══════════════════ -->
+<main>
+
+  <!-- ─── Overview ─── -->
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>
+      <strong>MercPert</strong> simulates the trajectory of a Mercury-like test
+      body orbiting under the gravitational influence of a central binary system —
+      a Sun-like star and a massive planetary companion in mutual circular orbit.
+      The simulation is a three-body Newtonian problem: the two binary members
+      move on prescribed circular paths (their mutual orbit is computed
+      analytically) while Mercury's trajectory is integrated numerically step
+      by step.
+    </p>
+    <p>
+      The program is designed to reproduce and extend the perturbation
+      experiments described in Schutz's <em>A First Course in General
+      Relativity</em>. By varying the companion mass and orbital separation,
+      you can watch Mercury's nearly Keplerian ellipse precess, deform, or
+      become chaotic — purely due to Newtonian three-body effects. This
+      provides a baseline against which general-relativistic precession
+      effects can be compared using the companion program
+      <a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/13-MercPert_RK45">MercPert_RK45</a>.
+    </p>
+    <div class="note">
+      <strong>Scope:</strong> MercPert is a purely Newtonian simulation.
+      No post-Newtonian or general-relativistic corrections are applied.
+      The binary members move on analytically prescribed circular orbits;
+      their back-reaction on each other from Mercury is neglected (Mercury is
+      treated as a true test particle).
+    </div>
+  </section>
+
+  <!-- ─── Quick Start ─── -->
+  <section id="quickstart">
+    <h2>Quick Start</h2>
+
+    <h3>Requirements</h3>
+    <p>Python 3.9 or later with <code>matplotlib</code>:</p>
+    <pre>pip install matplotlib</pre>
+
+    <h3>Running the Program</h3>
+    <pre>cd GFTGU-Programs/MercPert
+python main.py</pre>
+
+    <p>
+      The default configuration places a Sun-like star
+      (\(M_\odot = 1.98847\times10^{30}\,\mathrm{kg}\)) and a super-Jupiter
+      companion (0.1&nbsp;solar masses, roughly 100 Jupiter masses) in a
+      circular mutual orbit at 0.7&nbsp;AU separation. Mercury starts at
+      1.0&nbsp;AU from the barycentre with a purely transverse velocity of
+      \(15{,}000\,\mathrm{m\,s^{-1}}\). The integration runs for up to
+      150,000 accepted steps, recording all three bodies' positions at each
+      step and producing an orbital plot when finished.
+    </p>
+
+    <h3>Customising the Simulation</h3>
+    <p>
+      All initial conditions and run parameters are set near the top of
+      <code>main.py</code>. The three configuration blocks are:
+    </p>
+    <ul style="margin: 0 0 14px 24px; line-height: 2;">
+      <li><code>BinarySystemParams</code> — companion mass and binary separation</li>
+      <li><code>MercuryInitialConditions</code> — Mercury's starting position and velocity</li>
+      <li><code>MercPertRunParams</code> — timestep, step limit, and tolerances</li>
+    </ul>
+    <p>
+      No other file needs editing for typical use.
+    </p>
+  </section>
+
+  <!-- ─── Program Files ─── -->
+  <section id="modules">
+    <h2>Program Files</h2>
+    <div class="mc">
+
+      <div class="mc-card">
+        <div class="mc-name">main.py</div>
+        <div class="mc-role">Entry Point &amp; Configuration</div>
+        <p>
+          Defines all initial conditions and run parameters, then calls
+          <code>run_mercpert()</code> to integrate the trajectory and
+          <code>plot_orbits()</code> to display the result. All
+          user-adjustable quantities live here. The default example configures
+          a Sun–super-Jupiter binary at 0.7&nbsp;AU with Mercury starting at
+          1.0&nbsp;AU with a 15,000&nbsp;m&nbsp;s<sup>−1</sup> transverse kick.
+        </p>
       </div>
-      <h3 style="font-family: helvetica,arial,sans-serif; text-align: center;"><large><b><span style="color: rgb(0, 0, 0);">Simulate the motion of a small planet in
-a solar system consisting of a star like the Sun and a large planet
-more massive than Jupiter and closer to the Sun. The program
-illustrates the way that massive planets "clean out" regions of the
-planetary system near themselves. Spectacular interactions between the
-small planet and the massive one are easy to achieve with the suggested
-initial data.<br>
-      </span></b></large></h3>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<p><br>
-</p>
-<h2><a name="contents"></a>Contents</h2>
-<ul>
-  <li> <a href="https://www.gravityfromthegroundup.org/programs/MercPert.html#description">Description of <tt><font size="+1">MercPert</font></tt></a></li>
-  <li> <a href="https://www.gravityfromthegroundup.org/programs/MercPert.html#using">Using <tt><font size="+1">MercPert</font></tt></a></li>
-  <li> <a href="https://www.gravityfromthegroundup.org/programs/MercPert.html#playing">Suggestions for playing with <tt><font size="+1">MercPert</font></tt></a></li>
-  <li> <a href="https://www.gravityfromthegroundup.org/programs/MercPert.html#understanding">Understanding <tt><font size="+1">MercPert</font></tt></a></li>
-  <li> <a href="https://www.gravityfromthegroundup.org/programs/MercPert.html#suggestions">Suggested modifications of <tt><font size="+1">MercPert</font></tt></a></li>
-  <li> <a href="https://www.gravityfromthegroundup.org/programs/MercPert.html#listing">Listing of the Java code for <tt><font size="+1">MercPert</font></tt></a></li>
-</ul>
-<hr width="15%" size="4">
-<h2><a name="description"></a>Description of <tt><font size="+3">MercPert</font></tt></h2>
-The unit called <tt><font size="+1">MercPert</font></tt> implements
-the Java
-program for computing the orbit of a small body ("Mercury") in the
-gravitational
-field of two larger bodies that form a circular binary system. The user
-can choose parameters so that the system simulates what happens in
-planetary
-systems where a planet with 100 times the mass of Jupiter orbits close
-to the central star (at roughly the distance of Venus from the Sun).
-Recent
-observations of planets around other stars have found examples of such
-systems. By running <tt><font size="+1">MercPert</font></tt>, the user
-can
-see how such massive planets can sweep a region of the inner solar
-system
-clean of smaller planets. The program also allows users to explore what
-kinds of orbits of small bodies are stable within the gravitational
-field
-of a binary system: how far from a binary star system should
-astronomers
-expect to find orbiting planets? With appropriate choices of initial
-conditions
-the program can produce some spectacular orbits, in which "Mercury"
-loops
-around "Jupiter" one or more times and may then be expelled from the
-simulated
-solar system.
-<p>The user can choose the masses and separation of the binary bodies,
-the initial condition and location of the smaller planet, and the same
-parameters that govern the program as in previous orbit programs like <tt><font size="+1"><a href="https://www.gravityfromthegroundup.org/programs/Orbit.html">Orbit</a></font></tt>
-and <tt><font size="+1"><a href="https://www.gravityfromthegroundup.org/programs/Binary.html">Binary</a></font></tt>:
-time-step
-length, number of time-steps, and the accuracy parameters for time-step
-halving and for the predictor-corrector method.
-</p>
-<p>MercPert is our first look at the complex world of systems
-containing
-more than two bodies. We are starting gently here, by studying a
-special
-case.
-As explained in Chapter 13, only the gravity produced by the binary
-system
-is taken into account: the small "Mercury" is assumed to have
-negligible
-effect on the other two bodies. (Physicists call this the "restricted
-three-body
-problem", <i>restricted</i> because the mass of the third body is
-negligible.)
-The binary system, moreover, has a circular orbit, and "Mercury" will
-move
-only in the plane of this orbit. This special case is nevertheless very
-interesting, not only for the amaxing complexity of the effects on
-"Mercury"
-but also because this situation is duplicated in many young solar
-systems,
-where massive planets like this super-Jupiter clear out a region of the
-proto-planetary disk and prevent other planets from forming nearby.
-</p>
-<p></p>
-<hr width="15%" size="4">
-<h2><a name="using"></a>Using <tt><font size="+3">MercPert</font></tt></h2>
-Simply drag the <tt><font size="+1">MercPert</font></tt> icon from the
-toolbox
-into the working area, drag the <tt><font size="+1">SGTGrapher</font></tt>
-unit into the area, and connect the two. MercPert will open up with
-three
-output nodes, one for each of the three bodies in this simulation. You
-will need to create two more input nodes on <tt><font size="+1">SGTGrapher</font></tt>.
-Do this by
-hovering
-your mouse near the input node and clicking on the "+" that appears. Do
-this twice and then connect up the nodes. (Alternatively, you can use
-the
-right mouse button on the <tt><font size="+1">SGTGrapher </font></tt>icon
-and select "Node Editor" to
-add
-nodes.) If you press the <tt><font size="+1">Start</font></tt> button
-then
-the program will execute with its default settings, producing a
-simulation
-of the orbital motion of the small planet "Mercury" in the
-gravitational
-field of an artificial solar system consisting of the Sun and a
-"Jupiter"
-whose orbit is much closer to the Sun than in our Solar System. This
-orbit
-will be displayed by the graph window that pops up automatically. To
-get a plot that shows the orbits correctly, go to the "Plot" menu of
-the <tt><font size="+1">SGTGrapher </font></tt>display, and select
-"force equal ranges on both axes",
-then press "Reset Zoom".&nbsp; This ensures that the <span style="font-style: italic;">x</span>- and <span style="font-style: italic;">y</span>-
-axes are scaled in the same way. Optionally, if you find the axis
-labels difficult to read, you can select "take out common factors of 10
-from data" for a less cluttered display. You will have to re-run the
-computation to get the display to change.
-<p><img src="./MercPert_files/imageISU.JPG" height="286" width="702" align="left">You
-can change
-the parameters by opening up the parameter window: double-click on the
-unit's icon when it is in the working area to get a window like the one
-shown to the left. The default parameters represent a situation that
-will
-evolve roughly like Figure 13.4 of the book, where "Mercury" is
-attracted
-by "Jupiter" and loops once around it backwards, winding up on a
-tighter
-and more eccentric orbit around the Sun. The first parameter allows the
-user to choose the mass of one of the binary bodies (conventionally,
-the
-"Sun", but it need not even be the more massive of the two), and the
-second
-parameter is for the mass of the second binary body ("Jupiter"). Both
-masses
-are given in solar masses, not in kg. The third parameter is the
-separation
-of the binary bodies, in meters. Since the program assumes they are in
-a circular binary orbit, giving their separation and their masses fixes
-the binary system completely. The program assumes that at the initial
-moment,
-the binary bodies lie on the x-axis, with the first body at negative-x
-and the second at positive-x. Their orbits follow circles in the
-counter-clockwise
-direction, and the centers of both circles remain at the origin of the
-coordinates. This information is important for deciding where to place
-the third body ("Mercury"). Its initial position is given in the fourth
-line: the user should type both coordinates (in meters), separated by
-one
-or more spaces, but without additional punctuation. Similarly, the user
-should type into the fifth line the initial velocity of "Mercury",
-again
-giving both components separated by spaces (in meters per second). This
-fully determines the orbit of the third body. The remaining parameters
-are similar to those in <tt><font size="+1"><a href="https://www.gravityfromthegroundup.org/programs/Orbit.html">Orbit</a></font></tt>
-and <tt><font size="+1"><a href="https://www.gravityfromthegroundup.org/programs/Binary.html">Binary</a></font></tt>
-that
-control the running of the program: time-step length, number of
-time-steps,
-and two accuracy parameters.
-</p>
-<p>One difference with previous programs is that this one does not stop
-once "Mercury" has made a complete orbit. The trajectory of Mercury can
-be so irregular that this criterion would be meaningless; moreover, it
-is very interesting to watch the system evolve over many orbits. So the
-only thing that stops the program is reaching the total number of
-time-steps
-given in the seventh parameter. Notice that the total elapsed time
-along
-the orbit is not predictable, since the time-step can be reduced by the
-program. Just experiment with the program and if it does not go as far
-as you want, reset the number of time-steps to a larger number and run
-it again. Notice also that there is no choice-box offering you
-different
-output options. For this program only the orbits are output.
-</p>
-<p></p>
-<hr width="15%" size="4">
-<h2><a name="playing"></a>Suggestions for playing with <tt><font size="+3">MercPert</font></tt></h2>
-Three-body systems are capable of a huge variety of behaviors, and even
-when one body has negligible mass, as here, the variety can be
-fascinating.
-Small changes in the initial radius of "Mercury's" orbit or its
-starting
-position or velocity can make big changes in its subsequent trajectory.
-Shown below are some images of various orbits, along with the initial
-data
-for "Mercury" that produced them. (If you hover your mouse over the
-images you will see the number of time-steps that were used for each
-simulation. The initial time-step was set to 2000 seconds in all
-cases.) The "Sun" (shown in red) and "Jupiter"
-(shown in green) have the default&nbsp; initial data. "Mercury" is
-shown
-in blue.You should run these examples and then try your own variations.
-For some choices of parameters, the encounter of "Mercury" with
-"Jupiter"
-is so close that the time-step must be halved repeatedly to preserve
-accuracy.
-Since the time-step is never subsequently increased by our code, these
-simulations just crawl along, and you may run out of time or memory or
-patience before
-you see the result of the encounter. Try increasing the value of the
-first
-accuracy parameter to allow longer time-steps in these cases.
-<br>
-&nbsp;
-<p><img style="width: 367px; height: 370px;" alt="" title="4e5 steps" src="./MercPert_files/MercPertRun1.jpg"><img src="./MercPert_files/MercPertRun2.jpg" title="1.5e4 steps" alt="" style="width: 372px; height: 375px;"><img src="./MercPert_files/MercPertRun3.jpg" title="1.5e5 steps" alt="" style="width: 367px; height: 364px;"><img src="./MercPert_files/MercPertRun4.jpg" title="1.8e5 steps" alt="" style="width: 363px; height: 373px;"><img src="./MercPert_files/MercPertRun5.jpg" title="1e5 steps" alt="" style="width: 367px; height: 369px;"><img src="./MercPert_files/MercPertRun6.jpg" title="5e4 steps" alt="" style="width: 369px; height: 365px;"><br>
-&nbsp;
-<br>
-&nbsp;
-</p>
-<p>There are a few things that you should notice in these examples.
-</p>
-<ul>
-  <li>"Mercury" often has more than one very close encounters with
-"Jupiter".
-An "encounter" is not just a place where orbits cross, since the two
-bodies
-may not have been in the same places in their orbits at the time of the
-crossing. You can see where a genuine encounter happens by looking for
-sharp changes in the trajectory of "Mercury". In the fifth simulation
-there
-are at least five close encounters.</li>
-  <li>These encounters tend to put "Mercury" into a highly eccentric
-orbit
-that
-takes it close to the "Sun". These are good examples of what we called
-"slinging toward the Sun" in Chapter 6.&nbsp; In several of the
-simulations,
-"Mercury" comes so close to the "Sun" that, if we were to allow for the
-finite size of the central star, we would expect it to be swallowed by
-the
-"Sun" and removed from the planetary system. This is the principal
-mechanism
-for the cleaning out of a proto-solar-system. Notice, however, that in
-three simulations, "Mercury" is expelled from the system entirely after
-its close encounter with the Sun.</li>
-  <li>Just for fun we ran one orbit where "Mercury" began very close to
-"Jupiter"
-(the fifth image). It is immediately captured and becomes a moon of
-"Jupiter".</li>
-  <li>In the final simulation, "Mercury" is started out in a <i>retrograde</i>
-orbit, one which circles the "Sun" in the opposite sense from
-"Jupiter's".
-This remains stable, because "Mercury" never spends enough time near
-"Jupiter" to be seriously disturbed. <br>
-  </li>
-</ul>
-Try, while doing your own simulations, to determine what regions of the
-orbit plane are so disturbed by "Jupiter" that stable orbits are not
-possible.
-How far outside "Jupiter's" orbit is it safe for "Mercury" to orbit
-without
-being seriously disturbed? What happens if "Mercury" starts out on the
-opposite side of the "Sun" from "Jupiter"? Whenever you see a report in
-the scientific
-press of the discovery of another solar system around a distant star,
-with
-a Jupiter-like planet, come back to this program and experiment to see
-if there is room for other planets to orbit inside this Jupiter-like
-planet's
-orbit, allowing for the finite size of the central star.
-<p>This program can simulate a much larger variety of systems than just
-Sun+Jupiter. Because you can choose the initial masses and separations
-of the binary bodies freely, you can explore many other kinds of
-systems.
-Try the following:
-</p>
-<ul>
-  <li> <b>Equal-mass binary.</b> Set the two masses equal to 1 and set
-the
-separation
-to about 1 AU. This represents a fairly typical binary system with
-solar-type
-stars. Can you find any orbits between the two bodies that are stable?
-Can you find stable orbits that stay far outside the binary orbit?
-Would,
-say, a planet at Jupiter's distance from the Sun remain in orbit for a
-long time around this system?</li>
-  <li> <b>The Roche limit.</b> Set the two masses equal to 10 and 1
-and
-set the
-separation to about 0.3 AU. This represents a typical binary containing
-a black hole
-(10 solar masses) and an ordinary solar-mass star, with a moderate
-separation.
-Now experiment with orbits for the small body that might tell us about
-the way the black hole strips gas from the normal star. This gas starts
-out at the surface of the solar-mass star, which might be a good
-fraction
-of the distance between the hole and the star if the star has become a
-giant. The gas starts out at rest with respect to the binary system,
-which
-means it moves with the same initial angular velocity as the star and
-black
-hole. Compute this angular velocity and use it to set up initial data
-as
-follows. Take the initial x-position to be anywhere you like between
-the
-two bodies. Take the initial y-position to be zero. Take the initial
-x-velocity
-to be zero and the initial y-velocity to be the angular velocity times
-the x-position. By changing the initial position, find out what
-possible
-behaviors there are. For what range of starting positions does the
-small
-body fall toward the black hole? For what positions does it remain near
-the star? The dividing place is called the <i>Roche limit</i>: if a
-giant
-star in a binary expands to larger than this size, it will lose its
-outer
-layers, which will fall onto the black hole. Note that what happens to
-gas and to our small body when they fall toward the black hole will be
-very different: the small body will just follow a gravitational
-trajectory,
-but the gas will get hot, develop strong pressure gradients, and
-radiate
-away much of its energy. The gas will then be trapped into an <i>accretion
-disk</i> around the black hole. See the discussion of accretion disks
-in
-Chapter 13. But even though the subsequent motion of gas and small
-particles
-will be different, the Roche limit will be the same, because at the
-outer
-edge of a star the pressure is zero so the gas particles behave like
-freely
-orbiting bodies.</li>
-</ul>
-<hr width="15%" size="4">
-<h2><a name="understanding"></a>Understanding <tt><font size="+3">MercPert</font></tt></h2>
-<tt><font size="+1">MercPert</font></tt> is based on <tt><font size="+1">Orbit</font></tt>
-and <tt><font size="+1">Binary</font></tt>, so we do not need to
-repeat here
-the explanations of how time-step halving and the predictor-corrector
-work.
-Just see the discussion in the help file for <tt><font size="+1"><a href="https://www.gravityfromthegroundup.org/programs/Orbit.html#understanding">Orbit</a></font></tt>.
-In one sense, <tt><font size="+1">MercPert</font></tt> is simpler than
-<tt><font size="+1">Binary</font></tt>:
-it has only one body whose motion has to be determined. But it is more
-complicated than <tt><font size="+1"><a href="https://www.gravityfromthegroundup.org/programs/Binary.html#understanding">Binary</a></font></tt>
-in that the orbit of "Mercury" depends on two other bodies. <tt><font size="+1">MercPert</font></tt>
-is also simpler than the previous two programs in that it does not test
-for the completion of an orbit. It just runs until it executes the
-total
-number of steps set by the user. Although the program is introduced in
-Chapter 13, there is no extensive discussion of how to create it, no
-Investigation
-devoted to it, because the modifications of <tt><font size="+1">Orbit</font></tt>
-are straightforward.
-<p>In the program, variables relating to the "Sun" have names ending in
-<tt><font size="+1">Sun</font></tt>,
-those relating to "Jupiter" have names ending in <tt><font size="+1">Planet</font></tt>,
-and those relating to "Mercury" have names including the word <tt><font size="+1">Merc</font></tt>.
-</p>
-<p>The positions of the binary bodies do not need to be calculated from
-their accelerations.We already know how a circular binary moves, so we
-can just write down their positions at any time. We know from the
-discussion
-in Invesigation 13.1 that they have orbital radii in inverse proportion
-to their masses, so that we can calculate at the beginning of the
-program
-the orbital radius of the "Sun", <tt><font size="+1">rSun</font></tt>,
-from
-the two binary masses <tt><font size="+1">mSun</font></tt> and <tt><font size="+1">mPlanet</font></tt>
-and their separation <tt><font size="+1">binarySeparation</font></tt>,
-all
-three of which are given by the user in the parameter window:
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double
-rSun = mPlanet/(mSun + mPlanet)*binarySeparation;</font></tt>
-<br>
-Then the radius of "Juptier's" orbit must make up the remainder of
-the separation of the two bodies:
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double
-rPlanet = binarySeparation - rSun;</font></tt>
-<br>
-The bodies orbit each other with the angular velocity omega that one
-can deduce from Equation 13.4 by solving for 2<i><font face="SymbolPS">p/</font>P</i>,
-where <i>P</i> is the orbital period:
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double
-omega = Math.sqrt(kGravity*(mSun +
-mPlanet)/Math.pow(binarySeparation,3));</font></tt>
-<br>
-Recall that, as in the program <tt><font size="+1">Binary</font></tt>,
-<tt><font size="+1">kGravity</font></tt>
-is the product of Newton's gravitational constant <i>G</i> and the
-mass
-of the Sun. This allows us to use the variables
-<tt><font size="+1">mSun</font></tt>
-and <tt><font size="+1">mPlanet</font></tt> for the masses of these
-bodies
-in units of solar masses.
-</p>
-<p>Given these variables, then at any time <tt><font size="+1">t</font></tt>
-the coordinate positions of the binary bodies are
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xSun =
--rSun*Math.cos(omega*t);</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ySun =
--rSun*Math.sin(omega*t);</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xPlanet
-= rPlanet*Math.cos(omega*t);</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; yPlanet
-= rPlanet*Math.sin(omega*t);</font></tt>
-<br>
-The minus signs in the first two expressions reflect the fact that
-the "Sun's" initial position is on the negative-x-axis. In fact, you
-will
-not see lines like these explicitly in the code below. Instead, it is
-more
-efficient to compute the sine and cosine just once, assigning their
-values
-to variables <tt><font size="+1">s1</font></tt> and <tt><font size="+1">c1</font></tt>,
-respectively. Moreover, there are no variables <tt><font size="+1">xSun</font></tt>,
-<tt><font size="+1">ySun</font></tt>,
-..., in the program because the only thing that is important is the
-distance
-of "Mercury" from the binary bodies. Therefore what one finds in the
-code
-instead of the above are lines like
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c1 =
-Math.cos(t1*omega);</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s1 =
-Math.sin(t1*omega);</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-xMercSun1
-= xMerc1 + rSun * c1;</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yMercSun1
-= yMerc1 + rSun * s1;</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-xMercPlanet1
-= xMerc1 - rPlanet * c1;</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yMercPlanet1
-= yMerc1 - rPlanet * s1;</font></tt>
-<br>
-which compute the components of the displacement vectors from the
-binary
-bodies to "Mercury".
-</p>
-<p>As in previous programs, once this displacement is known the
-acceleration
-of "Mercury" can be computed, as the sum of the accelerations produced
-by the two binary bodies. This is done in program lines like
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rMercSun
-= Math.sqrt( xMercSun1*xMercSun1 + yMercSun1*yMercSun1 );</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-rMercSun3
-= Math.pow(rMercSun,3);</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-rMercPlanet
-= Math.sqrt( xMercPlanet1*xMercPlanet1 + yMercPlanet1*yMercPlanet1 );</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-rMercPlanet3
-= Math.pow(rMercPlanet,3);</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; axMerc1
-= -kGravity * ( mSun*xMercSun1/rMercSun3 +
-mPlanet*xMercPlanet1/rMercPlanet3
-);</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ayMerc1
-= -kGravity * ( mSun*yMercSun1/rMercSun3 +
-mPlanet*yMercPlanet1/rMercPlanet3
-);</font></tt>
-<br>
-These should be self-explanatory, if you have followed the development
-of <tt><font size="+1"><a href="https://www.gravityfromthegroundup.org/programs/Binary.html#understanding">Binary</a></font></tt>.
-From these acceleration components the program computes the orbit of
-"Mercury"
-in the usual way.
-</p>
-<p>The remaining parts of the program are the same as before, with
-time-step
-halving and the predictor-corrector. The loop that moves forward in
-time
-is even simpler, since there is no test for the completion of one
-orbit:
-it just runs until it reaches the maximum number of steps set by the
-user.
-<br>
-&nbsp;
-</p>
-<p></p>
-<hr width="15%" size="4">
-<h2><a name="suggestions"></a>Suggested modifications of <tt><font size="+3">MercPert</font></tt></h2>
-The modifications suggested for <tt><font size="+1"><a href="https://www.gravityfromthegroundup.org/programs/Orbit.html#suggestions">Orbit</a></font></tt>
-are equally applicable here. In fact, the lengthening of the time-step
-after a close encounter would be a very helpful modification, since it
-would allow the consequences of the encounter to be discovered much
-further
-in the future than in the present program.
-<p>If you want to change the program you will have to re-compile it, as
-explained by the help file <a href="https://www.gravityfromthegroundup.org/programs/UsingTriana.html">Using Triana for
-<i>Gravity
-from the ground up</i></a>.
-<br>
-&nbsp;
-</p>
-<p></p>
-<hr width="15%" size="4">
-<h2><a name="listing"></a>Listing of the Java code for <tt><font size="+3">MercPert</font></tt></h2>
-<h3>
-Preliminary definitions of parameters and constants</h3>
-<tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mSun is the mass of the central
-body of the solar system, in solar</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; masses. This is set by the user
-in the parameter window, where it has</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the default value is 1.0, the same
-as our Sun.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mPlanet is the mass of the massive
-orbiting planet, which with the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; central body forms a binary system
-within which Mercury will orbit.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This mass is also given in solar
-masses, and it is set by the user</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in the parameter window. It has
-a default value of 0.1, which is about</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 100 times the mass of Jupiter.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double mSun;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double mPlanet;</tt>
-<p><tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; binarySeparation is the distance
-between the central body and the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; planet, both of which are taken
-to follow circular orbits. They</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; begin at t=0 with a separation just
-along the x-direction. The</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; separation is in meters and is set
-by the user in the parameter</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; window.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double binarySeparation;</tt>
-<br>
-&nbsp;
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; initPosMerc is the String used by
-the program to allow users</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to input the initial position of
-"Mercury" in the parameter</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; window. The String is processed
-to obtain the initial x-</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and y-positions, which are stored
-in xInitMerc and yInitMerc.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; All positions are given in meters.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private String initPosMerc;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double xInitMerc;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double yInitMerc;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; initVelMerc is the String used by the program
-to allow users</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; to input the initial velocity of "Mercury" in
-the parameter</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; window. The String is processed to obtain the
-initial x-</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; and y-velocity components, which are stored
-in vInitMerc</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; and uInitMerc. All velocities are given in m/s.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private String initVelMerc;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double vInitMerc;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double uInitMerc;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dt is the time-step in seconds.
-It is set by the user in the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; parameter window.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double dt;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; maxSteps is the maximum number of
-steps in the calculation.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This is used to ensure that the
-calculation will stop even</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if initial values are chosen so
-that "Mercury" is expelled</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; from the Solar System. It is set
-by the user in the parameter</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; window.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private int maxSteps;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eps1 sets the accuracy of the
-time-step.
-If computed quantities</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; change by a larger fraction than
-this in a time-step, the time-step</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; will be cut in half, repeatedly
-if necessary. It is set by the user</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in the parameter window.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double eps1;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eps2 sets the accuracy of the
-predictor-corrector
-step. Averaging</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; over the most recent time-step is
-iterated until it changes by</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; less than this relative amount.
-It is set by the user in the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; parameter window.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double eps2;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kGravity is Newton's gravitational
-constant times the mass of the Sun.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; It is used internally and not set
-by the user.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double kGravity = 1.327e20;</tt>
-<br>
-&nbsp;
-<br>
-&nbsp;
-</p>
-<h3>Program code</h3>
-<tt>&nbsp;&nbsp;&nbsp; public void process() throws Exception {</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Define and
-initialize the variables we will need. The position</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and velocity
-components are referred to an x-y coordinate system</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; whose origin
-is at the center of mass of the two main bodies. The</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; word Sun
-in a variable name refers to the more massive central</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; body (the
-"Sun"); Planet refers to the massive planet ("Jupiter"); and</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Merc refers
-to the small planet ("Mercury") whose orbit in the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-gravitational
-field of the other two bodies we wish to compute.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; We need
-the following variables for the calculation:</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - t is the
-time since the beginning of the orbit.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - dt1 will
-be used as the "working" value of the time-step, which can</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-be changed during the calculation. Using dt1 for the time-step allows</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-us to keep dt as the original value, as specified by the user. Thus,</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-dt1 is set equal to dt at the beginning of the calculation, but it may
-be</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-reduced at any time-step, if accuracy requires it.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - omega
-is the orbital angular velocity of the binary system consisting</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-of the Sun and the massive planet.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - rSun and
-rPlanet are the orbital radii of the Sun and the massive planet.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - xSun and
-ySun are the coordinates of the position of the Sun, given</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-here initial values that place the Sun to the left of the origin.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - vSun and
-uSun are the components of the velocity of the Sun, given</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-here initial values so that the Sun is moving downwards (negative-y</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-direction).</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - xPlanet
-and yPlanet are the coordinates of the position of the massive</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-planet, given here initial values that place the planet to the right</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-of the origin.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - xMerc
-and yMerc are the coordinates of the position of Mercury relative</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-to the center of mass of the two massive bodies, given here initial</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-values that correspond to the initial position data given in the
-parameter</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-window (which are Mercury's position relative to the Sun).</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - vMerc
-and uMerc are the components of the velocity of Mercury relative</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-to the center of mass of the two massive bodies, given here initial</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-values that correspond to the initial velocity data given in the
-parameter</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-window (which are Mercury's velocity relative to the Sun).</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - xMerc0
-and yMerc0 are variables that hold temporary x- and y-coordinate</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-values for Mercury.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - xMercSun
-and yMercSun are the components of the displacement vector from</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-the Sun to Mercury.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
-xMercPlanet
-and yMercPlanet are the components of the displacement vector</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-from the massive planet to Mercury.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - rMercSun
-is the distance between Mercury and the Sun.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
-rMercPlanet
-is the distance between Mercury and the massive planet.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - rMercSun3
-is the cube of the distance between Mercury and the Sun.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
-rMercPlanet3
-is the cube of the distance between Mercury and the massive</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-planet.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - axMerc0
-and ayMerc0 are the x-acceleration and y-acceleration, respectively, of</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Mercury at the location (xmerc0, yMerc0).</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
-xCoordinateSun
-and yCoordinateSun are used to store the values of x and y of</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-the Sun at each timestep. They are arrays of length maxSteps.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
-xCoordinatePlanet
-and yCoordinatePlanet are used to store the values of x and y of</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-the massive planet at each timestep. They are arrays of length maxSteps.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
-xCoordinateMerc
-and yCoordinateMerc are used to store the values of x and y of</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Mercury at each timestep. They are arrays of length maxSteps.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double t = 0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double dt1 = dt;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double omega =
-Math.sqrt(kGravity*(mSun
-+ mPlanet)/Math.pow(binarySeparation,3));</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double rSun =
-mPlanet/(mSun
-+ mPlanet)*binarySeparation;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double xSun = - rSun;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double ySun = 0.0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double vSun = 0.0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double uSun =
--omega*xSun;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double rPlanet =
-binarySeparation
-- rSun;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double xPlanet = rPlanet;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double yPlanet = 0.0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double xMerc = xInitMerc
-+ xSun;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double yMerc = yInitMerc
-+ ySun;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double vMerc = vInitMerc
-+ vSun;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double uMerc = uInitMerc
-+ uSun;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double xMerc0 = xMerc;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double yMerc0 = yMerc;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double xMercSun = xMerc
-- xSun;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double yMercSun = yMerc
-- ySun;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double xMercPlanet =
-xMerc - xPlanet;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double yMercPlanet =
-yMerc - yPlanet;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double rMercSun =
-Math.sqrt(xMercSun*xMercSun
-+ yMercSun*yMercSun);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double rMercPlanet =
-Math.sqrt(xMercPlanet*xMercPlanet + yMercPlanet*yMercPlanet);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double rMercSun3 =
-Math.pow(rMercSun,3);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double rMercPlanet3
-= Math.pow(rMercPlanet,3);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double axMerc0 =
--kGravity*(mSun*xMercSun/rMercSun3
-+ mPlanet*xMercPlanet/rMercPlanet3);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double ayMerc0 =
--kGravity*(mSun*yMercSun/rMercSun3
-+ mPlanet*yMercPlanet/rMercPlanet3);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double[] xCoordinateSun
-= new double[ maxSteps ];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double[] yCoordinateSun
-= new double[ maxSteps ];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double[]
-xCoordinatePlanet
-= new double[ maxSteps ];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double[]
-yCoordinatePlanet
-= new double[ maxSteps ];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double[] xCoordinateMerc
-= new double[ maxSteps ];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double[] yCoordinateMerc
-= new double[ maxSteps ];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xCoordinateSun[0] =
-xSun;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; yCoordinateSun[0] =
-ySun;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xCoordinatePlanet[0]
-= xPlanet;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; yCoordinatePlanet[0]
-= yPlanet;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xCoordinateMerc[0] =
-xMerc;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; yCoordinateMerc[0] =
-yMerc;</tt>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Now define
-other variables that will be needed, but without giving</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; initial
-values. They will be assigned values during the calculation.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - t1 is
-a temporary value of the time, used to compute postions of the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-binary bodies when needed.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - xMerc1
-and yMerc1 are temporary values of x and y for Mercury that are</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-needed during the calculation.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - axMerc1
-and ayMerc1 are likewise temporary values of the acceleration.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - dxMerc
-and dyMerc are variables that hold part of the changes in</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-x and y for Mercury that occur during a time-step.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - ddxMerc0,
-ddxMerc1, ddyMerc0 and ddyMerc1 are variables that hold other parts of</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-the changes in x and y of Mercury during a time-step. The reason for
-having</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-both dxMerc and ddxMerc will be explained in comments on the
-calculation
-below.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - dvMerc
-and duMerc are the changes in velocity components of Mercury that occur</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-during a time-step.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - xMercSun1,
-yMercSun1, xMercPlanet1, and yMercPlanet1 are temporary values that</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-hold the separations of Mercury from the Sun and the massive planet,
-respectively.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
-testPrediction
-will hold a value that is used by the predictor-corrector</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-steps to assess how accurately the calculation is proceeding.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - c1 and
-s1 are temporary variables used to make the computation of the positions</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-of the Sun and the massive planet more efficient.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - j and
-k are integers that will be used as loop counters.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double t1, xMerc1,
-yMerc1,
-axMerc1, ayMerc1, dvMerc, duMerc;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double dxMerc, dyMerc,
-ddxMerc0, ddyMerc0, ddxMerc1, ddyMerc1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double xMercSun1,
-yMercSun1,
-xMercPlanet1, yMercPlanet1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double testPrediction;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double c1, s1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int j, k;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Now start
-the loop that computes the two orbits. The loop counter</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; is j, which
-(as in Orbit) starts at 1 and increases by 1 each</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; step. The
-test for exiting from the loop will be that the number</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of steps
-exceeds&nbsp; the maximum set by the user.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for ( j = 1; j &lt;
-maxSteps ; j++ ) {</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-- Set dvMerc and duMerc to the changes in x- and y-speeds that would
-occur</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-during time dt1 if the acceleration were constant at (axMerc0, ayMerc0).</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-- Similarly set dxMerc and dyMerc to the changes in position that would</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-occur if the velocity components vMerc and uMerc were constant during
-the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-time dt1.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-- Set ddxMerc0 and ddyMerc0 to the extra changes in x and y that occur
-because</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Mercury's velocity changes during the time dt1. The velocity change that</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-is used is only dvMerc/2 (or duMerc/2, respectively) because the most</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-accurate change in position comes from computing the average</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-velocity during dt1. We separate the two position changes, dxMerc and</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ddxMerc0, because dxMerc will be unchanged when we do the
-predictor-corrector</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-below (the change in position due to the original speed is always</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-there), while ddxMerc0 will be modified when axMerc0 and hence dvMerc
-is
-modified</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-by the predictor-corrector.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-- Finally, set ddxMerc1 and ddyMerc1 to ddxMerc0 and ddyMerc0
-initially.
-They will</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-change when we enter the predictor-corrector code.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-t1 = t + dt1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-dvMerc = axMerc0*dt1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-duMerc = ayMerc0*dt1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-dxMerc = vMerc*dt1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-dyMerc = uMerc*dt1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ddxMerc0 = dvMerc/2*dt1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ddyMerc0 = duMerc/2*dt1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ddxMerc1 = ddxMerc0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ddyMerc1 = ddyMerc0;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Now advance the position of Mercury by our initial estimates of the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-position changes, dxMerc + ddxMerc0 and dyMerc + ddyMerc0. Then</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-compute the new distances of Mercury from the binary bodies and the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-resulting acceleration at this position. Use the positions of the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-binary bodies at the time t1.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-xMerc1 = xMerc0 + dxMerc + ddxMerc0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yMerc1 = yMerc0 + dyMerc + ddyMerc0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-c1 = Math.cos(t1*omega);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-s1 = Math.sin(t1*omega);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-xMercSun1 = xMerc1 + rSun * c1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yMercSun1 = yMerc1 + rSun * s1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-rMercSun = Math.sqrt( xMercSun1*xMercSun1 + yMercSun1*yMercSun1 );</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-rMercSun3 = Math.pow(rMercSun,3);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-xMercPlanet1 = xMerc1 - rPlanet * c1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yMercPlanet1 = yMerc1 - rPlanet * s1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-rMercPlanet = Math.sqrt( xMercPlanet1*xMercPlanet1 +
-yMercPlanet1*yMercPlanet1
-);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-rMercPlanet3 = Math.pow(rMercPlanet,3);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-axMerc1 = -kGravity * ( mSun*xMercSun1/rMercSun3 +
-mPlanet*xMercPlanet1/rMercPlanet3
-);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ayMerc1 = -kGravity * ( mSun*yMercSun1/rMercSun3 +
-mPlanet*yMercPlanet1/rMercPlanet3
-);</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Time-step check.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-This is the code to check whether the time-step is too large. The idea</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-is to compare the changes in acceleration of Mercury during the timestep</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-with the acceleration of Mercury itself. If the change is too</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-large a fraction of the original value, then the step is likely to be</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-too large, and the resulting position too inaccurate. The code below
-cuts</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-the time-step dt1 in half and then goes back to the beginning of the
-loop.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-This is explained more fully in the program Orbit.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if ( Math.abs(axMerc1-axMerc0) + Math.abs(ayMerc1-ayMerc0) &gt;
-eps1*(Math.abs(axMerc0)
-+ Math.abs(ayMerc0)) ){</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-dt1 /= 2;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-j--;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-}</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-else {</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Predictor-corrector step. This is explained in program Orbit.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-testPrediction = Math.abs(ddxMerc0) + Math.abs(ddyMerc0);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-for ( k = 0; k &lt; 10; k++ ) {</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/* compute dvMerc and duMerc by averaging the acceleration over dt1 */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-dvMerc = (axMerc0 + axMerc1)/2*dt1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-duMerc = (ayMerc0 + ayMerc1)/2*dt1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/* compute ddxMerc1 and ddyMerc1 by averaging the velocity change */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ddxMerc1 = dvMerc/2*dt1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ddyMerc1 = duMerc/2*dt1;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Test the change in ddx and ddy since the last iteration.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-If it is more than a fraction eps2 of the original, then</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ddx and ddy have to be re-computed by finding the acceleration</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-at the refined position.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-If the change is small enough, then the "else:" clause is</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-executed, which exits from the for loop using the statement</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-"break". This finishes the iteration and goes on to wrap up</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-the calculation.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if ( Math.abs(ddxMerc1-ddxMerc0) + Math.abs(ddyMerc1-ddyMerc0) &gt;
-eps2 *
-testPrediction ) {</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Re-define ddxMerc0 and ddyMerc0 to hold the values</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-from the last iteration</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ddxMerc0 = ddxMerc1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ddyMerc0 = ddyMerc1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-xMerc1 = xMerc0 + dxMerc + ddxMerc0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yMerc1 = yMerc0 + dyMerc + ddyMerc0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-c1 = Math.cos(t1*omega);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-s1 = Math.sin(t1*omega);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-xMercSun1 = xMerc1 + rSun * c1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yMercSun1 = yMerc1 + rSun * s1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-rMercSun = Math.sqrt( xMercSun1*xMercSun1 + yMercSun1*yMercSun1 );</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-rMercSun3 = Math.pow(rMercSun,3);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-xMercPlanet1 = xMerc1 - rPlanet * c1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yMercPlanet1 = yMerc1 - rPlanet * s1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-rMercPlanet = Math.sqrt( xMercPlanet1*xMercPlanet1 +
-yMercPlanet1*yMercPlanet1
-);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-rMercPlanet3 = Math.pow(rMercPlanet,3);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-axMerc1 = -kGravity * ( mSun*xMercSun1/rMercSun3 +
-mPlanet*xMercPlanet1/rMercPlanet3
-);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ayMerc1 = -kGravity * ( mSun*yMercSun1/rMercSun3 +
-mPlanet*yMercPlanet1/rMercPlanet3
-);</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-We now have the "best" acceleration values, using the most</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-recent estimates of the position at the end of the loop.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-The next statement to be executed will be the first statement</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-of the "for" loop, finding better values of dvMerc, duMerc, ddxMerc1,</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-and ddyMerc1.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-}</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-else break;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-}</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-The iteration has finished, and we have sufficiently accurate</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-values of the position change in ddxMerc1 and ddyMerc1.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Use them to get final values of xMerc and yMerc at the end of</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-the time-step dt1 and store these into xMerc0 and yMerc0,</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-respectively, ready for the next time-step. Compute all the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-rest of the variables needed for the next time-step and for</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-possible data output.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-t += dt1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-xMerc0 += dxMerc + ddxMerc1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yMerc0 += dyMerc + ddyMerc1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-axMerc0 = axMerc1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ayMerc0 = ayMerc1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-vMerc += dvMerc;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-uMerc += duMerc;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-xCoordinateMerc[j] = xMerc0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yCoordinateMerc[j] = yMerc0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-c1 = Math.cos(t * omega);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-s1 = Math.sin(t * omega);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-xCoordinateSun[j] = -rSun*c1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yCoordinateSun[j] = -rSun*s1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-xCoordinatePlanet[j] = rPlanet*c1;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yCoordinatePlanet[j] = rPlanet*s1;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-}</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The orbit
-is finished. Since in this program the loop always goes</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to the
-maximum
-number of steps, we do not have to define smaller</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; arrays to
-output.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In previous
-programs we have mainly used the Triana method "output()"</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for
-producing
-output from a unit. This works only if the unit has</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; just one
-output data set. In all the output cases here, we require</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; more than
-one data set to be output, so (as in the program Orbit) we</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; use the
-more elaborate method "outputAtNode()", which allows us to</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; specify
-which node will output which data. The node numbering</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; starts with
-0. We also make sure that the axis labels and the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; titles of
-the graphs are correctly given.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</tt><tt></tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Curve out0 = new
-Curve(
-xCoordinateMerc, yCoordinateMerc );</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out0.setTitle("Mercury");</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-out0.setIndependentLabels(0,"x
-(m)");</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-out0.setDependentLabels(0,"y
-(m)");</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Curve out1 = new Curve(
-xCoordinateSun, yCoordinateSun );</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out1.setTitle("Sun");</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Curve out2 = new Curve(
-xCoordinatePlanet, yCoordinatePlanet );</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out2.setTitle("Jupiter");</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; outputAtNode( 0, out0
-);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; outputAtNode( 1, out1
-);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; outputAtNode( 2, out2
-);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; }</tt>
-<br>
-&nbsp;
-</p>
-<p></p>
-<hr width="15%" size="4"><br>
-<b><font size="-1">Return to <a href="https://www.gravityfromthegroundup.org/programs/index.html">index</a> of all
-computer
-programs.</font></b>
 
+      <div class="mc-card">
+        <div class="mc-name">physics_mercpert.py</div>
+        <div class="mc-role">Physics Engine</div>
+        <p>
+          Defines the physical constants (\(G\), \(M_\odot\), \(\mathrm{AU}\))
+          and the two dataclasses <code>BinarySystemParams</code> and
+          <code>MercuryInitialConditions</code>. Provides five functions:
+          <code>k_gravity()</code> computes the Keplerian gravitational
+          parameter \(k = G(M_\odot + M_p)\); <code>compute_binary_radii()</code>
+          returns the orbital radii of both binary members about their common
+          centre of mass; <code>compute_binary_angular_velocity()</code> returns
+          \(\omega\) from Kepler's third law; <code>binary_positions(t)</code>
+          evaluates the Sun's and planet's Cartesian positions at time \(t\) on
+          their circular orbits; and <code>mercury_acceleration(t, x, y)</code>
+          evaluates the total Newtonian gravitational acceleration on Mercury
+          due to both binary members at its current position.
+        </p>
+      </div>
 
-</body></html>
+      <div class="mc-card">
+        <div class="mc-name">driver_mercpert.py</div>
+        <div class="mc-role">Integration Driver</div>
+        <p>
+          Defines <code>MercPertRunParams</code>, <code>MercPertOutput</code>,
+          and the main integration function <code>run_mercpert()</code>.
+          The driver advances Mercury's position and velocity using an Euler
+          predictor followed by an iterated averaged-acceleration corrector,
+          with fractional-change convergence testing on both position and
+          velocity. A timestep-halving rule reduces <code>dt</code> whenever
+          the accepted fractional change in any state variable exceeds
+          \(\varepsilon_1\). Integration runs until <code>max_steps</code>
+          accepted steps have been taken — there is no orbit-closure termination
+          criterion in this program. At each accepted step the Sun's and planet's
+          positions are also recorded via <code>binary_positions()</code>.
+        </p>
+      </div>
+
+      <div class="mc-card">
+        <div class="mc-name">plot_mercpert.py</div>
+        <div class="mc-role">Visualisation</div>
+        <p>
+          Provides <code>plot_orbits(output, title)</code>, which renders a
+          single 6&nbsp;×&nbsp;6 inch matplotlib figure showing the trajectories
+          of all three bodies in the \(xy\)-plane with equal aspect ratio:
+          the Sun in red, the binary companion in green, and Mercury in blue.
+          Axis labels use scientific notation and the plot title is set by
+          the caller.
+        </p>
+      </div>
+
+    </div><!-- .mc -->
+  </section>
+
+  <!-- ═══════════════════════════ PHYSICS ═══════════════════════════ -->
+
+  <!-- ─── Three-Body Setup ─── -->
+  <section id="three-body">
+    <h2>Three-Body Setup</h2>
+    <p>
+      The system contains three gravitationally interacting bodies:
+    </p>
+    <ul style="margin: 0 0 14px 30px; line-height: 2.0;">
+      <li>
+        <strong>The Sun</strong> — a central star of mass \(M_\odot\) specified
+        via <code>m_sun_solar</code> in solar-mass units.
+      </li>
+      <li>
+        <strong>The Planet</strong> — a massive companion of mass \(M_p\)
+        specified via <code>m_planet_solar</code> in solar-mass units.
+      </li>
+      <li>
+        <strong>Mercury</strong> — a test particle whose trajectory is integrated
+        numerically. Its mass is negligible; it exerts no force on either binary member.
+      </li>
+    </ul>
+    <p>
+      The Sun and Planet are treated as moving on analytically prescribed
+      circular orbits about their common centre of mass. This approximation
+      is valid when Mercury's mass is negligible compared to the binary members.
+      It decouples the binary's motion from Mercury's trajectory, making the
+      problem tractable as a driven one-body integration rather than a full
+      three-body integration.
+    </p>
+    <div class="note">
+      <strong>Centre of mass convention:</strong> The centre of mass of the
+      Sun–Planet binary is placed at the origin. Both bodies orbit this point
+      in the \(xy\)-plane. Mercury's initial conditions are specified relative
+      to this same origin.
+    </div>
+  </section>
+
+  <!-- ─── Binary Motion ─── -->
+  <section id="binary-motion">
+    <h2>Binary Motion</h2>
+    <p>
+      Given binary separation \(d\) (the distance between the two binary
+      members), Kepler's third law gives the angular velocity of the mutual
+      circular orbit:
+    </p>
+    <div class="eq">
+      <span class="eq-label">(1)</span>
+      \[
+        \omega \;=\; \sqrt{\frac{G\,(M_\odot + M_p)}{d^3}}
+      \]
+    </div>
+    <p>
+      Each body orbits the centre of mass at its own radius. The Sun's orbital
+      radius and the Planet's orbital radius satisfy:
+    </p>
+    <div class="eq">
+      <span class="eq-label">(2)</span>
+      \[
+        r_\odot \;=\; \frac{M_p}{M_\odot + M_p}\,d, \qquad
+        r_p \;=\; \frac{M_\odot}{M_\odot + M_p}\,d
+      \]
+    </div>
+    <p>
+      so that \(r_\odot + r_p = d\) and the centre of mass remains at the
+      origin. The Cartesian positions of both bodies at time \(t\) are then:
+    </p>
+    <div class="eq">
+      <span class="eq-label">(3)</span>
+      \[
+        \mathbf{r}_\odot(t) \;=\; r_\odot
+          \begin{pmatrix} \cos\omega t \\ \sin\omega t \end{pmatrix}, \qquad
+        \mathbf{r}_p(t) \;=\; -r_p
+          \begin{pmatrix} \cos\omega t \\ \sin\omega t \end{pmatrix}
+      \]
+    </div>
+    <p>
+      These are evaluated by <code>binary_positions(t, binary_params)</code> in
+      <code>physics_mercpert.py</code> at every step of the integration, and
+      their values are recorded alongside Mercury's position in
+      <code>MercPertOutput</code>.
+    </p>
+  </section>
+
+  <!-- ─── Equations of Motion ─── -->
+  <section id="eom">
+    <h2>Mercury's Equation of Motion</h2>
+    <p>
+      Mercury experiences a Newtonian gravitational acceleration from both
+      binary members simultaneously. Let
+      \(\mathbf{r} = (x, y)\) be Mercury's position, and define the
+      displacement vectors from Mercury to each binary body:
+    </p>
+    <div class="eq">
+      <span class="eq-label">(4)</span>
+      \[
+        \boldsymbol{\Delta}_\odot \;=\; \mathbf{r}_\odot(t) - \mathbf{r}, \qquad
+        \boldsymbol{\Delta}_p \;=\; \mathbf{r}_p(t) - \mathbf{r}
+      \]
+    </div>
+    <p>
+      with scalar separations
+      \(s_\odot = |\boldsymbol{\Delta}_\odot|\) and
+      \(s_p = |\boldsymbol{\Delta}_p|\).
+      Mercury's total acceleration is the vector sum of the two gravitational
+      pulls:
+    </p>
+    <div class="eq">
+      <span class="eq-label">(5)</span>
+      \[
+        \ddot{\mathbf{r}} \;=\;
+          \frac{G\,M_\odot}{s_\odot^3}\,\boldsymbol{\Delta}_\odot
+          \;+\;
+          \frac{G\,M_p}{s_p^3}\,\boldsymbol{\Delta}_p
+      \]
+    </div>
+    <p>
+      In component form, separating the \(x\)- and \(y\)-directions, the
+      <code>mercury_acceleration(t, x, y, binary_params)</code> function
+      returns the pair \((a_x, a_y)\) for use at every stage of the
+      predictor–corrector loop.
+    </p>
+    <div class="note">
+      <strong>Time-dependent forcing:</strong> Because the binary positions
+      \(\mathbf{r}_\odot(t)\) and \(\mathbf{r}_p(t)\) rotate with angular
+      velocity \(\omega\), Mercury's equation of motion is a
+      <em>non-autonomous</em> second-order ODE. The acceleration at position
+      \(\mathbf{r}\) depends not only on \(\mathbf{r}\) but also on the
+      current time \(t\). The corrector must therefore evaluate the
+      acceleration at \(t + \Delta t\) (not at \(t\)) when computing the
+      predicted positions.
+    </div>
+  </section>
+
+  <!-- ─── Initial Conditions & Orbits ─── -->
+  <section id="energy">
+    <h2>Initial Conditions &amp; Orbits</h2>
+    <p>
+      Mercury's starting state is specified by the four quantities in
+      <code>MercuryInitialConditions</code>: its initial \(x\)- and
+      \(y\)-position (\texttt{x\_init}, \texttt{y\_init}) and its initial
+      velocity components (\texttt{vx\_init}, \texttt{vy\_init}), all in SI
+      units (metres and m&nbsp;s<sup>−1</sup>).
+    </p>
+    <p>
+      Unlike the two-body Binary program, there is no conserved energy
+      diagnostic in MercPert: because the binary members move on externally
+      imposed orbits, the binary's potential energy is not part of the
+      integration, and the total mechanical energy of the three-body system
+      is not conserved by the algorithm. Instead, the quality of the
+      integration is assessed visually (smooth, non-crossing orbits for nearly
+      Keplerian configurations) and by tightening <code>eps1</code> and
+      <code>eps2</code> until the trajectory no longer changes perceptibly.
+    </p>
+    <h3>Choosing Initial Conditions</h3>
+    <p>
+      A purely transverse initial velocity (\texttt{vx\_init} = 0,
+      \texttt{vy\_init} &gt; 0) with Mercury starting on the positive
+      \(x\)-axis produces an orbit that is nearly elliptical when the companion
+      mass is small. For a circular orbit of radius \(r_0\) around a single
+      body of mass \(M_\odot\) the required circular velocity is:
+    </p>
+    <div class="eq">
+      <span class="eq-label">(6)</span>
+      \[
+        v_c \;=\; \sqrt{\frac{G\,M_\odot}{r_0}}
+      \]
+    </div>
+    <p>
+      Setting \texttt{vy\_init} close to \(v_c\) produces a nearly circular
+      baseline orbit whose deviations under the companion's perturbation are
+      then easy to see.
+    </p>
+    <div class="note">
+      <strong>Tip:</strong> For \(r_0 = 1\,\mathrm{AU}\) and
+      \(M_\odot = 1.98847\times10^{30}\,\mathrm{kg}\), equation&nbsp;(6)
+      gives \(v_c \approx 29{,}780\,\mathrm{m\,s^{-1}}\) — very close to
+      Mercury's mean orbital speed. The default \texttt{vy\_init} = 15,000&nbsp;m&nbsp;s<sup>−1</sup>
+      is intentionally sub-circular in order to produce a clearly elliptical
+      reference orbit.
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ NUMERICAL METHODS ═══════════════════════════ -->
+
+  <!-- ─── Predictor–Corrector ─── -->
+  <section id="predictor-corrector">
+    <h2>Predictor–Corrector</h2>
+    <p>
+      The integration scheme is a two-stage predictor–corrector. Let
+      superscript \(n\) denote values at the current time \(t\) and
+      \(n+1\) the values to be determined at \(t + \Delta t\). The
+      acceleration at the current state is written
+      \(\mathbf{a}^n = \mathbf{a}(t, \mathbf{r}^n)\).
+    </p>
+
+    <h3>Stage 1 — Euler Predictor</h3>
+    <p>
+      An explicit Euler step provides first estimates of velocity and
+      position at \(t + \Delta t\):
+    </p>
+    <div class="eq">
+      <span class="eq-label">(7)</span>
+      \[
+        \tilde{\mathbf{v}} \;=\; \mathbf{v}^n + \mathbf{a}^n\,\Delta t,
+        \qquad
+        \tilde{\mathbf{r}} \;=\; \mathbf{r}^n + \mathbf{v}^n\,\Delta t
+      \]
+    </div>
+    <p>
+      The acceleration at the predicted state is then evaluated using the
+      binary positions at the <em>new</em> time \(t + \Delta t\):
+      \(\tilde{\mathbf{a}} = \mathbf{a}(t + \Delta t,\, \tilde{\mathbf{r}})\).
+    </p>
+
+    <h3>Stage 2 — Averaged-Acceleration Corrector</h3>
+    <p>
+      The corrector refines both the velocity and the position by averaging
+      accelerations and velocities across the step:
+    </p>
+    <div class="eq">
+      <span class="eq-label">(8)</span>
+      \[
+        \mathbf{v}^{n+1} \;=\; \mathbf{v}^n
+          + \tfrac{1}{2}\!\left(\mathbf{a}^n + \tilde{\mathbf{a}}\right)\Delta t
+      \]
+    </div>
+    <div class="eq">
+      <span class="eq-label">(9)</span>
+      \[
+        \mathbf{r}^{n+1} \;=\; \mathbf{r}^n
+          + \tfrac{1}{2}\!\left(\mathbf{v}^n + \mathbf{v}^{n+1}\right)\Delta t
+      \]
+    </div>
+
+    <h3>Corrector Iteration</h3>
+    <p>
+      After the first corrector pass, the acceleration is re-evaluated at
+      the new position and time, and the corrector equations
+      (8)–(9) are applied again using the updated acceleration. The loop
+      continues for up to 10 iterations, exiting early when the maximum
+      fractional change in all four state variables
+      \((v_x, v_y, x, y)\) between successive iterations falls below
+      \(\varepsilon_2\):
+    </p>
+    <div class="eq">
+      <span class="eq-label">(10)</span>
+      \[
+        \max\!\left(
+          \frac{|v_x^{(k+1)} - v_x^{(k)}|}{|v_x^{(k+1)}|},\;
+          \frac{|v_y^{(k+1)} - v_y^{(k)}|}{|v_y^{(k+1)}|},\;
+          \frac{|x^{(k+1)} - x^{(k)}|}{|x^{(k+1)}|},\;
+          \frac{|y^{(k+1)} - y^{(k)}|}{|y^{(k+1)}|}
+        \right) \;<\; \varepsilon_2
+      \]
+    </div>
+    <div class="note">
+      <strong>Difference from Binary:</strong> The MercPert corrector tests
+      fractional convergence on <em>both positions and velocities</em>, whereas
+      Binary tests only accelerations. This is because Mercury's equation of
+      motion is non-autonomous (explicitly time-dependent): position errors
+      propagate directly into the force evaluation at the next corrector
+      iteration.
+    </div>
+  </section>
+
+  <!-- ─── Adaptive Timestep ─── -->
+  <section id="timestep">
+    <h2>Adaptive Timestep</h2>
+    <p>
+      After the corrector loop converges, the driver evaluates how large the
+      state changes were over the accepted step. The maximum fractional change
+      across all four state variables is compared to \(\varepsilon_1\):
+    </p>
+    <div class="eq">
+      <span class="eq-label">(11)</span>
+      \[
+        \delta \;=\; \max\!\left(
+          \frac{|v_x^{n+1} - v_x^n|}{|v_x^{n+1}|},\;
+          \frac{|v_y^{n+1} - v_y^n|}{|v_y^{n+1}|},\;
+          \frac{|x^{n+1} - x^n|}{|x^{n+1}|},\;
+          \frac{|y^{n+1} - y^n|}{|y^{n+1}|}
+        \right)
+      \]
+    </div>
+
+    <h3>Step Rejection &amp; Timestep Halving</h3>
+    <p>
+      If \(\delta > \varepsilon_1\), the step is <em>rejected</em>. The
+      working timestep is halved and the entire predictor–corrector cycle
+      is retried from the unchanged state at time \(t\):
+    </p>
+    <div class="eq">
+      <span class="eq-label">(12)</span>
+      \[
+        \Delta t \;\leftarrow\; \tfrac{1}{2}\,\Delta t
+        \qquad (\delta > \varepsilon_1)
+      \]
+    </div>
+
+    <p>
+      If \(\delta \le \varepsilon_1\), the step is accepted, \(t\) is
+      advanced by \(\Delta t\), and the state is updated. The working
+      timestep is <em>not</em> grown after an accepted step in this program —
+      unlike Binary, MercPert uses a halving-only adaptive strategy. The
+      timestep can therefore only decrease from its initial value over the
+      course of the run, concentrating steps wherever the trajectory changes
+      rapidly (near closest approach to either binary member).
+    </p>
+    <div class="note">
+      <strong>No timestep growth:</strong> This differs from the Binary
+      program, which grows the timestep by 10% after each accepted step.
+      The simpler halving-only strategy in MercPert is more conservative
+      and may produce more steps than strictly necessary in quiet phases of
+      the orbit, but avoids any risk of the timestep growing too large when
+      returning to a previously quiet region.
+    </div>
+  </section>
+
+  <!-- ─── Convergence Criteria ─── -->
+  <section id="convergence">
+    <h2>Convergence Criteria</h2>
+    <p>
+      Two independent tolerance parameters control integration quality.
+      Both are set in <code>main.py</code> via <code>MercPertRunParams</code>.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Symbol</th>
+          <th>Default</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>eps1</code></td>
+          <td>\(\varepsilon_1\)</td>
+          <td>\(0.05\)</td>
+          <td>Adaptive timestep gate. Steps whose maximum fractional state
+              change \(\delta\) exceeds this value are rejected and retried
+              at half the timestep. A smaller value forces shorter timesteps
+              and higher accuracy throughout.</td>
+        </tr>
+        <tr>
+          <td><code>eps2</code></td>
+          <td>\(\varepsilon_2\)</td>
+          <td>\(0.01\)</td>
+          <td>Corrector convergence test. The corrector loop exits when the
+              fractional change in every state variable between successive
+              corrector iterations falls below this value (or after 10
+              iterations). Should be strictly less than
+              \(\varepsilon_1\).</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <strong>Design relationship:</strong> \(\varepsilon_2\) should always
+      be smaller than \(\varepsilon_1\) so that the corrector fully converges
+      before the timestep controller evaluates \(\delta\). The defaults
+      \(\varepsilon_1 = 0.05\), \(\varepsilon_2 = 0.01\) satisfy this.
+      The defaults are more permissive than those in Binary because MercPert
+      runs for many more steps (up to 150,000) and the perturbation structure
+      is more important than absolute trajectory precision.
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ REFERENCE ═══════════════════════════ -->
+
+  <!-- ─── Parameters ─── -->
+  <section id="parameters">
+    <h2>Parameters</h2>
+    <p>All parameters are defined in <code>main.py</code>.</p>
+
+    <h3>Binary System</h3>
+    <table>
+      <thead>
+        <tr><th>Variable</th><th>Default value</th><th>Unit</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>m_sun_solar</code></td>
+          <td>1.0</td>
+          <td>M<sub>☉</sub></td>
+          <td>Mass of the central star in solar masses</td>
+        </tr>
+        <tr>
+          <td><code>m_planet_solar</code></td>
+          <td>0.1</td>
+          <td>M<sub>☉</sub></td>
+          <td>Mass of the binary companion in solar masses (~100 Jupiter masses)</td>
+        </tr>
+        <tr>
+          <td><code>binary_separation</code></td>
+          <td>0.7 × AU</td>
+          <td>m</td>
+          <td>Centre-to-centre distance between the two binary members (~Venus's orbital radius)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Mercury Initial Conditions</h3>
+    <table>
+      <thead>
+        <tr><th>Variable</th><th>Default value</th><th>Unit</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>x_init</code></td>
+          <td>1.0 × AU</td>
+          <td>m</td>
+          <td>Initial \(x\)-position of Mercury</td>
+        </tr>
+        <tr>
+          <td><code>y_init</code></td>
+          <td>0.0</td>
+          <td>m</td>
+          <td>Initial \(y\)-position of Mercury (starts on \(x\)-axis)</td>
+        </tr>
+        <tr>
+          <td><code>vx_init</code></td>
+          <td>0.0</td>
+          <td>m s<sup>−1</sup></td>
+          <td>Initial \(x\)-velocity of Mercury (no radial motion)</td>
+        </tr>
+        <tr>
+          <td><code>vy_init</code></td>
+          <td>15,000</td>
+          <td>m s<sup>−1</sup></td>
+          <td>Initial transverse velocity of Mercury — sub-circular, producing a clearly elliptical orbit</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Run Parameters</h3>
+    <table>
+      <thead>
+        <tr><th>Variable</th><th>Default value</th><th>Unit</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>dt</code></td>
+          <td>2,000</td>
+          <td>s</td>
+          <td>Initial working timestep; may be halved adaptively but never grows</td>
+        </tr>
+        <tr>
+          <td><code>max_steps</code></td>
+          <td>150,000</td>
+          <td>—</td>
+          <td>Maximum number of accepted integration steps</td>
+        </tr>
+        <tr>
+          <td><code>eps1</code></td>
+          <td>0.05</td>
+          <td>—</td>
+          <td>Adaptive timestep halving threshold \(\varepsilon_1\)</td>
+        </tr>
+        <tr>
+          <td><code>eps2</code></td>
+          <td>0.01</td>
+          <td>—</td>
+          <td>Corrector convergence threshold \(\varepsilon_2\)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Physical Constants (physics_mercpert.py)</h3>
+    <table>
+      <thead>
+        <tr><th>Constant</th><th>Value</th><th>Unit</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>G</code></td>
+          <td>\(6.6726\times10^{-11}\)</td>
+          <td>N m<sup>2</sup> kg<sup>−2</sup></td>
+        </tr>
+        <tr>
+          <td><code>M_SUN</code></td>
+          <td>\(1.98847\times10^{30}\)</td>
+          <td>kg</td>
+        </tr>
+        <tr>
+          <td><code>AU</code></td>
+          <td>\(1.495978707\times10^{11}\)</td>
+          <td>m</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ─── Output ─── -->
+  <section id="output">
+    <h2>Output</h2>
+    <p>
+      The program produces a single orbital plot via
+      <code>plot_orbits(output, title)</code>. The figure is a 6&nbsp;×&nbsp;6
+      inch matplotlib window with equal aspect ratio, showing:
+    </p>
+    <ul style="margin: 0 0 14px 30px; line-height: 2.0;">
+      <li><span style="color:#c00; font-weight:bold;">Red</span> — the Sun's trajectory (a small circle around the centre of mass)</li>
+      <li><span style="color:#080; font-weight:bold;">Green</span> — the binary companion's trajectory (a larger circle, opposite the Sun)</li>
+      <li><span style="color:#00c; font-weight:bold;">Blue</span> — Mercury's trajectory (the orbit of interest)</li>
+    </ul>
+    <p>
+      The underlying data is returned from <code>run_mercpert()</code> as a
+      <code>MercPertOutput</code> dataclass containing seven time-series lists:
+      <code>times</code>, <code>sun_x</code>, <code>sun_y</code>,
+      <code>planet_x</code>, <code>planet_y</code>, <code>merc_x</code>,
+      <code>merc_y</code>. These can be used directly for custom analysis or
+      additional plots beyond the built-in orbital view.
+    </p>
+    <div class="note">
+      <strong>Extending the output:</strong> MercPert currently supports only
+      the orbital trajectory plot. To add velocity-space, position-vs.-time, or
+      energy-budget plots, extend <code>MercPertOutput</code> to store velocity
+      time-series in <code>driver_mercpert.py</code> and add the corresponding
+      plot functions to <code>plot_mercpert.py</code>.
+    </div>
+  </section>
+
+  <!-- ─── Related Programs ─── -->
+  <section id="related">
+    <h2>Related Programs</h2>
+    <table>
+      <thead>
+        <tr><th>Program</th><th>Description</th><th>Help file</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/MercPert_RK45" target="_blank">MercPert_RK45</a></td>
+          <td>Same physical problem, integrated with a 4th/5th-order Runge–Kutta–Fehlberg (RK45) method for higher accuracy</td>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/13-MercPert_RK45" target="_blank">13-MercPert_RK45</a></td>
+        </tr>
+        <tr>
+          <td><a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Binary" target="_blank">Binary</a></td>
+          <td>Two-body mutual orbit with orbit-closure detection and growing adaptive timestep</td>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/StylingTemplates" target="_blank">Binary_Help.html</a></td>
+        </tr>
+        <tr>
+          <td><a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Multiple" target="_blank">Multiple</a></td>
+          <td>N-body gravitational simulation for an arbitrary number of bodies</td>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/13-Multiple" target="_blank">13-Multiple</a></td>
+        </tr>
+        <tr>
+          <td><a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/MercPert_RK45" target="_blank">RelativisticOrbit</a></td>
+          <td>Single-body orbit in Schwarzschild spacetime — provides the GR precession baseline</td>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/21-RelativisticOrbit" target="_blank">21-RelativisticOrbit</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ─── License ─── -->
+  <section id="license">
+    <h2>License</h2>
+
+    <div class="license-banner">
+      <img src="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/LicenseBanner.png"
+           alt="Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International" />
+    </div>
+
+    <p>
+      This program and its documentation are released under the
+      <strong>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+      (CC BY-NC-SA 4.0)</strong> license.
+    </p>
+    <p>
+      You are free to share and adapt this material for non-commercial purposes,
+      provided you give appropriate credit, indicate if changes were made, and
+      distribute any derivative works under the same license.
+    </p>
+    <p>
+      Full license text:
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+        creativecommons.org/licenses/by-nc-sa/4.0/</a>
+    </p>
+    <p style="font-size:0.88rem; color:var(--muted); margin-top:18px;">
+      License version 1.0 © 2003 Bernard Schutz. Python port and documentation
+      © 2024 Thomas Yee. Based on programs accompanying
+      <em>A First Course in General Relativity</em> by Bernard Schutz,
+      Cambridge University Press.
+    </p>
+  </section>
+
+</main>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <span>MercPert &nbsp;·&nbsp; GFtGU Programs &nbsp;·&nbsp;
+    <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/MercPert"
+       target="_blank">GitHub source</a>
+  </span>
+  <span>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/tomyee3/GFTGU-Documentation" target="_blank">Documentation repo</a>
+  </span>
+</footer>
+
+</div><!-- .page-wrap -->
+
+<script>
+  /* ── Active nav link on scroll ── */
+  const links = document.querySelectorAll('nav a[href^="#"]');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '0px 0px -60% 0px', threshold: 0 });
+  document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
