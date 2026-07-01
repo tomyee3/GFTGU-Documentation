@@ -1,273 +1,1161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Atmosphere</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atmosphere – Help File | GFtGU Programs</title>
 
-  <meta name="Author" content="Bernard F. Schutz">
-  <meta name="Description" content="Help file for the Python program Atmosphere, part of the Gravity From the Ground Up Python suite.">
-  <meta name="KeyWords" content="Gravity from the Ground Up, Atmosphere, Python, help file">
+  <!-- MathJax 3 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath:  [['\\(','\\)']],
+        displayMath: [['\\[','\\]']],
+        tags: 'ams'
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+          id="MathJax-script" async></script>
 
   <style>
-    body { background-color: #fdf5e6; color: #000; font-family: Arial, sans-serif; }
-    tt { font-family: monospace; }
+    /* ── Reset & custom properties ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #fdf5e6;
+      --surface:  #ffffff;
+      --border:   #c8bfa0;
+      --accent:   #7b2d00;
+      --accent2:  #a04010;
+      --gold:     #b5811a;
+      --text:     #1c1c1c;
+      --muted:    #5a4a3a;
+      --code-bg:  #f0ede4;
+      --note-bg:  #f4f0e8;
+      --eq-bg:    #f7f2e8;
+      --radius:   5px;
+      --shadow:   0 2px 8px rgba(0,0,0,0.10);
+      --mono:     "Courier New", Courier, monospace;
+      --sans:     "Helvetica Neue", Arial, sans-serif;
+      --serif:    Georgia, "Times New Roman", Times, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 1.80;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Page grid ── */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      grid-column: 1 / -1;
+      background: var(--accent);
+      color: #fff;
+      padding: 26px 38px 20px;
+      border-bottom: 4px solid var(--gold);
+    }
+    header .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 3px;
+      padding: 2px 7px;
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 1.95rem;
+      font-weight: normal;
+      letter-spacing: -.02em;
+    }
+    header h1 em { font-style: normal; color: #ffc9a0; }
+    header .sub {
+      margin-top: 6px;
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: #f0d0b8;
+      line-height: 1.55;
+    }
+    header .sub a {
+      color: #ffd8b8;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,200,150,.4);
+    }
+    header .sub a:hover { border-bottom-color: #ffd8b8; }
+
+    /* ── Sidebar ── */
+    nav {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 0 40px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .nav-label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 18px 18px 5px;
+    }
+    nav a {
+      display: block;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 5px 18px 5px 22px;
+      border-left: 3px solid transparent;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    nav a:hover {
+      color: var(--accent);
+      background: var(--note-bg);
+      border-left-color: var(--gold);
+    }
+    nav a.active {
+      color: var(--accent);
+      font-weight: 700;
+      border-left-color: var(--accent);
+      background: #fceee0;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 42px 52px 60px;
+      max-width: 900px;
+    }
+
+    /* ── Section spacing ── */
+    section { margin-bottom: 52px; }
+    section:last-child { margin-bottom: 0; }
+
+    h2 {
+      font-size: 1.40rem;
+      font-weight: normal;
+      color: var(--accent);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+      margin-bottom: 18px;
+    }
+    h3 {
+      font-size: 1.08rem;
+      font-weight: bold;
+      color: var(--accent2);
+      margin: 22px 0 8px;
+    }
+    p { margin-bottom: 14px; }
+    ul, ol {
+      padding-left: 22px;
+      margin-bottom: 14px;
+    }
+    li { margin-bottom: 5px; }
+
+    /* ── Equation box ── */
+    .eq-box {
+      background: var(--eq-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 14px 20px;
+      margin: 18px 0;
+      overflow-x: auto;
+    }
+
+    /* ── Note / callout ── */
+    .note {
+      background: var(--note-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent2);
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      margin: 16px 0;
+      font-family: var(--sans);
+      font-size: 0.91rem;
+      color: var(--muted);
+    }
+    .note strong { color: var(--accent2); }
+
+    /* ── Code inline & block ── */
+    code {
+      font-family: var(--mono);
+      font-size: 0.88em;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1px 5px;
+    }
+    pre {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      margin: 14px 0;
+      line-height: 1.55;
+    }
+    pre code { background: none; border: none; padding: 0; font-size: inherit; }
+
+    /* ── Module card ── */
+    .module-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 22px 26px 20px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow);
+    }
+    .module-card h3 {
+      margin-top: 0;
+      font-size: 1.05rem;
+      color: var(--accent);
+    }
+    .module-card .role-tag {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      background: var(--eq-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 2px 7px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .func-sig {
+      font-family: var(--mono);
+      font-size: 0.84rem;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 10px 14px;
+      margin: 10px 0 6px;
+      display: block;
+    }
+    .func-desc {
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+
+    /* ── Parameter table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--sans);
+      font-size: 0.89rem;
+      margin: 14px 0 22px;
+    }
+    th {
+      background: var(--accent);
+      color: #fff;
+      text-align: left;
+      padding: 9px 14px;
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: .04em;
+    }
+    td {
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: var(--note-bg); }
+    tr:last-child td { border-bottom: none; }
+    td code { font-size: 0.83em; }
+    td.center { text-align: center; }
+
+    /* ── Scenario card ── */
+    .scenario-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--accent2);
+      border-radius: var(--radius);
+      padding: 16px 22px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+    }
+    .scenario-card h4 {
+      font-family: var(--sans);
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: var(--accent2);
+      margin-bottom: 6px;
+    }
+    .scenario-card p {
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .scenario-card .params {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 8px 12px;
+      margin-top: 8px;
+    }
+
+    /* ── Output mode badge list ── */
+    .output-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .output-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+    }
+    .output-card .out-name {
+      font-family: var(--mono);
+      font-size: 0.90rem;
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .output-card .out-unit {
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .output-card p {
+      font-family: var(--sans);
+      font-size: 0.86rem;
+      color: var(--text);
+      margin: 0;
+    }
+
+    /* ── Related programs ── */
+    .related-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 14px 0;
+    }
+    .related-chip {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.86rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 6px 14px;
+      color: var(--accent2);
+      text-decoration: none;
+      box-shadow: var(--shadow);
+    }
+    .related-chip:hover {
+      background: #fceee0;
+      border-color: var(--accent2);
+    }
+
+    /* ── Footer ── */
+    footer {
+      grid-column: 1 / -1;
+      background: var(--accent);
+      color: #f0d0b8;
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      padding: 22px 38px;
+      border-top: 3px solid var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+    footer a { color: #ffd8b8; }
+    .license-banner {
+      height: 22px;
+      opacity: .85;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 720px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      nav { display: none; }
+      main { padding: 28px 20px 40px; }
+    }
   </style>
 </head>
 
-<body background="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/BH-posneg.negative.watermark.png">
+<body>
+<div class="page-wrap">
 
-<a href="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license.html">
-  <img src="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/LicenseBanner.png"
-       alt="Creative Commons License Banner"
-       title="Click to view license information."
-       style="border:0; width:375px; height:362px;" align="right">
-</a>
+  <!-- ══════════════════════ HEADER ══════════════════════ -->
+  <header>
+    <div class="badge">Chapter 7 &middot; Atmospheres</div>
+    <h1><em>Atmosphere</em> – Planetary Atmosphere Structure</h1>
+    <div class="sub">
+      Part of the <em>Gravity from the Ground Up</em> Python program suite &nbsp;&bull;&nbsp;
+      Ported from Bernard Schutz's original Java programs &nbsp;&bull;&nbsp;
+      <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Atmosphere" target="_blank">Source on GitHub</a>
+      &nbsp;&bull;&nbsp;
+      <a href="https://www.gravityfromthegroundup.org/programs/Atmosphere.html" target="_blank">Schutz's original</a>
+    </div>
+  </header>
 
-<table cellpadding="2" cellspacing="2" border="3"
-       style="text-align:left; width:50%; margin-left:auto; margin-right:auto;">
-  <tbody>
-    <tr>
-      <td style="vertical-align:top; background-color:#ccc;">
-        <h3 style="color:#ff0000; font-family:monospace; font-weight:bold; text-align:center;">
-          <big><big><big><big>Atmosphere</big></big></big></big>
-        </h3>
+  <!-- ══════════════════════ SIDEBAR ══════════════════════ -->
+  <nav id="sidebar">
+    <div class="nav-label">Overview</div>
+    <a href="#description">Description</a>
+    <a href="#physics">Physics &amp; Equations</a>
+    <a href="#algorithm">Algorithm</a>
 
-        <div style="text-align:center;">
-          <big><font size="+2"><big>
-            <span style="color:#000; font-weight:bold;">version 1.0</span>
-          </big></font></big>
-          <br>
-          <big><big>
-            <span lang="EN-GB" style="font-size:12pt; font-family:'Times New Roman'; font-weight:bold;">
-              © 2003 Bernard Schutz
-            </span>
-          </big></big>
+    <div class="nav-label">Code</div>
+    <a href="#mod-physics">physics_atmosphere.py</a>
+    <a href="#mod-driver">driver_atmosphere.py</a>
+    <a href="#mod-plot">plot_atmosphere.py</a>
+    <a href="#mod-main">main.py</a>
+
+    <div class="nav-label">Usage</div>
+    <a href="#parameters">Parameters</a>
+    <a href="#output">Output Modes</a>
+    <a href="#experiments">Suggested Experiments</a>
+
+    <div class="nav-label">Reference</div>
+    <a href="#related">Related Programs</a>
+    <a href="#license">License</a>
+  </nav>
+
+  <!-- ══════════════════════ MAIN ══════════════════════ -->
+  <main>
+
+    <!-- ── Description ── -->
+    <section id="description">
+      <h2>Description</h2>
+      <p>
+        <strong>Atmosphere</strong> models the vertical pressure, density, and temperature structure
+        of a planetary atmosphere in hydrostatic equilibrium. Starting from a measured sea-level
+        (or reference-level) pressure and a user-supplied temperature profile, the program integrates
+        upward in altitude until the pressure becomes negligible, then plots whichever of the three
+        atmospheric quantities the user selects.
+      </p>
+      <p>
+        The program is a direct Python port of Schutz's Java <em>Atmosphere</em> program
+        described in Investigations 7.1 and 7.3 of
+        <em>Gravity from the Ground Up</em> (Cambridge University Press, 2003).
+        It is suitable for modeling Earth's atmosphere, comparing planetary atmospheres across the
+        Solar System, and exploring how scale height depends on gravity and molecular weight.
+      </p>
+      <div class="note">
+        <strong>Textbook reference:</strong>
+        Bernard Schutz, <em>Gravity from the Ground Up</em>, Cambridge University Press (2003),
+        Chapter 7 — Investigations 7.1 and 7.3.
+      </div>
+    </section>
+
+    <!-- ── Physics ── -->
+    <section id="physics">
+      <h2>Physics &amp; Equations</h2>
+
+      <h3>Hydrostatic Equilibrium</h3>
+      <p>
+        A column of atmosphere in static equilibrium satisfies the condition that the pressure
+        gradient exactly balances the weight per unit volume of the gas:
+      </p>
+      <div class="eq-box">
+        \[
+          \frac{dp}{dh} = -g\,\rho \tag{7.1}
+        \]
+      </div>
+      <p>
+        where \(p\) is pressure (Pa), \(h\) is altitude (m), \(g\) is the local gravitational
+        acceleration (m s<sup>−2</sup>), and \(\rho\) is the mass density (kg m<sup>−3</sup>).
+        The negative sign reflects the fact that pressure decreases with increasing altitude.
+      </p>
+
+      <h3>Ideal Gas Law</h3>
+      <p>
+        The density of an ideal gas is related to its pressure and temperature by
+      </p>
+      <div class="eq-box">
+        \[
+          \rho = \frac{p\,\mu\,m_p}{k_B\,T} \tag{7.2}
+        \]
+      </div>
+      <p>
+        where \(\mu\) is the mean molecular weight (dimensionless, e.g. 28.97 for dry air),
+        \(m_p = 1.67\times10^{-27}\;\text{kg}\) is the proton mass,
+        \(k_B = 1.38\times10^{-23}\;\text{J K}^{-1}\) is the Boltzmann constant,
+        and \(T\) is the temperature in Kelvin.
+      </p>
+      <p>
+        Substituting Eq.&nbsp;(7.2) into Eq.&nbsp;(7.1) gives the complete governing equation
+        for atmospheric structure:
+      </p>
+      <div class="eq-box">
+        \[
+          \frac{dp}{dh} = -\frac{g\,\mu\,m_p}{k_B\,T(h)}\,p \tag{7.3}
+        \]
+      </div>
+      <p>
+        For an isothermal atmosphere this integrates to the barometric formula
+        \(p = p_0\,e^{-h/H}\), where \(H\) is the <em>scale height</em>.
+      </p>
+
+      <h3>Scale Height</h3>
+      <p>
+        The scale height \(H\) sets the characteristic altitude over which the pressure drops
+        by a factor of \(e\). At the base of the atmosphere it is
+      </p>
+      <div class="eq-box">
+        \[
+          H = \frac{p_0}{g\,\rho_0} = \frac{k_B\,T_0}{g\,\mu\,m_p} \tag{7.4}
+        \]
+      </div>
+      <p>
+        where \(\rho_0\) is the density computed from Eq.&nbsp;(7.2) at the surface pressure
+        \(p_0\) and surface temperature \(T_0\). For Earth, \(H \approx 8.5\;\text{km}\).
+        The initial integration step size is set to \(\Delta h = H/200\), giving about
+        200 steps per scale height.
+      </p>
+
+      <h3>Temperature Profile</h3>
+      <p>
+        Real atmospheres have non-uniform temperature structures driven by solar heating,
+        convection, and radiation. The program accepts an arbitrary set of
+        \((h_i,\,T_i)\) measurement pairs and constructs a piecewise temperature profile:
+      </p>
+      <div class="eq-box">
+        \[
+          T(h) = T_{i-1} + \frac{T_i - T_{i-1}}{h_i - h_{i-1}}\,(h - h_{i-1}),
+          \qquad h_{i-1} \le h < h_i \tag{7.5}
+        \]
+      </div>
+      <p>
+        That is, temperature is linearly interpolated between adjacent measured altitudes.
+        Below the first measurement point the temperature is held constant at \(T_0\).
+      </p>
+
+      <h3>Upper Atmosphere Extension (Power-Law Model)</h3>
+      <p>
+        When the integration surpasses the highest measured altitude, the program switches to
+        a power-law relationship between temperature and pressure.
+        At the first step above the highest measurement point a coefficient \(\beta\) is fixed
+        such that the profile is continuous:
+      </p>
+      <div class="eq-box">
+        \[
+          T = \beta\,p^{\,\alpha}, \qquad \alpha = 0.5 \tag{7.6}
+        \]
+      </div>
+      <p>
+        The exponent \(\alpha = 0.5\) (the default <code>power</code> attribute) means that
+        temperature falls as the square root of pressure. This is a simple empirical model
+        that gives a monotonically decreasing temperature as the atmosphere thins, matching
+        observations reasonably well for Earth above 50 km.
+      </p>
+    </section>
+
+    <!-- ── Algorithm ── -->
+    <section id="algorithm">
+      <h2>Algorithm</h2>
+
+      <h3>Finite-Difference Integration</h3>
+      <p>
+        Equation&nbsp;(7.1) is discretized using a first-order forward (Euler) step:
+      </p>
+      <div class="eq-box">
+        \[
+          p_j = p_{j-1} - g\,\rho_{j-1}\,\Delta h \tag{7.7}
+        \]
+      </div>
+      <p>
+        At each altitude step the density \(\rho_{j-1}\) is obtained from the ideal gas law
+        (Eq.&nbsp;7.2) using the current pressure and the temperature profile at the current
+        altitude. The integration terminates as soon as \(p_j &lt; 0\), at which point the
+        last valid step is discarded.
+      </p>
+
+      <h3>Adaptive Step-Size (dh Doubling)</h3>
+      <p>
+        The outer loop uses an adaptive strategy: if the inner for-loop of 1 000 steps
+        does not bring the pressure to zero (i.e. the atmosphere has not been fully traversed),
+        the step size \(\Delta h\) is doubled and the integration restarts from the surface.
+        This ensures that very extended atmospheres — or those with very large scale heights —
+        are always captured within a reasonable number of iterations.
+      </p>
+      <pre><code>rho0  = ideal_gas_density(p0, mu, T0)      # surface density
+scale = p0 / (g * rho0)                    # scale height H
+dh    = scale / 200.0                      # initial step
+
+while True:
+    for j in range(1, 1001):
+        p[j] = hydrostatic_step(p[j-1], rho[j-1], g, dh)
+        T[j] = profile.get_temp(h[j], p[j])
+        rho[j] = ideal_gas_density(p[j], mu, T[j])
+        if p[j] < 0:
+            last_step = j
+            break                          # atmosphere top reached
+    else:
+        dh *= 2.0                          # double step, restart
+        continue
+    break                                  # done</code></pre>
+
+      <h3>Output Arrays</h3>
+      <p>
+        After the loop, the result arrays are trimmed to <code>[:last_step]</code>, excluding
+        the unphysical negative-pressure point. The <code>extract_output()</code> function then
+        selects whichever quantity the user requested (pressure, density, or temperature) and
+        packages it with axis labels, units, and a title for the plotter.
+      </p>
+
+      <div class="note">
+        <strong>Numerical note:</strong> The first-order Euler scheme is adequate here because
+        the exponential decrease in pressure means each step remains a small fraction of the
+        scale height. For quantitative accuracy at large altitudes, a smaller initial
+        <code>dh</code> (or higher-order integrator) could be substituted in
+        <code>driver_atmosphere.py</code> without changing any other module.
+      </div>
+    </section>
+
+    <!-- ══════════════ MODULE CARDS ══════════════ -->
+
+    <!-- physics_atmosphere.py -->
+    <section id="mod-physics">
+      <h2>Module: <code>physics_atmosphere.py</code></h2>
+      <div class="module-card">
+        <span class="role-tag">Physics Layer</span>
+        <h3>physics_atmosphere.py</h3>
+        <p>
+          Encodes the physical constants and the three primitive equations that govern
+          atmospheric structure. No integration logic appears here — only pure physics.
+          The only literal numbers are universal physical constants.
+        </p>
+
+        <h3>Physical Constants</h3>
+        <pre><code>K_BOLTZMANN = 1.38e-23   # Boltzmann constant  (J K⁻¹)
+M_PROTON    = 1.67e-27   # Proton mass          (kg)</code></pre>
+
+        <h3>Data Class</h3>
+        <span class="func-sig">@dataclass<br>class TemperatureProfile:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;h: List[float]           # altitude breakpoints (m)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;T: List[float]           # temperatures at breakpoints (K)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;power: float = 0.5       # exponent α in T = β·p^α<br>
+&nbsp;&nbsp;&nbsp;&nbsp;beta: float  = 0.0       # coefficient β (set on first pass above top)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reached_top: bool = False</span>
+        <p class="func-desc">
+          Stores the measured temperature profile and state for the upper-atmosphere power-law
+          extension. <code>reached_top</code> is set <code>True</code> the first time the
+          integration altitude exceeds the highest measured breakpoint, at which point
+          <code>beta</code> is fixed and the power-law model takes over.
+        </p>
+
+        <h3>Functions</h3>
+
+        <span class="func-sig">TemperatureProfile.get_temp(self, altitude: float, pressure: float) -&gt; float</span>
+        <p class="func-desc">
+          Returns the temperature at the given altitude and current pressure.
+          Uses linear interpolation (Eq.&nbsp;7.5) between breakpoints while inside the
+          measured range; below the first breakpoint returns \(T_0\) (constant); above the
+          highest breakpoint applies \(T = \beta\,p^{\alpha}\) (Eq.&nbsp;7.6), fixing
+          \(\beta\) on the first call in that regime so the profile is continuous.
+        </p>
+
+        <span class="func-sig">ideal_gas_density(pressure: float, mu: float, temperature: float) -&gt; float</span>
+        <p class="func-desc">
+          Returns the mass density \(\rho = p\,\mu\,m_p\,/\,(k_B\,T)\) in kg m<sup>−3</sup>.
+          Implements Eq.&nbsp;(7.2) directly. Requires <code>pressure &gt; 0</code> and
+          <code>temperature &gt; 0</code>.
+        </p>
+
+        <span class="func-sig">hydrostatic_step(pressure_prev: float, rho_prev: float, g_accel: float, dh: float) -&gt; float</span>
+        <p class="func-desc">
+          Advances the pressure by one Euler step: \(p_j = p_{j-1} - g\,\rho_{j-1}\,\Delta h\).
+          Implements Eq.&nbsp;(7.7). Negative results signal that the atmosphere top has
+          been passed.
+        </p>
+      </div>
+    </section>
+
+    <!-- driver_atmosphere.py -->
+    <section id="mod-driver">
+      <h2>Module: <code>driver_atmosphere.py</code></h2>
+      <div class="module-card">
+        <span class="role-tag">Driver / Solver</span>
+        <h3>driver_atmosphere.py</h3>
+        <p>
+          Owns all integration logic: builds the temperature profile, computes the initial
+          scale height, runs the while/for adaptive loop, and packages results into a
+          structured output dictionary ready for the plotter.
+        </p>
+
+        <h3>Type Alias</h3>
+        <span class="func-sig">OutputType = Literal["Pressure", "Density", "Temperature"]</span>
+        <p class="func-desc">
+          Constrains <code>output_type</code> to one of the three supported output quantities.
+        </p>
+
+        <h3>Data Classes</h3>
+        <span class="func-sig">@dataclass<br>class AtmosphereParameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;planet_name: str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;g_accel:     float        # gravitational acceleration (m s⁻²)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mu:          float        # mean molecular weight (dimensionless)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;p0:          float        # surface pressure (Pa)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;h_points:    List[float]  # altitude breakpoints (m)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;T_points:    List[float]  # temperature at each breakpoint (K)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;output_type: OutputType</span>
+        <p class="func-desc">User-supplied configuration for one atmosphere model run.</p>
+
+        <span class="func-sig">@dataclass<br>class AtmosphereResult:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;altitudes:    List[float]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pressures:    List[float]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;densities:    List[float]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;temperatures: List[float]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;output_type:  OutputType<br>
+&nbsp;&nbsp;&nbsp;&nbsp;planet_name:  str</span>
+        <p class="func-desc">
+          Structured result from <code>AtmosphereModel.run()</code>. All four lists are
+          co-indexed and trimmed to the last valid (non-negative-pressure) step.
+        </p>
+
+        <h3>Class</h3>
+        <span class="func-sig">class AtmosphereModel:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def __init__(self, params: AtmosphereParameters) -&gt; None<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def run(self) -&gt; AtmosphereResult</span>
+        <p class="func-desc">
+          <code>__init__</code> stores the parameters and constructs a
+          <code>TemperatureProfile</code> from <code>h_points</code> and <code>T_points</code>.
+          <code>run()</code> computes the initial density and scale height, then executes the
+          adaptive while/for integration loop (described in the Algorithm section), returning
+          an <code>AtmosphereResult</code> with arrays sliced to <code>[:last_step]</code>.
+        </p>
+
+        <h3>Function</h3>
+        <span class="func-sig">extract_output(result: AtmosphereResult) -&gt; Dict</span>
+        <p class="func-desc">
+          Converts an <code>AtmosphereResult</code> into a plot-ready dictionary with keys
+          <code>x</code>, <code>y</code>, <code>y_unit</code>, <code>x_label</code>,
+          <code>y_label</code>, and <code>title</code>.
+          The <code>y</code> array and label depend on <code>result.output_type</code>:
+          pressures (Pa), densities (kg m<sup>−3</sup>), or temperatures (K).
+          The <code>x</code> array is always the altitude in meters.
+        </p>
+      </div>
+    </section>
+
+    <!-- plot_atmosphere.py -->
+    <section id="mod-plot">
+      <h2>Module: <code>plot_atmosphere.py</code></h2>
+      <div class="module-card">
+        <span class="role-tag">Visualization</span>
+        <h3>plot_atmosphere.py</h3>
+        <p>
+          Accepts the structured output dictionary from <code>extract_output()</code> and
+          produces a matplotlib line graph. The module is intentionally minimal: all axis
+          labels, units, and the title are already embedded in the dictionary, so the plotter
+          needs no knowledge of the underlying physics.
+        </p>
+
+        <h3>Function</h3>
+        <span class="func-sig">plot_atmosphere(curve_data: Dict[str, object]) -&gt; None</span>
+        <p class="func-desc">
+          Reads <code>x</code> (altitudes, m), <code>y</code> (selected quantity),
+          <code>x_label</code>, <code>y_label</code>, and <code>title</code> from
+          <code>curve_data</code>. Creates a single-axes figure with
+          <code>ax.plot(x, y)</code>, applies labels and a grid, then calls
+          <code>plt.tight_layout()</code> and <code>plt.show()</code>.
+        </p>
+
+        <h3>Expected dict keys</h3>
+        <table>
+          <thead>
+            <tr><th>Key</th><th>Type</th><th>Content</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>x</code></td><td>List[float]</td><td>Altitudes (m)</td></tr>
+            <tr><td><code>y</code></td><td>List[float]</td><td>Selected output quantity</td></tr>
+            <tr><td><code>y_unit</code></td><td>str</td><td>Unit string, e.g. <code>"Pa"</code></td></tr>
+            <tr><td><code>x_label</code></td><td>str</td><td>x-axis label</td></tr>
+            <tr><td><code>y_label</code></td><td>str</td><td>y-axis label</td></tr>
+            <tr><td><code>title</code></td><td>str</td><td>Figure title</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- main.py -->
+    <section id="mod-main">
+      <h2>Module: <code>main.py</code></h2>
+      <div class="module-card">
+        <span class="role-tag">Entry Point</span>
+        <h3>main.py</h3>
+        <p>
+          The user-facing entry point. Sets all input parameters to Earth defaults and calls
+          the driver and plotter. Edit the parameters in this file to model a different planet
+          or atmospheric scenario; the other three modules never need to be modified.
+        </p>
+        <pre><code>from driver_atmosphere import AtmosphereParameters, AtmosphereModel, extract_output
+from plot_atmosphere  import plot_atmosphere
+
+planet_name = "Earth"
+g_accel     = 9.81          # m s⁻²
+mu          = 28.97         # mean molecular weight (dry air)
+p0          = 1.013e5       # Pa  (1 atm)
+h_points    = [0.0, 2000.0, 6000.0, 12000.0, 25000.0, 50000.0]   # m
+T_points    = [288.0, 275.0, 250.0, 225.0, 220.0, 270.0]          # K
+output_type = "Pressure"    # "Pressure" | "Density" | "Temperature"
+
+params = AtmosphereParameters(
+    planet_name=planet_name, g_accel=g_accel, mu=mu, p0=p0,
+    h_points=h_points, T_points=T_points, output_type=output_type
+)
+
+result     = AtmosphereModel(params).run()
+curve_data = extract_output(result)
+plot_atmosphere(curve_data)</code></pre>
+      </div>
+    </section>
+
+    <!-- ── Parameters table ── -->
+    <section id="parameters">
+      <h2>Parameters</h2>
+      <p>
+        All parameters are set in <code>main.py</code>. The defaults model Earth's atmosphere
+        using a six-point temperature profile drawn from the U.S. Standard Atmosphere.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Default (Earth)</th>
+            <th>Unit</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>planet_name</code></td>
+            <td><code>"Earth"</code></td>
+            <td>—</td>
+            <td>Label used in plot title</td>
+          </tr>
+          <tr>
+            <td><code>g_accel</code></td>
+            <td><code>9.81</code></td>
+            <td>m s<sup>−2</sup></td>
+            <td>Surface gravitational acceleration</td>
+          </tr>
+          <tr>
+            <td><code>mu</code></td>
+            <td><code>28.97</code></td>
+            <td>dimensionless</td>
+            <td>Mean molecular weight of atmosphere (dry air ≈ 28.97; CO₂ ≈ 44; H₂ ≈ 2)</td>
+          </tr>
+          <tr>
+            <td><code>p0</code></td>
+            <td><code>1.013e5</code></td>
+            <td>Pa</td>
+            <td>Surface (reference) pressure (1 atm = 101 325 Pa)</td>
+          </tr>
+          <tr>
+            <td><code>h_points</code></td>
+            <td><code>[0, 2000, 6000, 12000, 25000, 50000]</code></td>
+            <td>m</td>
+            <td>Altitude breakpoints of the temperature profile</td>
+          </tr>
+          <tr>
+            <td><code>T_points</code></td>
+            <td><code>[288, 275, 250, 225, 220, 270]</code></td>
+            <td>K</td>
+            <td>Temperature at each altitude breakpoint</td>
+          </tr>
+          <tr>
+            <td><code>output_type</code></td>
+            <td><code>"Pressure"</code></td>
+            <td>—</td>
+            <td>Which quantity to plot: <code>"Pressure"</code>, <code>"Density"</code>, or <code>"Temperature"</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>Temperature profile note:</strong>
+        The Earth defaults approximate the U.S. Standard Atmosphere 1976 — a troposphere
+        that cools from 288 K at sea level to 225 K at 12 km (the tropopause), a stratosphere
+        that warms to 270 K by 50 km, and a power-law extrapolation above that.
+        The <code>h_points</code> and <code>T_points</code> lists must have the same length
+        and must be in ascending altitude order.
+      </div>
+    </section>
+
+    <!-- ── Output modes ── -->
+    <section id="output">
+      <h2>Output Modes</h2>
+      <p>
+        Set <code>output_type</code> in <code>main.py</code> to select which atmospheric
+        quantity is plotted on the vertical axis (with altitude on the horizontal axis).
+      </p>
+      <div class="output-grid">
+        <div class="output-card">
+          <div class="out-name">"Pressure"</div>
+          <div class="out-unit">y-axis unit: Pa</div>
+          <p>
+            Atmospheric pressure vs. altitude. Decreases roughly exponentially with
+            a scale height of ~8.5 km for Earth. The most sensitive indicator of
+            how extended the atmosphere is.
+          </p>
         </div>
+        <div class="output-card">
+          <div class="out-name">"Density"</div>
+          <div class="out-unit">y-axis unit: kg m<sup>−3</sup></div>
+          <p>
+            Mass density vs. altitude, derived from the ideal gas law.
+            Also decreases exponentially, but the profile is additionally modulated
+            by temperature variations through \(\rho \propto p/T\).
+          </p>
+        </div>
+        <div class="output-card">
+          <div class="out-name">"Temperature"</div>
+          <div class="out-unit">y-axis unit: K</div>
+          <p>
+            Temperature vs. altitude. Directly shows the user-supplied profile in
+            the troposphere/stratosphere, and the \(T = \beta\,p^{0.5}\) power-law
+            extension above the highest breakpoint.
+          </p>
+        </div>
+      </div>
+      <div class="note">
+        <strong>Logarithmic scale tip:</strong>
+        Pressure and density span many orders of magnitude. To see the full profile clearly,
+        add <code>ax.set_xscale('log')</code> (or <code>set_yscale</code>, depending on
+        axis orientation) in <code>plot_atmosphere.py</code> after the
+        <code>ax.plot()</code> call.
+      </div>
+    </section>
 
-        <h3 style="font-family:helvetica,arial,sans-serif; text-align:center;">
-          <b>
-            Compute the structure of the atmosphere of the Earth or other planets and moons.
-            Explore how pressure, density, and temperature vary with altitude.
-          </b>
-        </h3>
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <!-- ── Suggested Experiments ── -->
+    <section id="experiments">
+      <h2>Suggested Experiments</h2>
+      <p>
+        These investigations mirror those suggested by Schutz for the original Java program.
+        Each can be run by editing only <code>main.py</code>.
+      </p>
 
-<h2>Contents</h2>
-<ul>
-  <li><a href="#description">Description of <tt>Atmosphere</tt></a></li>
-  <li><a href="#using">Using <tt>Atmosphere</tt></a></li>
-  <li><a href="#playing">Suggestions for playing with <tt>Atmosphere</tt></a></li>
-  <li><a href="#understanding">Understanding <tt>Atmosphere</tt></a></li>
-  <li><a href="#suggestions">Suggested modifications</a></li>
-  <li><a href="#listing">Python source code</a></li>
-</ul>
+      <div class="scenario-card">
+        <h4>1 · Earth's Standard Atmosphere</h4>
+        <p>
+          Run the program with the default Earth parameters. Plot Pressure, then Density,
+          then Temperature in three separate runs.
+          Compare the pressure profile to the exponential barometric formula
+          \(p = p_0\,e^{-h/H}\) with \(H = 8.5\;\text{km}\).
+          Note how the non-constant temperature causes deviations from a pure exponential.
+        </p>
+        <div class="params">output_type = "Pressure"  # then "Density", then "Temperature"
+# all other parameters at their defaults</div>
+      </div>
 
-<hr width="15%" size="4">
+      <div class="scenario-card">
+        <h4>2 · Logarithmic Pressure Profile</h4>
+        <p>
+          Add a logarithmic x-axis to the plotter (<code>ax.set_xscale('log')</code>).
+          On a log-pressure vs. altitude plot, an isothermal atmosphere produces a straight
+          line. Identify the regions in Earth's atmosphere where temperature is approximately
+          constant and the profile is therefore nearly linear on the log scale.
+        </p>
+        <div class="params">output_type = "Pressure"
+# add ax.set_xscale('log') in plot_atmosphere.py</div>
+      </div>
 
-<h2 id="description">Description of <tt><font size="+3">Atmosphere</font></tt></h2>
+      <div class="scenario-card">
+        <h4>3 · Mars</h4>
+        <p>
+          Mars has a thin CO₂ atmosphere. Its pressure profile falls off much more sharply
+          than Earth's because of stronger gravity per unit of molecular weight.
+          The scale height for Mars is about 11 km, but the much lower surface pressure
+          (≈ 610 Pa) means the total column is tiny.
+        </p>
+        <div class="params">planet_name = "Mars"
+g_accel     = 3.72       # m s⁻²
+mu          = 44.0       # CO₂
+p0          = 610.0      # Pa
+h_points    = [0.0, 10000.0, 25000.0, 45000.0]   # m
+T_points    = [210.0, 170.0, 145.0, 130.0]        # K</div>
+      </div>
 
-<p>
-The <tt>Atmosphere</tt> program computes the structure of a planetary
-atmosphere using the equation of hydrostatic equilibrium. Given a
-temperature profile, the program uses the ideal gas law to compute
-pressure and density as functions of altitude.
-</p>
+      <div class="scenario-card">
+        <h4>4 · Venus</h4>
+        <p>
+          Venus has a crushing CO₂ atmosphere with surface pressure ≈ 92 atm.
+          Despite similar gravity to Earth, the enormous molecular weight and surface pressure
+          create a very compact but extremely massive atmosphere.
+          Compare its scale height to Earth's.
+        </p>
+        <div class="params">planet_name = "Venus"
+g_accel     = 8.87       # m s⁻²
+mu          = 44.0       # CO₂
+p0          = 9.2e6      # Pa  (~92 atm)
+h_points    = [0.0, 10000.0, 30000.0, 60000.0]
+T_points    = [735.0, 500.0, 340.0, 230.0]        # K</div>
+      </div>
 
-<p>
-The Python version follows Bernard Schutz’s original Java program from
-<i>Gravity From the Ground Up</i>, but is organized into modern,
-modular Python files. Temperature profiles may be supplied for any
-planet or moon, allowing users to explore atmospheric structure across
-the Solar System.
-</p>
+      <div class="scenario-card">
+        <h4>5 · Jupiter (Upper Atmosphere)</h4>
+        <p>
+          Model the outer visible layer of Jupiter's hydrogen–helium atmosphere.
+          Jupiter's scale height is enormous because of its low mean molecular weight
+          (\(\mu \approx 2.2\)) despite its strong gravity.
+          Use a reference level near the 1-bar cloud deck.
+        </p>
+        <div class="params">planet_name = "Jupiter"
+g_accel     = 24.8       # m s⁻²
+mu          = 2.2        # H₂/He mix
+p0          = 1.0e5      # Pa  (1 bar reference level)
+h_points    = [0.0, 20000.0, 50000.0, 100000.0]
+T_points    = [165.0, 130.0, 110.0, 150.0]        # K</div>
+      </div>
 
-<p>
-The model is accurate except near the top of the atmosphere, where real
-physics becomes more complex than the ideal gas law can capture.
-</p>
+      <div class="scenario-card">
+        <h4>6 · Varying Molecular Weight on Earth</h4>
+        <p>
+          Keep all Earth parameters fixed but change <code>mu</code>.
+          How does the scale height change if Earth's atmosphere were pure water vapor
+          (\(\mu = 18\)) or pure CO₂ (\(\mu = 44\))?
+          Verify the theoretical prediction \(H \propto 1/\mu\).
+        </p>
+        <div class="params">mu = 18.0   # water vapor — compare to default 28.97 and to 44.0</div>
+      </div>
 
-<hr width="15%" size="4">
+      <div class="scenario-card">
+        <h4>7 · Effect of Temperature Profile Shape</h4>
+        <p>
+          Replace the six-point Earth profile with a simple two-point isothermal profile
+          (<code>h_points=[0, 100000]</code>, <code>T_points=[288, 288]</code>).
+          The output should be very close to the barometric exponential.
+          Then add a temperature inversion (warm layer aloft) and observe how it
+          changes the density profile.
+        </p>
+        <div class="params">h_points = [0.0, 50000.0, 100000.0]
+T_points = [288.0, 200.0, 350.0]   # inversion above 50 km</div>
+      </div>
+    </section>
 
-<h2 id="using">Using <tt><font size="+3">Atmosphere</font></tt></h2>
+    <!-- ── Related Programs ── -->
+    <section id="related">
+      <h2>Related Programs</h2>
+      <p>
+        Atmosphere shares the same layered module architecture — physics / driver / plot /
+        main — with all other programs in this suite. The programs most closely related
+        in physical content are:
+      </p>
+      <div class="related-list">
+        <a class="related-chip" href="../Star/Star_Help.html">Star</a>
+        <a class="related-chip" href="../Neutron/Neutron_Help.html">Neutron</a>
+      </div>
+      <ul>
+        <li>
+          <strong>Star</strong> (Chapter 8) — integrates the analogous Newtonian hydrostatic
+          equilibrium equation for a self-gravitating polytropic star. The structure equation
+          \(dp/dr = -G M(r)\,\rho/r^2\) is the stellar generalization of Eq.&nbsp;(7.1),
+          with gravity varying with radius and mass continuity replacing the ideal-gas closure.
+        </li>
+        <li>
+          <strong>Neutron</strong> (Chapter 9) — extends stellar structure to general relativity
+          via the Tolman–Oppenheimer–Volkoff (TOV) equation, the relativistic counterpart of
+          Atmosphere's hydrostatic step with a polytropic equation of state.
+        </li>
+      </ul>
+    </section>
 
-<p>
-The Python version of <tt>Atmosphere</tt> is located at:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Atmosphere">
-  https://github.com/tomyee3/GFTGU-Programs/tree/main/Atmosphere
-</a>
-</p>
+    <!-- ── License ── -->
+    <section id="license">
+      <h2>License</h2>
+      <p>
+        This help file and the associated Python source code are released under the
+        <strong>Creative Commons Attribution–NonCommercial–ShareAlike 4.0 International</strong>
+        (CC BY-NC-SA 4.0) license.
+      </p>
+      <p>
+        You are free to share and adapt the material for non-commercial purposes, provided you
+        give appropriate credit and distribute any derivative works under the same license.
+      </p>
+      <p>
+        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+          https://creativecommons.org/licenses/by-nc-sa/4.0/
+        </a>
+      </p>
+      <p style="margin-top:10px;">
+        The physics and program concept are drawn from:<br>
+        Bernard Schutz, <em>Gravity from the Ground Up</em>,
+        Cambridge University Press, 2003.
+      </p>
+    </section>
 
-<p>
-The program is divided into four modules:
-</p>
+  </main>
 
-<ol>
-  <li>
-    <b>Physics module (<tt>physics.py</tt>):</b><br>
-    Implements hydrostatic equilibrium:
-    <pre>
-dp/dh = -ρ g
-ρ = p * q / T
-    </pre>
-    where <tt>q</tt> contains constants from the ideal gas law.  
-    It also provides interpolation of temperature values between
-    measured points.
-  </li>
+  <!-- ══════════════════════ FOOTER ══════════════════════ -->
+  <footer>
+    <img class="license-banner"
+         src="https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png"
+         alt="CC BY-NC-SA 4.0" />
+    <span>
+      &copy; 2024 Thomas Yee &nbsp;&bull;&nbsp;
+      Released under
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>
+      &nbsp;&bull;&nbsp;
+      Based on Schutz, <em>Gravity from the Ground Up</em>, Cambridge University Press (2003)
+    </span>
+  </footer>
 
-  <li>
-    <b>Driver module (<tt>driver.py</tt>):</b><br>
-    Steps upward in altitude, computing pressure, density, and
-    temperature at each level. It stops when pressure reaches zero.
-  </li>
+</div><!-- /.page-wrap -->
 
-  <li>
-    <b>Plot module (<tt>plot_atmosphere.py</tt>):</b><br>
-    Uses Matplotlib to display:
-    <ul>
-      <li>pressure vs altitude</li>
-      <li>density vs altitude</li>
-      <li>temperature vs altitude</li>
-    </ul>
-    Logarithmic scaling is available for pressure plots.
-  </li>
+<!-- ── Active nav link via IntersectionObserver ── -->
+<script>
+  (function () {
+    const links = document.querySelectorAll('#sidebar a');
+    const targets = Array.from(links)
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
 
-  <li>
-    <b>Main module (<tt>main.py</tt>):</b><br>
-    The user-facing entry point. It sets:
-    <ul>
-      <li>planet name</li>
-      <li>surface gravity</li>
-      <li>mean molecular weight</li>
-      <li>surface pressure</li>
-      <li>temperature profile</li>
-      <li>output mode (pressure, density, temperature)</li>
-    </ul>
-    Users may overwrite these values to explore different atmospheres.
-  </li>
-</ol>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(a => a.classList.remove('active'));
+          const active = document.querySelector(
+            '#sidebar a[href="#' + entry.target.id + '"]'
+          );
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '0px 0px -60% 0px', threshold: 0 });
 
-<p>
-To run the program:
-</p>
-
-<pre>
-python main.py
-</pre>
-
-<p>
-The resulting plot shows the atmospheric structure up to the height
-where pressure reaches zero.
-</p>
-
-<hr width="15%" size="4">
-
-<h2 id="playing">Suggestions for playing with <tt><font size="+3">Atmosphere</font></tt></h2>
-
-<p>
-Try modeling the atmospheres of Earth, Venus, Mars, Titan, or any body
-for which you can find temperature data. Table 7.1 of the book provides
-several examples.
-</p>
-
-<p>
-Do not attempt to model gas giants such as Jupiter, since their
-atmospheres are deep enough that gravity varies significantly with
-height. The <tt>Atmosphere</tt> program assumes constant gravity.
-</p>
-
-<p>
-This program introduces the basic technique of hydrostatic equilibrium.
-Later programs (such as <tt>Star</tt>) generalize this method to stellar
-structure.
-</p>
-
-<hr width="15%" size="4">
-
-<h2 id="understanding">Understanding <tt><font size="+3">Atmosphere</font></tt></h2>
-
-<p>
-The program steps upward in altitude using the equation of hydrostatic
-equilibrium:
-</p>
-
-<pre>
-p[j] = p[j-1] - gAccel * rho[j-1] * dh
-</pre>
-
-<p>
-Density is computed using the ideal gas law:
-</p>
-
-<pre>
-rho[j] = p[j] * q / Temp[j]
-</pre>
-
-<p>
-Temperature values are obtained by interpolation between measured
-points. Above the highest measurement, the program uses a simple
-power-law relation to keep the model finite.
-</p>
-
-<p>
-The loop stops when pressure reaches zero. If the top of the atmosphere
-is not reached within the initial number of steps, the step size is
-increased and the calculation repeated.
-</p>
-
-<hr width="15%" size="4">
-
-<h2 id="suggestions">Suggested modifications</h2>
-
-<p>
-A natural extension is to allow gravity to vary with height. This is
-implemented in the next program in the series:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Star">
-  Star
-</a>
-</p>
-
-<hr width="15%" size="4">
-
-<h2 id="listing">Python source code</h2>
-
-<p>
-The complete Python implementation of <tt>Atmosphere</tt> is available at:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Atmosphere">
-  https://github.com/tomyee3/GFTGU-Programs/tree/main/Atmosphere
-</a>
-</p>
-
-<p>
-Updated help documentation is maintained at:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/07-Atmosphere">
-  https://github.com/tomyee3/GFTGU-Documentation/tree/main/07-Atmosphere
-</a>
-</p>
-
-<p>
-This documentation is released under the Creative Commons
-Attribution–NonCommercial–ShareAlike 4.0 International License:
-<br>
-<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
-  https://creativecommons.org/licenses/by-nc-sa/4.0/
-</a>
-</p>
-
-<p>
-Creative Commons address:
-<br>
-Creative Commons  
-PO Box 1866  
-Mountain View, CA 94042  
-USA
-</p>
+    targets.forEach(t => observer.observe(t));
+  })();
+</script>
 
 </body>
 </html>
