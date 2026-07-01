@@ -1,307 +1,1091 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Orbit</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orbit – Help File | GFtGU Programs</title>
 
-  <meta name="Author" content="Bernard F. Schutz">
-  <meta name="Description" content="Help file for the Python program Orbit, part of the Gravity From the Ground Up Python suite.">
-  <meta name="KeyWords" content="Gravity from the Ground Up, Orbit, Python, help file">
+  <!-- MathJax 3 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath:  [['\\(','\\)']],
+        displayMath: [['\\[','\\]']],
+        tags: 'ams'
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+          id="MathJax-script" async></script>
 
   <style>
-    body { background-color: #fdf5e6; color: #000; font-family: Arial, sans-serif; }
-    tt { font-family: monospace; }
+    /* ── Reset & custom properties ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #fdf5e6;
+      --surface:  #ffffff;
+      --border:   #c8bfa0;
+      --accent:   #7b2d00;
+      --accent2:  #a04010;
+      --gold:     #b5811a;
+      --text:     #1c1c1c;
+      --muted:    #5a4a3a;
+      --code-bg:  #f0ede4;
+      --note-bg:  #f4f0e8;
+      --eq-bg:    #f7f2e8;
+      --radius:   5px;
+      --shadow:   0 2px 8px rgba(0,0,0,0.10);
+      --mono:     "Courier New", Courier, monospace;
+      --sans:     "Helvetica Neue", Arial, sans-serif;
+      --serif:    Georgia, "Times New Roman", Times, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 1.80;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Page grid ── */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      grid-column: 1 / -1;
+      background: var(--accent);
+      color: #fff;
+      padding: 26px 38px 20px;
+      border-bottom: 4px solid var(--gold);
+    }
+    header .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 3px;
+      padding: 2px 7px;
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 1.95rem;
+      font-weight: normal;
+      letter-spacing: -.02em;
+    }
+    header h1 em { font-style: normal; color: #ffc9a0; }
+    header .sub {
+      margin-top: 6px;
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: #f0d0b8;
+      line-height: 1.55;
+    }
+    header .sub a {
+      color: #ffd8b8;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,200,150,.4);
+    }
+    header .sub a:hover { border-bottom-color: #ffd8b8; }
+
+    /* ── Sidebar ── */
+    nav {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 0 40px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .nav-label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 14px 18px 4px;
+    }
+    nav a {
+      display: block;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 5px 18px 5px 22px;
+      border-left: 3px solid transparent;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    nav a:hover {
+      color: var(--accent);
+      background: #fdf0e0;
+      border-left-color: var(--gold);
+    }
+    nav a.active {
+      color: var(--accent);
+      font-weight: 600;
+      border-left-color: var(--accent);
+      background: #fdecd8;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 38px 52px 60px;
+      max-width: 860px;
+    }
+
+    /* ── Section headings ── */
+    h2 {
+      font-size: 1.40rem;
+      font-weight: normal;
+      color: var(--accent);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+      margin: 2.2rem 0 1.0rem;
+    }
+    h3 {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--accent2);
+      margin: 1.6rem 0 .5rem;
+    }
+    h4 {
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin: 1.2rem 0 .35rem;
+    }
+    p { margin-bottom: .85rem; }
+    ul, ol { margin: .4rem 0 .85rem 1.5rem; }
+    li { margin-bottom: .28rem; }
+
+    /* ── Equation blocks ── */
+    .eq-block {
+      background: var(--eq-bg);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 22px 10px;
+      margin: 1.1rem 0 1.3rem;
+      overflow-x: auto;
+    }
+    .eq-label {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    /* ── Code / monospace ── */
+    code {
+      font-family: var(--mono);
+      font-size: 0.865em;
+      background: var(--code-bg);
+      border: 1px solid #ddd8cc;
+      border-radius: 3px;
+      padding: 1px 5px;
+    }
+    pre {
+      font-family: var(--mono);
+      font-size: 0.855em;
+      background: var(--code-bg);
+      border: 1px solid #ddd8cc;
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      overflow-x: auto;
+      margin: .8rem 0 1.1rem;
+      line-height: 1.55;
+    }
+
+    /* ── Note / callout ── */
+    .note {
+      background: var(--note-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent2);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 11px 16px;
+      margin: 1.0rem 0 1.2rem;
+      font-size: 0.93rem;
+      color: var(--muted);
+    }
+    .note strong { color: var(--accent2); }
+
+    /* ── Module cards ── */
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+      margin: 1.1rem 0 1.4rem;
+    }
+    .module-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+    }
+    .module-card .mc-name {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .module-card .mc-role {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .module-card p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: .5rem;
+    }
+    .module-card .sig {
+      font-family: var(--mono);
+      font-size: 0.80rem;
+      background: var(--code-bg);
+      border: 1px solid #ddd8cc;
+      border-radius: 3px;
+      padding: 7px 10px;
+      color: var(--text);
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* ── Parameter table ── */
+    .param-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin: 1.0rem 0 1.4rem;
+    }
+    .param-table th {
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .param-table td {
+      padding: 7px 12px;
+      border-bottom: 1px solid #e0d8c8;
+      vertical-align: top;
+    }
+    .param-table tr:nth-child(even) td { background: #faf5ec; }
+    .param-table tr:hover td { background: #f3ecdf; }
+    .param-table .pname { font-family: var(--mono); font-size: 0.83rem; color: var(--accent2); }
+    .param-table .pdefault { font-family: var(--mono); font-size: 0.83rem; }
+
+    /* ── Experiment cards ── */
+    .exp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 14px;
+      margin: 1.0rem 0 1.4rem;
+    }
+    .exp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 15px 17px;
+      box-shadow: var(--shadow);
+    }
+    .exp-card .ec-num {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 11px;
+      border-radius: 3px;
+      padding: 1px 6px;
+      margin-bottom: 7px;
+    }
+    .exp-card h4 {
+      font-size: 0.94rem;
+      color: var(--accent2);
+      margin: 0 0 5px;
+    }
+    .exp-card p {
+      font-size: 0.855rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* ── Output mode table ── */
+    .out-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin: 1.0rem 0 1.4rem;
+    }
+    .out-table th {
+      background: var(--accent2);
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 7px 12px;
+      text-align: left;
+    }
+    .out-table td {
+      padding: 7px 12px;
+      border-bottom: 1px solid #e0d8c8;
+      vertical-align: top;
+    }
+    .out-table tr:nth-child(even) td { background: #faf5ec; }
+    .out-table .oname { font-family: var(--mono); font-size: 0.83rem; color: var(--accent2); }
+
+    /* ── Related programs ── */
+    .related-list {
+      list-style: none;
+      margin: .6rem 0 1.2rem;
+      padding: 0;
+    }
+    .related-list li {
+      padding: 8px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 7px;
+      font-size: 0.90rem;
+    }
+    .related-list li strong {
+      font-family: var(--mono);
+      color: var(--accent2);
+    }
+
+    /* ── Footer ── */
+    footer {
+      grid-column: 1 / -1;
+      background: #2c1a0e;
+      color: #c8b090;
+      font-family: var(--sans);
+      font-size: 12.5px;
+      text-align: center;
+      padding: 18px 24px;
+      line-height: 1.7;
+    }
+    footer a { color: #e0c090; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 740px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      nav { position: static; height: auto; }
+      main { padding: 24px 20px 48px; }
+      header { padding: 20px 20px 16px; }
+      .module-grid, .exp-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 
-<body background="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/BH-posneg.negative.watermark.png">
+<body>
+<div class="page-wrap">
 
-<a href="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license.html">
-  <img src="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/LicenseBanner.png"
-       alt="Creative Commons License Banner"
-       title="Click to view license information."
-       style="border:0; width:375px; height:362px;" align="right">
-</a>
+<!-- ══════════════════════════════════════════════
+     HEADER
+═══════════════════════════════════════════════ -->
+<header>
+  <div class="badge">Chapter 4 · Gravity from the Ground Up</div>
+  <h1><em>Orbit</em> — Newtonian Planetary Orbits</h1>
+  <div class="sub">
+    Python port of Bernard Schutz's <em>Gravity from the Ground Up</em> (Cambridge, 2003) Java program. ·
+    Source:
+    <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Orbit"
+       target="_blank">github.com/tomyee3/GFTGU-Programs/Orbit</a>
+  </div>
+</header>
 
-<table cellpadding="2" cellspacing="2" border="3"
-       style="text-align:left; width:50%; margin-left:auto; margin-right:auto;">
-  <tbody>
-    <tr>
-      <td style="vertical-align:top; background-color:#ccc;">
-        <h3 style="color:#ff0000; font-family:monospace; font-weight:bold; text-align:center;">
-          <big><big><big><big>Orbit</big></big></big></big>
-        </h3>
+<!-- ══════════════════════════════════════════════
+     SIDEBAR NAV
+═══════════════════════════════════════════════ -->
+<nav id="sidebar">
+  <div class="nav-label">Overview</div>
+  <a href="#description">Description</a>
+  <a href="#background">Physical Background</a>
 
-        <div style="text-align:center;">
-          <big><font size="+2"><big>
-            <span style="color:#000; font-weight:bold;">version 1.0</span>
-          </big></font></big>
-          <br>
-          <big><big>
-            <span lang="EN-GB" style="font-size:12pt; font-family:'Times New Roman'; font-weight:bold;">
-              © 2003 Bernard Schutz
-            </span>
-          </big></big>
-        </div>
+  <div class="nav-label">Mathematics</div>
+  <a href="#equations">Governing Equations</a>
+  <a href="#algorithm">Algorithm</a>
 
-        <h3 style="font-family:helvetica,arial,sans-serif; text-align:center;">
-          <b>
-            Compute the orbit of a planet around a star in Newton’s theory of gravity.
-            The Python version allows you to choose the mass of the central star and
-            any desired starting position and velocity for the planet. It can output
-            the orbit, velocity information, position or velocity as a function of time,
-            or kinetic and potential energies. The program introduces adjustable
-            time-step control and the predictor–corrector technique.
-          </b>
-        </h3>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <div class="nav-label">Code</div>
+  <a href="#modules">Module Overview</a>
+  <a href="#parameters">Parameters</a>
+  <a href="#output">Output Modes</a>
 
-<h2>Contents</h2>
-<ul>
-  <li><a href="#description">Description of <tt>Orbit</tt></a></li>
-  <li><a href="#using">Using <tt>Orbit</tt></a></li>
-  <li><a href="#playing">Suggestions for playing with <tt>Orbit</tt></a></li>
-  <li><a href="#understanding">Understanding <tt>Orbit</tt></a></li>
-  <li><a href="#suggestions">Suggested modifications</a></li>
-  <li><a href="#listing">Python source code</a></li>
-</ul>
+  <div class="nav-label">Experiments</div>
+  <a href="#experiments">Suggested Experiments</a>
+  <a href="#related">Related Programs</a>
 
-<hr width="15%" size="4">
+  <div class="nav-label">Legal</div>
+  <a href="#license">License</a>
+</nav>
 
-<h2 id="description">Description of <tt><font size="+3">Orbit</font></tt></h2>
+<!-- ══════════════════════════════════════════════
+     MAIN CONTENT
+═══════════════════════════════════════════════ -->
+<main>
 
-<p>
-The <tt>Orbit</tt> program computes the motion of a planet or satellite
-around a central mass using Newton’s law of gravitation. It demonstrates
-that bound orbits are closed ellipses and allows users to explore many
-different physical systems by adjusting initial conditions.
-</p>
+  <!-- ── Description ── -->
+  <section id="description">
+    <h2>Description</h2>
+    <p>
+      <strong>Orbit</strong> computes the trajectory of a test particle (planet, satellite, or comet)
+      moving in the gravitational field of a fixed central mass under Newton's law of gravity.
+      The central mass is treated as stationary and located at the origin of the coordinate system;
+      the test particle's position and velocity are integrated forward in time using a
+      <em>predictor-corrector</em> scheme with an <em>adaptive time-step</em>.
+    </p>
+    <p>
+      The default configuration reproduces <strong>Mercury's orbit around the Sun</strong>,
+      starting from perihelion at \(r = 4.6 \times 10^{10}\) m with the perihelion speed of
+      58&thinsp;980 m s<sup>−1</sup>.  With equal-axis scaling the output is a closed ellipse—a
+      direct numerical demonstration of Kepler's first law.
+    </p>
+    <p>
+      Five output modes let the user examine the orbit shape, velocity hodograph, position or
+      velocity as functions of time, and kinetic/potential/total energy as functions of time.
+      Orbit is the <em>foundation program</em> for all later orbital investigations in the book;
+      Binary, RelativisticOrbit, and the three-body programs are all straightforward extensions
+      of the same core integration logic.
+    </p>
+  </section>
 
-<p>
-The Python version faithfully follows Bernard Schutz’s original Java
-program from <i>Gravity From the Ground Up</i>, but is organized into
-modern, modular Python files. It supports:
-</p>
+  <!-- ── Physical Background ── -->
+  <section id="background">
+    <h2>Physical Background</h2>
 
-<ul>
-  <li>arbitrary initial positions and velocities</li>
-  <li>adjustable time-step control</li>
-  <li>predictor–corrector iteration</li>
-  <li>multiple output modes (orbit, velocity space, position vs time, velocity vs time, energies)</li>
-</ul>
+    <h3>Newton's Law of Gravitation</h3>
+    <p>
+      A body of mass \(M\) located at the origin exerts a gravitational acceleration on a
+      test particle at position \(\mathbf{r} = (x, y)\) directed radially inward with magnitude
+      \(GM/r^2\), where \(G = 6.674\times10^{-11}\) N m² kg⁻² is Newton's gravitational constant
+      and \(r = |\mathbf{r}|\).  The program uses the composite parameter
+      \(k = GM\) so that the acceleration components become:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Newton's gravitational acceleration</div>
+      \[
+        a_x = -\frac{k\,x}{r^3}, \qquad a_y = -\frac{k\,y}{r^3}, \qquad r = \sqrt{x^2 + y^2}
+      \]
+    </div>
+    <p>
+      For the default (Sun), \(k = GM_\odot = 1.327\times10^{20}\) m³ s⁻².
+      Changing <code>k</code> to \(GM_\oplus = 3.986\times10^{14}\) m³ s⁻² models Earth-centered
+      orbits (the Moon, satellites); any central body can be substituted.
+    </p>
 
-<p>
-The default initial conditions simulate Mercury’s orbit around the Sun.
-Users can modify these to explore other planetary systems, comets, or
-general gravitational motion.
-</p>
-
-<hr width="15%" size="4">
-
-<h2 id="using">Using <tt><font size="+3">Orbit</font></tt></h2>
-
-<p>
-The Python version of <tt>Orbit</tt> is located at:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Orbit">
-  https://github.com/tomyee3/GFTGU-Programs/tree/main/Orbit
-</a>
-</p>
-
-<p>
-The program is divided into four modules:
-</p>
-
-<ol>
-  <li>
-    <b>Physics module (<tt>physics.py</tt>):</b><br>
-    Encodes Newton’s law of gravitation. The gravitational acceleration
-    is computed as:
-    <pre>
-ax = -k * x / r**3
-ay = -k * y / r**3
-    </pre>
-    where <tt>k = G*M</tt> is the gravitational parameter.
-  </li>
-
-  <li>
-    <b>Driver module (<tt>driver.py</tt>):</b><br>
-    Performs numerical integration using:
+    <h3>Bound and Unbound Orbits</h3>
+    <p>
+      The character of the orbit is determined entirely by the <em>specific mechanical energy</em>
+      (energy per unit mass):
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Specific mechanical energy</div>
+      \[
+        \mathcal{E} = \frac{1}{2}v^2 - \frac{k}{r}
+      \]
+    </div>
     <ul>
-      <li>adjustable time-step control</li>
-      <li>predictor–corrector iteration</li>
-      <li>velocity averaging for position updates</li>
+      <li>\(\mathcal{E} < 0\) — <strong>bound orbit</strong> (ellipse); the particle returns periodically.</li>
+      <li>\(\mathcal{E} = 0\) — <strong>parabolic escape</strong>; marginal case, cometary in character.</li>
+      <li>\(\mathcal{E} > 0\) — <strong>hyperbolic flyby</strong>; the particle escapes to infinity.</li>
     </ul>
-    It stores position, velocity, and energy information depending on
-    the selected output mode.
-  </li>
+    <p>
+      A remarkable feature of \(1/r^2\) gravity (Bertrand's theorem) is that <em>all</em> bound
+      orbits are <strong>closed ellipses</strong>—this is not true for any other power law.
+      The program verifies closure by tracking the angular position through each orbit.
+    </p>
 
-  <li>
-    <b>Plot module (<tt>plot_orbit.py</tt>):</b><br>
-    Uses Matplotlib to display:
+    <h3>Kepler's Laws (Numerical Verification)</h3>
+    <p>
+      By running the program for different planets (using the perihelion distances and speeds in
+      Table 4.3 of Schutz) the user can verify:
+    </p>
     <ul>
-      <li>the orbit in the x–y plane</li>
-      <li>velocity space plots</li>
-      <li>position vs time</li>
-      <li>velocity vs time</li>
-      <li>energy vs time</li>
+      <li><strong>First law</strong> — orbits are closed ellipses (equal-axis plot).</li>
+      <li><strong>Second law</strong> — equal areas swept in equal times (visible from position-vs-time output).</li>
+      <li><strong>Third law</strong> — \(T^2 \propto a^3\), period increases with semi-major axis.</li>
     </ul>
-    The orbit plot enforces equal axis scaling.
-  </li>
+  </section>
 
-  <li>
-    <b>Main module (<tt>main.py</tt>):</b><br>
-    The user-facing entry point. It sets example values for:
+  <!-- ── Governing Equations ── -->
+  <section id="equations">
+    <h2>Governing Equations</h2>
+
+    <h3>Equations of Motion</h3>
+    <p>
+      The state vector is \((x,\, y,\, v_x,\, v_y)\).  Newton's second law gives four coupled
+      first-order ODEs:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Equations of motion</div>
+      \[
+        \dot{x} = v_x, \qquad \dot{y} = v_y
+      \]
+      \[
+        \dot{v}_x = a_x = -\frac{k\,x}{r^3}, \qquad \dot{v}_y = a_y = -\frac{k\,y}{r^3}
+      \]
+    </div>
+
+    <h3>Predictor Step (Constant-Acceleration Approximation)</h3>
+    <p>
+      At the start of each timestep \(\Delta t\), accelerations \((a_{x0}, a_{y0})\) are computed
+      at the current position.  A first-order predictor gives a trial endpoint:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Predictor — trial position</div>
+      \[
+        \Delta v = a_{x0}\,\Delta t, \quad \Delta u = a_{y0}\,\Delta t
+      \]
+      \[
+        \delta x = v_x\,\Delta t + \tfrac{1}{2}\Delta v\,\Delta t, \quad
+        \delta y = v_y\,\Delta t + \tfrac{1}{2}\Delta u\,\Delta t
+      \]
+      \[
+        x_1 = x + \delta x, \quad y_1 = y + \delta y
+      \]
+    </div>
+
+    <h3>Adaptive Timestep Control (eps1)</h3>
+    <p>
+      Accelerations \((a_{x1}, a_{y1})\) at the trial endpoint are compared with those at the
+      start.  If the fractional change (sum-of-absolute-values norm) exceeds the threshold
+      <code>eps1</code>, the step is rejected and \(\Delta t\) is halved:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Timestep rejection test</div>
+      \[
+        |a_{x1} - a_{x0}| + |a_{y1} - a_{y0}| \;>\; \varepsilon_1
+          \bigl(|a_{x0}| + |a_{y0}|\bigr)
+      \]
+    </div>
+    <p>
+      Halving repeats until the test passes.  The timestep is never <em>increased</em>
+      automatically; it is only shortened when accuracy demands it.
+    </p>
+
+    <h3>Predictor-Corrector Iteration (eps2)</h3>
+    <p>
+      Once the timestep is accepted, the corrector iterates (up to 10 times) using the
+      <em>average</em> of the beginning and predicted endpoint accelerations:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Corrector — improved velocity increment</div>
+      \[
+        \Delta v = \tfrac{1}{2}(a_{x0} + a_{x1})\,\Delta t, \quad
+        \Delta u = \tfrac{1}{2}(a_{y0} + a_{y1})\,\Delta t
+      \]
+      \[
+        \delta\delta x_1 = \tfrac{1}{2}\Delta v\,\Delta t, \quad
+        \delta\delta y_1 = \tfrac{1}{2}\Delta u\,\Delta t
+      \]
+    </div>
+    <p>
+      The iteration converges when the change in the corrector increment satisfies:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Corrector convergence test</div>
+      \[
+        |\delta\delta x_1 - \delta\delta x_0| + |\delta\delta y_1 - \delta\delta y_0|
+          \;\leq\; \varepsilon_2 \bigl(|\delta\delta x_0| + |\delta\delta y_0|\bigr)
+      \]
+    </div>
+
+    <h3>Committed Step</h3>
+    <p>
+      After convergence the state is advanced using the corrected increments:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">State update</div>
+      \[
+        x \leftarrow x + v_x\,\Delta t + \delta\delta x_1, \quad
+        y \leftarrow y + v_y\,\Delta t + \delta\delta y_1
+      \]
+      \[
+        v_x \leftarrow v_x + \Delta v, \quad v_y \leftarrow v_y + \Delta u
+      \]
+    </div>
+
+    <h3>Specific Energy (Energy Output Mode)</h3>
+    <p>
+      Because the test-particle mass cancels, the program reports energy <em>per unit mass</em>:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Specific kinetic, potential, and total energy</div>
+      \[
+        \mathcal{K} = \tfrac{1}{2}v^2, \qquad
+        \mathcal{U} = -\frac{k}{r}, \qquad
+        \mathcal{E} = \mathcal{K} + \mathcal{U}
+      \]
+    </div>
+    <p>
+      \(\mathcal{E}\) should remain constant throughout the integration; deviations indicate
+      numerical error.
+    </p>
+  </section>
+
+  <!-- ── Algorithm ── -->
+  <section id="algorithm">
+    <h2>Algorithm</h2>
+
+    <h3>Overview</h3>
+    <p>
+      The integration proceeds step-by-step in simulated time.  For each step the driver:
+    </p>
+    <ol>
+      <li>Computes accelerations at the current position (physics module call).</li>
+      <li>Runs the <strong>predictor</strong> to obtain a trial new position.</li>
+      <li>Tests the <strong>adaptive timestep criterion</strong>; if it fails, halves \(\Delta t\) and retries from step 1.</li>
+      <li>Runs the <strong>predictor-corrector loop</strong> (≤ 10 iterations) until convergence.</li>
+      <li>Commits the position and velocity update.</li>
+      <li>Runs the <strong>orbit-closure test</strong>; stops if one full orbit has been completed or <code>maxSteps</code> reached.</li>
+    </ol>
+
+    <h3>Orbit-Closure Detection</h3>
+    <p>
+      Closure detection uses the polar angle \(\theta = \mathrm{atan2}(y, x)\).  After the first
+      step the algorithm tracks the sign of \(\theta\):
+    </p>
     <ul>
-      <li>initial position</li>
-      <li>initial velocity</li>
-      <li>central mass</li>
-      <li>initial time-step</li>
-      <li>maximum number of steps</li>
-      <li>accuracy parameters for time-step control and predictor–corrector</li>
-      <li>output mode</li>
+      <li>A flag <code>halfOrbit</code> is set once \(\theta\) goes negative (the orbit has passed through
+          the lower half-plane).</li>
+      <li>A flag <code>fullOrbit</code> is set once \(\theta\) returns positive after <code>halfOrbit</code>
+          is true — i.e., the orbit has come back around.</li>
+      <li>When <code>fullOrbit</code> fires, the orbit counter <code>nOrbits</code> increments; the
+          simulation stops when <code>nOrbits ≥ 1</code>.</li>
     </ul>
-    Users may overwrite these values to explore different systems.
-  </li>
-</ol>
+    <p>
+      This two-flag scheme handles both clockwise and counter-clockwise motion and avoids false
+      closure at the very first step.
+    </p>
 
-<p>
-To run the program:
-</p>
+    <div class="note">
+      <strong>Tip:</strong> The program stops naturally after <em>one</em> complete orbit of a
+      bound trajectory.  For unbound (hyperbolic) orbits it runs until <code>maxSteps</code> is
+      exhausted.  You can simulate multiple orbits by increasing <code>maxSteps</code> and leaving
+      the orbit counter inactive, or by running successive calls from <code>main.py</code>.
+    </div>
 
-<pre>
-python main.py
-</pre>
+    <h3>Accuracy Notes</h3>
+    <p>
+      The <code>eps1</code> and <code>eps2</code> parameters control independent aspects of
+      accuracy:
+    </p>
+    <ul>
+      <li><code>eps1 = 0.05</code> (default) is relatively loose.  Tightening to <code>0.005</code>
+          or <code>0.001</code> will increase step count but give a more faithful ellipse.</li>
+      <li><code>eps2 = 1×10⁻⁴</code> is the corrector convergence tolerance; it rarely needs
+          tuning for standard planetary orbits.</li>
+      <li>Setting either parameter to a large value (e.g. 10) disables the corresponding
+          correction entirely — useful for understanding what each contributes.</li>
+    </ul>
+  </section>
 
-<p>
-Depending on the selected output mode, the program will produce one or
-more plots showing orbital motion, velocity information, or energies.
-</p>
+  <!-- ── Modules ── -->
+  <section id="modules">
+    <h2>Module Overview</h2>
+    <div class="module-grid">
 
-<hr width="15%" size="4">
+      <div class="module-card">
+        <div class="mc-role">Physics Layer</div>
+        <div class="mc-name">physics_orbit.py</div>
+        <p>
+          Encodes Newton's gravitational acceleration law.  The only literal number is the
+          exponent in the inverse-square formula; the gravitational parameter \(k = GM\) is
+          always passed in as an argument so the physics is independent of any specific body.
+        </p>
+        <div class="sig">def compute_acceleration(x, y, k)
+  -> (ax, ay)</div>
+      </div>
 
-<h2 id="playing">Suggestions for playing with <tt><font size="+3">Orbit</font></tt></h2>
+      <div class="module-card">
+        <div class="mc-role">Driver Layer</div>
+        <div class="mc-name">driver_orbit.py</div>
+        <p>
+          Implements the full predictor-corrector integration loop with adaptive timestep
+          and orbit-closure detection.  Returns structured NumPy arrays appropriate for the
+          selected output mode.
+        </p>
+        <div class="sig">def run_orbit(
+  xInit=4.6e10, yInit=0.0,
+  vxInit=0.0, vyInit=58980.0,
+  k=1.327e20,
+  dt0=1e4,
+  maxSteps=20000,
+  eps1=0.05,
+  eps2=1e-4,
+  output="orbit"
+) -> arrays (mode-dependent)</div>
+      </div>
 
-<p>
-The Python version allows extensive experimentation. Here are some
-suggestions:
-</p>
+      <div class="module-card">
+        <div class="mc-role">Plot Layer</div>
+        <div class="mc-name">plot_orbit.py</div>
+        <p>
+          Receives the structured arrays from the driver and produces matplotlib figures.
+          Dispatches on the output mode string to select the appropriate plot type
+          (orbit trace, hodograph, time series, or energy curves).
+        </p>
+        <div class="sig">def plot_orbit(result, output="orbit")
+  -> matplotlib figure (displayed)</div>
+      </div>
 
-<ol>
-  <li><b>Planetary orbits.</b> Use perihelion distances and maximum
-      speeds from Table 4.3 of the book to simulate other planets.</li>
+      <div class="module-card">
+        <div class="mc-role">Entry Point</div>
+        <div class="mc-name">main.py</div>
+        <p>
+          User-editable entry point.  Set the initial conditions, gravitational parameter,
+          timestep, accuracy controls, and output mode here, then run this file to execute
+          the simulation and display the plot.
+        </p>
+        <div class="sig">from driver_orbit import run_orbit
+from plot_orbit  import plot_orbit
 
-  <li><b>Orbital periods.</b> Use “position vs time” or “velocity vs
-      time” output modes to measure orbital periods and compare them
-      with Table 4.2.</li>
+result = run_orbit(...)
+plot_orbit(result, output=...)</div>
+      </div>
 
-  <li><b>Velocity periodicity.</b> Use “velocity space” output to see
-      that velocity repeats each orbit, confirming closed orbits.</li>
+    </div>
+  </section>
 
-  <li><b>Unbound orbits.</b> Increase initial speed to produce
-      hyperbolic or parabolic trajectories.</li>
+  <!-- ── Parameters ── -->
+  <section id="parameters">
+    <h2>Parameters</h2>
+    <p>
+      All parameters are set in <code>main.py</code> as arguments to <code>run_orbit()</code>.
+      Defaults reproduce Mercury's orbit around the Sun.
+    </p>
 
-  <li><b>Energy conservation.</b> Use “energy vs time” to verify that
-      total energy remains constant and that bound orbits have negative
-      total energy.</li>
-</ol>
+    <table class="param-table">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default</th>
+          <th>Units</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="pname">xInit</td>
+          <td class="pdefault">4.6e10</td>
+          <td>m</td>
+          <td>Initial x-position (Mercury perihelion distance from Sun)</td>
+        </tr>
+        <tr>
+          <td class="pname">yInit</td>
+          <td class="pdefault">0.0</td>
+          <td>m</td>
+          <td>Initial y-position; start on the x-axis for a canonical perihelion launch</td>
+        </tr>
+        <tr>
+          <td class="pname">vxInit</td>
+          <td class="pdefault">0.0</td>
+          <td>m s⁻¹</td>
+          <td>Initial x-velocity; zero for a perpendicular perihelion launch</td>
+        </tr>
+        <tr>
+          <td class="pname">vyInit</td>
+          <td class="pdefault">58980.0</td>
+          <td>m s⁻¹</td>
+          <td>Initial y-velocity; Mercury's maximum orbital speed at perihelion</td>
+        </tr>
+        <tr>
+          <td class="pname">k</td>
+          <td class="pdefault">1.327e20</td>
+          <td>m³ s⁻²</td>
+          <td>Gravitational parameter \(GM\) for the central body (default: Sun)</td>
+        </tr>
+        <tr>
+          <td class="pname">dt0</td>
+          <td class="pdefault">1e4</td>
+          <td>s</td>
+          <td>Initial timestep; reduced automatically by eps1 control if needed</td>
+        </tr>
+        <tr>
+          <td class="pname">maxSteps</td>
+          <td class="pdefault">20000</td>
+          <td>—</td>
+          <td>Maximum integration steps; limits runtime for unbound orbits</td>
+        </tr>
+        <tr>
+          <td class="pname">eps1</td>
+          <td class="pdefault">0.05</td>
+          <td>—</td>
+          <td>Fractional-change threshold for adaptive timestep halving (sum-of-abs norm)</td>
+        </tr>
+        <tr>
+          <td class="pname">eps2</td>
+          <td class="pdefault">1e-4</td>
+          <td>—</td>
+          <td>Convergence threshold for predictor-corrector iteration</td>
+        </tr>
+        <tr>
+          <td class="pname">output</td>
+          <td class="pdefault">"orbit"</td>
+          <td>—</td>
+          <td>Output mode; see Output Modes section for all choices</td>
+        </tr>
+      </tbody>
+    </table>
 
-<hr width="15%" size="4">
+    <div class="note">
+      <strong>Common substitutions:</strong>
+      Earth-centered orbits: set <code>k = 3.986e14</code> (m³ s⁻²).
+      For the Moon at perigee: <code>xInit=3.626e8</code>, <code>vyInit=1082</code>.
+      For a comet near-parabolic orbit: set speed close to the escape speed
+      \(v_\text{esc} = \sqrt{2k/r}\).
+    </div>
+  </section>
 
-<h2 id="understanding">Understanding <tt><font size="+3">Orbit</font></tt></h2>
+  <!-- ── Output Modes ── -->
+  <section id="output">
+    <h2>Output Modes</h2>
+    <p>
+      The <code>output</code> parameter passed to <code>run_orbit()</code> selects what arrays
+      are returned and how <code>plot_orbit()</code> renders them.
+    </p>
 
-<p>
-The Python version introduces several important numerical techniques:
-</p>
+    <table class="out-table">
+      <thead>
+        <tr>
+          <th>Mode string</th>
+          <th>Returns</th>
+          <th>Plot produced</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="oname">"orbit"</td>
+          <td><code>xs, ys</code></td>
+          <td>Trajectory in the x-y orbital plane; displays as an ellipse for bound orbits</td>
+        </tr>
+        <tr>
+          <td class="oname">"velocity"</td>
+          <td><code>vx, vy</code></td>
+          <td>Velocity hodograph — the curve traced by \((v_x, v_y)\) through the orbit; always a circle for Newtonian gravity</td>
+        </tr>
+        <tr>
+          <td class="oname">"position_time"</td>
+          <td><code>ts, xs, ys</code></td>
+          <td>x-position and y-position vs. time; period readable from the repeating pattern</td>
+        </tr>
+        <tr>
+          <td class="oname">"velocity_time"</td>
+          <td><code>ts, vx, vy</code></td>
+          <td>x-velocity and y-velocity vs. time; confirms the orbit is periodic in velocity too</td>
+        </tr>
+        <tr>
+          <td class="oname">"energy"</td>
+          <td><code>ts, KE, PE, TE</code></td>
+          <td>Specific kinetic (\(\mathcal{K}\)), potential (\(\mathcal{U}\)), and total (\(\mathcal{E}\)) energy vs. time; total should be constant — deviations reveal numerical error</td>
+        </tr>
+      </tbody>
+    </table>
 
-<ol>
-  <li>
-    <b>Newton’s law of gravitation.</b><br>
-    The gravitational acceleration is:
-    <pre>
-a = -k / r**2
-    </pre>
-    with components:
-    <pre>
-ax = -k * x / r**3
-ay = -k * y / r**3
-    </pre>
-  </li>
+    <div class="note">
+      <strong>Verification tip:</strong> Run with <code>output="energy"</code> and examine how
+      flat the total energy curve is.  Tighten <code>eps1</code> and note the improvement; this
+      is a direct measure of numerical energy conservation.
+    </div>
+  </section>
 
-  <li>
-    <b>Adjustable time-step.</b><br>
-    The driver reduces the time-step when the fractional change in
-    acceleration exceeds a user-specified tolerance.
-  </li>
+  <!-- ── Suggested Experiments ── -->
+  <section id="experiments">
+    <h2>Suggested Experiments</h2>
 
-  <li>
-    <b>Predictor–corrector iteration.</b><br>
-    The driver iteratively refines the velocity and position updates
-    using beginning and ending accelerations until convergence.
-  </li>
+    <div class="exp-grid">
 
-  <li>
-    <b>Orbit closure detection.</b><br>
-    The driver uses angular information to determine when the planet
-    has completed one orbit.
-  </li>
-</ol>
+      <div class="exp-card">
+        <div class="ec-num">EXP-1</div>
+        <h4>Reproduce the Solar System</h4>
+        <p>
+          Use the perihelion distances and speeds from Table 4.3 of Schutz to set
+          <code>xInit</code> and <code>vyInit</code> for each planet.  Confirm that each
+          output orbit is a closed ellipse and compare the computed eccentricity to the
+          tabulated value.
+        </p>
+      </div>
 
-<hr width="15%" size="4">
+      <div class="exp-card">
+        <div class="ec-num">EXP-2</div>
+        <h4>Measure Orbital Periods</h4>
+        <p>
+          Switch to <code>output="position_time"</code>.  Read the period from the x-position
+          time series.  Verify Kepler's third law \(T^2 \propto a^3\) across multiple planets.
+        </p>
+      </div>
 
-<h2 id="suggestions">Suggested modifications</h2>
+      <div class="exp-card">
+        <div class="ec-num">EXP-3</div>
+        <h4>Velocity Hodograph</h4>
+        <p>
+          Set <code>output="velocity"</code> and plot the velocity-space curve.  For a
+          Newtonian \(1/r^2\) force, the hodograph is a <em>perfect circle</em>—one of the
+          elegant consequences of the inverse-square law discovered by Hamilton.
+        </p>
+      </div>
 
-<p>
-You may experiment with:
-</p>
+      <div class="exp-card">
+        <div class="ec-num">EXP-4</div>
+        <h4>Bound vs. Unbound Orbits</h4>
+        <p>
+          Starting from Mercury's perihelion, gradually increase <code>vyInit</code>.
+          At the escape speed \(v_\text{esc} = \sqrt{2k/\texttt{xInit}}\approx 75\,800\) m s⁻¹
+          the orbit opens into a parabola; above it, a hyperbola.
+        </p>
+      </div>
 
-<ul>
-  <li>different accuracy tolerances</li>
-  <li>different predictor–corrector thresholds</li>
-  <li>alternative time-step control strategies</li>
-  <li>different gravitational parameters</li>
-</ul>
+      <div class="exp-card">
+        <div class="ec-num">EXP-5</div>
+        <h4>Direction Independence of Binding</h4>
+        <p>
+          Keep the speed fixed but rotate the initial velocity vector (adjust
+          <code>vxInit</code> and <code>vyInit</code> so that \(v_x^2 + v_y^2\) is constant).
+          Verify that the orbit changes shape but bound/unbound character does not — a
+          consequence of energy conservation.
+        </p>
+      </div>
 
-<hr width="15%" size="4">
+      <div class="exp-card">
+        <div class="ec-num">EXP-6</div>
+        <h4>Energy Conservation Accuracy</h4>
+        <p>
+          Run with <code>output="energy"</code> and progressively tighten <code>eps1</code>
+          from <code>0.5</code> to <code>0.001</code>.  Plot how the total-energy drift scales
+          with <code>eps1</code>; this demonstrates that accuracy improves systematically with
+          the control parameter.
+        </p>
+      </div>
 
-<h2 id="listing">Python source code</h2>
+      <div class="exp-card">
+        <div class="ec-num">EXP-7</div>
+        <h4>Disable Corrections</h4>
+        <p>
+          Set <code>eps1 = 10</code> (disable adaptive timestep) and <code>eps2 = 10</code>
+          (disable predictor-corrector).  Observe how the orbit drifts and energy fails
+          to conserve — a vivid illustration of what the two accuracy techniques accomplish.
+        </p>
+      </div>
 
-<p>
-The complete Python implementation of <tt>Orbit</tt> is available at:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Orbit">
-  https://github.com/tomyee3/GFTGU-Programs/tree/main/Orbit
-</a>
-</p>
+      <div class="exp-card">
+        <div class="ec-num">EXP-8</div>
+        <h4>Moon Around Earth</h4>
+        <p>
+          Set <code>k = 3.986e14</code>, <code>xInit = 3.626e8</code> (perigee distance),
+          <code>vyInit = 1082</code> m s⁻¹, and scale <code>dt0</code> to ~100 s.
+          The output should be a nearly circular orbit with a period of ≈ 27.3 days.
+        </p>
+      </div>
 
-<p>
-Updated help documentation is maintained at:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/04-Orbit">
-  https://github.com/tomyee3/GFTGU-Documentation/tree/main/04-Orbit
-</a>
-</p>
+    </div>
+  </section>
 
-<p>
-This documentation is released under the Creative Commons
-Attribution–NonCommercial–ShareAlike 4.0 International License:
-<br>
-<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
-  https://creativecommons.org/licenses/by-nc-sa/4.0/
-</a>
-</p>
+  <!-- ── Related Programs ── -->
+  <section id="related">
+    <h2>Related Programs</h2>
+    <ul class="related-list">
+      <li>
+        <strong>Binary</strong> —
+        Extends Orbit to the full two-body problem where both bodies orbit their common
+        centre of mass.  Uses the same predictor-corrector integration but treats two
+        mutually attracting bodies.
+      </li>
+      <li>
+        <strong>RelativisticOrbit</strong> —
+        Adds the leading-order general-relativistic (Schwarzschild) correction term to the
+        Newtonian acceleration.  Produces the famous perihelion precession absent from this
+        Newtonian version.
+      </li>
+      <li>
+        <strong>SphereGravity</strong> —
+        Uses the same gravitational acceleration law to verify the shell theorem: a uniform
+        spherical shell exerts no net force on a particle inside it and acts like a point
+        mass on a particle outside.
+      </li>
+      <li>
+        <strong>Multiple_RK45</strong> —
+        An N-body integrator using a Runge-Kutta-Fehlberg RK45 adaptive step solver.
+        Extends the two-body idea to arbitrary numbers of mutually interacting masses.
+      </li>
+    </ul>
+  </section>
 
-<p>
-Creative Commons address:
-<br>
-Creative Commons  
-PO Box 1866  
-Mountain View, CA 94042  
-USA
-</p>
+  <!-- ── License ── -->
+  <section id="license">
+    <h2>License</h2>
+    <p>
+      This Python port is derived from the original Java programs by
+      <strong>Bernard Schutz</strong> accompanying
+      <em>Gravity from the Ground Up</em> (Cambridge University Press, 2003).
+      The port is distributed under the
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+         target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+         International (CC BY-NC-SA 4.0)</a> license.
+    </p>
+    <p>
+      You are free to share and adapt the material for non-commercial purposes, provided
+      you give appropriate credit and distribute any adaptations under the same license.
+    </p>
+  </section>
+
+</main><!-- /main -->
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════ -->
+<footer>
+  <em>Gravity from the Ground Up</em> — Python Programs ·
+  Original Java © 2003 Bernard Schutz (Cambridge University Press) ·
+  Python port © 2024–2026 Thomas Yee ·
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> ·
+  <a href="https://github.com/tomyee3/GFTGU-Programs" target="_blank">GitHub Repository</a>
+</footer>
+
+</div><!-- /page-wrap -->
+
+<!-- ── Sidebar active-link tracking ── -->
+<script>
+  (function () {
+    const links = document.querySelectorAll('nav a');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const match = document.querySelector(`nav a[href="#${e.target.id}"]`);
+          if (match) match.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('main section[id]').forEach(s => observer.observe(s));
+  })();
+</script>
 
 </body>
 </html>
