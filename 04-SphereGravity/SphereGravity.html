@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SphereGravity – Help File | GFtGU Programs</title>
+
+  <!-- MathJax 3 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath:  [['\\(','\\)']],
+        displayMath: [['\\[','\\]']],
+        tags: 'ams'
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+          id="MathJax-script" async></script>
+
+  <style>
+    /* ── Reset & custom properties ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #fdf5e6;
+      --surface:  #ffffff;
+      --border:   #c8bfa0;
+      --accent:   #7b2d00;
+      --accent2:  #a04010;
+      --gold:     #b5811a;
+      --text:     #1c1c1c;
+      --muted:    #5a4a3a;
+      --code-bg:  #f0ede4;
+      --note-bg:  #f4f0e8;
+      --eq-bg:    #f7f2e8;
+      --radius:   5px;
+      --shadow:   0 2px 8px rgba(0,0,0,0.10);
+      --mono:     "Courier New", Courier, monospace;
+      --sans:     "Helvetica Neue", Arial, sans-serif;
+      --serif:    Georgia, "Times New Roman", Times, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 1.80;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Page grid ── */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      grid-column: 1 / -1;
+      background: var(--accent);
+      color: #fff;
+      padding: 26px 38px 20px;
+      border-bottom: 4px solid var(--gold);
+    }
+    header .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 3px;
+      padding: 2px 7px;
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 1.95rem;
+      font-weight: normal;
+      letter-spacing: -.02em;
+    }
+    header h1 em { font-style: normal; color: #ffc9a0; }
+    header .sub {
+      margin-top: 6px;
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: #f0d0b8;
+      line-height: 1.55;
+    }
+    header .sub a {
+      color: #ffd8b8;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,200,150,.4);
+    }
+    header .sub a:hover { border-bottom-color: #ffd8b8; }
+
+    /* ── Sidebar ── */
+    nav {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 0 40px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .nav-label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 14px 18px 4px;
+    }
+    nav a {
+      display: block;
+      padding: 5px 18px 5px 22px;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      line-height: 1.45;
+    }
+    nav a:hover {
+      color: var(--accent);
+      border-left-color: var(--gold);
+      background: rgba(181,129,26,.07);
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 40px 48px 60px;
+      max-width: 900px;
+    }
+
+    /* ── Section headings ── */
+    h2 {
+      font-size: 1.35rem;
+      font-weight: normal;
+      color: var(--accent);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+      margin: 48px 0 18px;
+      letter-spacing: -.01em;
+    }
+    h2:first-of-type { margin-top: 0; }
+    h3 {
+      font-size: 1.05rem;
+      color: var(--accent2);
+      margin: 26px 0 10px;
+      font-weight: bold;
+    }
+
+    p { margin-bottom: 1em; }
+
+    /* ── Equation blocks ── */
+    .eq-block {
+      background: var(--eq-bg);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 20px;
+      margin: 18px 0;
+      overflow-x: auto;
+    }
+    .eq-label {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin-bottom: 6px;
+    }
+
+    /* ── Note / callout ── */
+    .note {
+      background: var(--note-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent2);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin: 18px 0;
+    }
+    .note strong { color: var(--accent2); }
+
+    /* ── Code ── */
+    code {
+      font-family: var(--mono);
+      font-size: 0.88em;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1px 5px;
+    }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 0.845rem;
+      line-height: 1.55;
+      margin: 14px 0;
+    }
+
+    /* ── Parameter table ── */
+    .param-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      margin: 16px 0;
+      box-shadow: var(--shadow);
+    }
+    .param-table th {
+      background: var(--accent);
+      color: #fff;
+      padding: 9px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: .04em;
+    }
+    .param-table td {
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .param-table tr:nth-child(even) td { background: rgba(0,0,0,0.025); }
+    .param-table tr:last-child td { border-bottom: none; }
+    .param-table td:first-child {
+      font-family: var(--mono);
+      font-size: 0.83em;
+      color: var(--accent2);
+      white-space: nowrap;
+    }
+    .param-table td:nth-child(2) { color: var(--muted); white-space: nowrap; }
+    .param-table td:nth-child(3) { font-family: var(--mono); font-size: 0.83em; }
+
+    /* ── Module cards ── */
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .module-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+    }
+    .module-card h4 {
+      font-family: var(--mono);
+      font-size: 0.92rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .module-card .mod-role {
+      font-family: var(--sans);
+      font-size: 0.80rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin-bottom: 10px;
+    }
+    .module-card p {
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .module-card .sig {
+      font-family: var(--mono);
+      font-size: 0.80rem;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 6px 10px;
+      color: var(--text);
+      margin-top: 4px;
+    }
+
+    /* ── Scenario cards ── */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+      margin: 20px 0;
+    }
+    .scenario-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+    }
+    .scenario-card h4 {
+      font-family: var(--sans);
+      font-size: 0.90rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .scenario-card p {
+      font-family: var(--sans);
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 6px;
+    }
+    .scenario-card .sc-params {
+      font-family: var(--mono);
+      font-size: 0.79rem;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 5px 9px;
+      margin-top: 6px;
+    }
+
+    /* ── Output mode pills ── */
+    .mode-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .mode-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+    }
+    .mode-pill {
+      flex-shrink: 0;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 3px;
+      padding: 3px 9px;
+      margin-top: 2px;
+    }
+    .mode-item p {
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* ── Related programs list ── */
+    .related-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .related-tag {
+      font-family: var(--mono);
+      font-size: 0.83rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 5px 12px;
+      color: var(--accent2);
+      text-decoration: none;
+    }
+    .related-tag:hover { background: var(--note-bg); }
+
+    /* ── Algorithm steps ── */
+    .algo-steps {
+      counter-reset: algo;
+      list-style: none;
+      margin: 14px 0;
+    }
+    .algo-steps li {
+      counter-increment: algo;
+      display: flex;
+      gap: 14px;
+      margin-bottom: 12px;
+      font-family: var(--sans);
+      font-size: 0.89rem;
+      color: var(--muted);
+    }
+    .algo-steps li::before {
+      content: counter(algo);
+      flex-shrink: 0;
+      width: 24px; height: 24px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      grid-column: 1 / -1;
+      background: var(--accent);
+      color: rgba(255,255,255,0.70);
+      font-family: var(--sans);
+      font-size: 0.80rem;
+      text-align: center;
+      padding: 16px 24px;
+      border-top: 3px solid var(--gold);
+    }
+    footer a { color: #ffd8b8; text-decoration: none; }
+  </style>
+</head>
+
+<body>
+<div class="page-wrap">
+
+<!-- ══════════════════════ HEADER ══════════════════════ -->
+<header>
+  <div class="badge">CHAPTER 4 · INVESTIGATION 4.3</div>
+  <h1>Sphere<em>Gravity</em></h1>
+  <div class="sub">
+    Numerical verification of Newton's shell theorem for spherical mass distributions
+    &nbsp;·&nbsp;
+    <a href="https://www.gravityfromthegroundup.org/programs/SphereGravity.html"
+       target="_blank" rel="noopener">Schutz's original Java help file</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/SphereGravity"
+       target="_blank" rel="noopener">Python source on GitHub</a>
+  </div>
+</header>
+
+<!-- ══════════════════════ SIDEBAR ══════════════════════ -->
+<nav>
+  <div class="nav-label">Overview</div>
+  <a href="#overview">What this program does</a>
+  <a href="#background">Physical background</a>
+
+  <div class="nav-label">Physics</div>
+  <a href="#shell-theorem">Newton's shell theorem</a>
+  <a href="#equations">Governing equations</a>
+
+  <div class="nav-label">Numerical Methods</div>
+  <a href="#algorithm">Tiling algorithm</a>
+  <a href="#accuracy">Accuracy &amp; convergence</a>
+
+  <div class="nav-label">Code</div>
+  <a href="#modules">Module overview</a>
+  <a href="#parameters">Parameters</a>
+  <a href="#output-modes">Output modes</a>
+
+  <div class="nav-label">Usage</div>
+  <a href="#quickstart">Quick start</a>
+  <a href="#experiments">Suggested experiments</a>
+
+  <div class="nav-label">Reference</div>
+  <a href="#related">Related programs</a>
+</nav>
+
+<!-- ══════════════════════ MAIN ══════════════════════ -->
+<main>
+
+  <!-- ── Overview ── -->
+  <h2 id="overview">What This Program Does</h2>
+  <p>
+    <strong>SphereGravity</strong> computes the gravitational acceleration produced by a thin
+    spherical shell of matter at a series of radial distances ranging from deep inside the shell
+    to far outside it. The calculation is purely numerical: the shell is divided into
+    <em>n</em><sub>div</sub>&thinsp;&times;&thinsp;<em>n</em><sub>div</sub> small tiles, each
+    tile is treated as a point mass, and their individual gravitational contributions are summed
+    to give the total acceleration at each observation radius.
+  </p>
+  <p>
+    The program can display either the raw acceleration profile or the <em>relative difference</em>
+    between the numerical result and the exact Newtonian prediction. The latter mode makes it
+    easy to see how rapidly the computation converges to the analytical answer as the number of
+    tiles is increased.
+  </p>
+
+  <!-- ── Physical Background ── -->
+  <h2 id="background">Physical Background</h2>
+  <p>
+    One of Newton's most beautiful results in the <em>Principia</em> is the <strong>shell
+    theorem</strong>: a uniform spherical shell of mass \(M\) and radius \(R\) exerts exactly the
+    same gravitational force on any external test mass as if all of \(M\) were concentrated at the
+    shell's center. Furthermore, a test mass placed <em>anywhere inside</em> the hollow shell
+    experiences <em>no net gravitational force at all</em>.
+  </p>
+  <p>
+    These results have profound consequences throughout physics and astronomy. They allow us to
+    treat the Earth, Sun, and any other spherically symmetric body as point masses when computing
+    orbits. They also underlie the equivalence principle arguments used in cosmology, where matter
+    enclosed within a sphere of radius \(r\) is the only matter relevant for dynamics at that radius.
+  </p>
+  <p>
+    Newton proved the theorem analytically. Here we verify it numerically: because any spherically
+    symmetric body can be decomposed into a nested set of thin shells, proving the result for a
+    single thin shell suffices for the general case, as Schutz explains in Investigation 4.3.
+  </p>
+
+  <!-- ── Shell Theorem ── -->
+  <h2 id="shell-theorem">Newton's Shell Theorem</h2>
+  <p>
+    For a thin spherical shell of total mass \(M\) and radius \(R\), the gravitational acceleration
+    \(g\) at radial distance \(r\) from the center is:
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. 1 — Shell theorem (exact Newtonian result)</div>
+    \[
+      g(r) = \begin{cases}
+        \dfrac{GM}{r^2} & r > R \quad (\text{outside the shell}) \\[10pt]
+        0               & r < R \quad (\text{inside the hollow shell})
+      \end{cases}
+    \]
+  </div>
+
+  <p>
+    The program uses <em>dimensionless</em> units throughout: the shell radius is set to
+    \(R = 1\), the shell's surface density \(\rho = 1\), and \(G = 1\). The shell's relative
+    thickness (ratio of physical thickness to radius) is \(\varepsilon = 0.001\), small enough
+    that the thin-shell approximation is excellent.
+  </p>
+
+  <!-- ── Governing Equations ── -->
+  <h2 id="equations">Governing Equations</h2>
+
+  <h3>Shell geometry and tile masses</h3>
+  <p>
+    The shell is parameterised by latitude angle \(\theta\) (measured from the equator,
+    ranging from \(-\pi/2\) at the south pole to \(+\pi/2\) at the north pole) and azimuthal
+    angle \(\varphi\). The shell is divided into \(n_\text{div}\) equal steps in each coordinate.
+    The angular step sizes are:
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. 2 — Angular step sizes</div>
+    \[
+      \Delta\varphi = \frac{2\pi}{n_\text{div}}, \qquad
+      \Delta\theta  = \frac{\Delta\varphi}{2}
+    \]
+  </div>
+
+  <p>
+    Each tile at latitude \(\theta\) has a surface area element \(\Delta A = \cos\theta\,
+    \Delta\theta\,\Delta\varphi\) (in units where \(R = 1\)). The mass of each tile is:
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. 3 — Tile mass</div>
+    \[
+      \delta m = \varepsilon\,\rho\,R^2\,\cos\theta\;\Delta\theta\;\Delta\varphi
+              \;\longrightarrow\;
+              \varepsilon\,\cos\theta\;\Delta\theta\;\Delta\varphi
+              \quad (R = \rho = 1)
+    \]
+  </div>
+
+  <p>
+    All \(n_\text{div}\) tiles in a ring of constant latitude are identical, so the ring's
+    contribution to the total mass is \(n_\text{div}\,\delta m\). The total shell mass, computed
+    by summing all rings, evaluates analytically to \(M = 4\pi\varepsilon\).
+  </p>
+
+  <h3>Distance from tile to observer</h3>
+  <p>
+    By the azimuthal symmetry of the problem the observation point is placed at position
+    \(r\) along the shell's symmetry axis. The distance from a tile at latitude \(\theta\) to
+    the observer at radius \(r\) is:
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. 4 — Distance from tile to observer</div>
+    \[
+      d(\theta,r) = \sqrt{1 + r^2 + 2r\sin\theta}
+    \]
+  </div>
+
+  <h3>Axial component of acceleration</h3>
+  <p>
+    The gravitational acceleration toward the center of the shell contributed by a single ring
+    of tiles is:
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. 5 — Ring contribution to radial acceleration</div>
+    \[
+      \delta g = n_\text{div}\;\frac{G\,\delta m\;(r + \sin\theta)}{d(\theta,r)^3}
+    \]
+  </div>
+
+  <p>
+    where the factor \((r + \sin\theta)\) is the projection of the tile-to-observer vector
+    onto the symmetry axis. The total acceleration at radius \(r\) is:
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. 6 — Total numerical acceleration</div>
+    \[
+      g_\text{num}(r) = \sum_{k=0}^{n_\text{div}-1} \delta g_k
+    \]
+  </div>
+
+  <h3>Relative difference</h3>
+  <p>
+    When the <em>relative difference</em> output mode is selected, the program reports:
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Eq. 7 — Relative difference from Newton's theorem</div>
+    \[
+      \delta(r) = \begin{cases}
+        \dfrac{g_\text{num}(r) - g_\text{Newton}(r)}{g_\text{Newton}(r)} &
+          r > 1 \quad\bigl(g_\text{Newton} = M/r^2\bigr)\\[10pt]
+        \dfrac{g_\text{num}(r)}{M} &
+          r \leq 1 \quad \text{(inside: Newton predicts zero)}
+      \end{cases}
+    \]
+  </div>
+
+  <p>
+    Outside the shell the Newtonian acceleration is \(g_\text{Newton} = M/r^2\) (with \(G=1\)).
+    Inside the shell Newton predicts exactly zero, so the raw numerical acceleration is
+    normalised by \(M\) (the Newtonian acceleration just outside the surface) to produce a
+    dimensionless measure of the residual error.
+  </p>
+
+  <!-- ── Algorithm ── -->
+  <h2 id="algorithm">Tiling Algorithm</h2>
+  <p>
+    The computation follows a straightforward nested-loop scheme described in Investigation 4.3
+    of <em>Gravity from the Ground Up</em>:
+  </p>
+
+  <ol class="algo-steps">
+    <li>
+      <strong>Initialise geometry.</strong>
+      Compute the angular step sizes \(\Delta\varphi\) and \(\Delta\theta\), and set the initial
+      latitude \(\theta_0 = \tfrac{1}{2}\Delta\theta - 90°\) (centre of the first tile, just
+      above the south pole).
+    </li>
+    <li>
+      <strong>Compute total shell mass.</strong>
+      Loop over all \(n_\text{div}\) latitude rings. For each ring accumulate
+      \(\Delta M_k = n_\text{div}\;\delta m_k\). This gives the normalisation constant \(M\)
+      used in relative-difference mode.
+    </li>
+    <li>
+      <strong>Outer loop: radial positions.</strong>
+      Step through 1 000 observation radii \(r_j = 0.1\,j\) for \(j = 0, 1, \ldots, 999\)
+      (the range \(r \in [0, 99.9]\), with the shell at \(r = 1\)).
+    </li>
+    <li>
+      <strong>Skip the shell surface.</strong>
+      The step at \(j = 10\) (i.e., \(r = 1.0\)) falls exactly on the shell. Newtonian gravity
+      is not well-defined there (it depends on shell thickness and the exact location within the
+      shell), so this point is skipped and its acceleration is set to zero.
+    </li>
+    <li>
+      <strong>Inner loop: tile summation.</strong>
+      For each \(r_j\), loop over all \(n_\text{div}\) latitude rings. Compute
+      \(d_k = \sqrt{1 + r_j^2 + 2\,r_j\,\sin\theta_k}\) and add the ring's contribution
+      (Eq. 5) to the running sum \(g_\text{num}(r_j)\).
+    </li>
+    <li>
+      <strong>Post-process for output mode.</strong>
+      If <em>relative difference</em> is selected, convert each acceleration value using Eq. 7.
+      Otherwise output the raw acceleration array.
+    </li>
+  </ol>
+
+  <div class="note">
+    <strong>Computational cost:</strong> The inner loop executes \(n_\text{div}\) times for each
+    of the 1 000 radii, so the total work scales as \(\mathcal{O}(1000 \times n_\text{div})\).
+    The mass-summation loop adds another \(\mathcal{O}(n_\text{div})\). For
+    \(n_\text{div} = 10\,000\) this is \(10^7\) floating-point operations — fast on modern
+    hardware but noticeable. Note that this is different from Schutz's Java description, which
+    quotes \(n_\text{div}^2\) tiles; here each latitude ring contributes \(n_\text{div}\) tiles
+    but they are accounted for analytically (all tiles in a ring are identical), so the actual
+    loop count is \(n_\text{div}\), not \(n_\text{div}^2\).
+  </div>
+
+  <!-- ── Accuracy ── -->
+  <h2 id="accuracy">Accuracy and Convergence</h2>
+  <p>
+    The key parameter controlling accuracy is <code>nDiv</code>. As it increases the tiles become
+    smaller and their point-mass approximation improves. Schutz's Java program shows the following
+    convergence behaviour in the relative-difference output, which the Python port reproduces:
+  </p>
+
+  <table class="param-table">
+    <thead>
+      <tr>
+        <th>nDiv</th>
+        <th>Max relative error (just outside shell)</th>
+        <th>Run-time scaling</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>100</td><td>≈ 3 × 10<sup>−2</sup></td><td>baseline</td></tr>
+      <tr><td>1 000</td><td>≈ 10<sup>−5</sup></td><td>10×</td></tr>
+      <tr><td>10 000</td><td>≈ 10<sup>−7</sup></td><td>100×</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    Because the error arises from approximating smooth integrals by a finite Riemann sum, the
+    convergence rate is approximately \(\delta \sim n_\text{div}^{-2}\): doubling the number of
+    divisions roughly quarters the error.
+  </p>
+
+  <!-- ── Modules ── -->
+  <h2 id="modules">Module Overview</h2>
+  <p>
+    The program is split into four Python modules following the standard GFtGU separation of
+    concerns:
+  </p>
+
+  <div class="module-grid">
+
+    <div class="module-card">
+      <div class="mod-role">Physics</div>
+      <h4>physics_spheregravity.py</h4>
+      <p>
+        Encodes the shell-tiling algorithm and the gravitational summation. All physical
+        formulas (Eqs. 2–7) live here. The only literal numbers in this module are
+        physical constants: \(\pi\) and the conversion factor \(\pi/180\).
+      </p>
+      <div class="sig">compute_shell_mass(nDiv, epsilon=0.001) → float</div>
+      <div class="sig" style="margin-top:6px">compute_acceleration_profile(nDiv,
+        outputType='acceleration', epsilon=0.001) → (list, list)</div>
+    </div>
+
+    <div class="module-card">
+      <div class="mod-role">Driver</div>
+      <h4>driver_spheregravity.py</h4>
+      <p>
+        Thin orchestration layer that calls the physics module and returns the
+        <code>(radius, acceleration)</code> arrays. Provides a clean interface so that
+        <code>main.py</code> and the plot module are decoupled from the physics internals.
+      </p>
+      <div class="sig">run_spheregravity(nDiv=100,
+        outputType='acceleration') → (list, list)</div>
+    </div>
+
+    <div class="module-card">
+      <div class="mod-role">Plot</div>
+      <h4>plot_spheregravity.py</h4>
+      <p>
+        Accepts the <code>(radius, acceleration)</code> arrays from the driver and renders a
+        matplotlib figure. Axis labels and title adapt automatically to the selected output
+        mode.
+      </p>
+      <div class="sig">plot_spheregravity(radius, acceleration,
+        outputType='acceleration') → None</div>
+    </div>
+
+    <div class="module-card">
+      <div class="mod-role">Entry Point</div>
+      <h4>main.py</h4>
+      <p>
+        The only file the user needs to edit. Set <code>nDiv</code> and
+        <code>outputType</code>, then run <code>python main.py</code>. Calls
+        <code>run_spheregravity()</code> and passes the result to
+        <code>plot_spheregravity()</code>.
+      </p>
+      <div class="sig">nDiv = 500<br>outputType = 'relative difference'</div>
+    </div>
+
+  </div>
+
+  <!-- ── Parameters ── -->
+  <h2 id="parameters">Parameters</h2>
+  <p>
+    All user-adjustable parameters are set in <code>main.py</code>. The physics module also
+    exposes <code>epsilon</code> as an optional keyword argument; it is fixed at
+    <code>0.001</code> for normal use.
+  </p>
+
+  <table class="param-table">
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Default</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>nDiv</td>
+        <td>500</td>
+        <td>int</td>
+        <td>
+          Number of angular divisions per coordinate. The shell is divided into
+          <em>n</em><sub>div</sub> latitude rings, each containing
+          <em>n</em><sub>div</sub> tiles. Larger values give higher accuracy at the cost of
+          longer computation time. Slider maximum in Schutz's original GUI was 10 000.
+        </td>
+      </tr>
+      <tr>
+        <td>outputType</td>
+        <td>'relative difference'</td>
+        <td>str</td>
+        <td>
+          Selects what the plot displays. Either <code>'acceleration'</code> (raw
+          \(g(r)\)) or <code>'relative difference'</code> (fractional error from
+          Newton's theorem per Eq. 7).
+        </td>
+      </tr>
+      <tr>
+        <td>epsilon</td>
+        <td>0.001</td>
+        <td>float</td>
+        <td>
+          Fractional thickness of the shell (\(\varepsilon = \text{thickness}/R\)). Does not
+          affect the accuracy of the point-mass approximation, but does scale the total mass
+          \(M = 4\pi\varepsilon\). Fixed in the original Java; exposed as a keyword argument
+          in the Python port.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── Output modes ── -->
+  <h2 id="output-modes">Output Modes</h2>
+
+  <div class="mode-list">
+    <div class="mode-item">
+      <div class="mode-pill">acceleration</div>
+      <p>
+        Plots the computed gravitational acceleration \(g_\text{num}(r)\) versus radius \(r\).
+        Outside the shell (\(r > 1\)) you will see the characteristic \(1/r^2\) falloff; inside
+        (\(r < 1\)) the acceleration is essentially zero. The shell radius \(R = 1\) is the
+        boundary between the two regions.
+      </p>
+    </div>
+    <div class="mode-item">
+      <div class="mode-pill">relative difference</div>
+      <p>
+        Plots the fractional deviation between the numerical result and Newton's exact prediction
+        (Eq. 7). This mode is more informative for convergence studies: as <code>nDiv</code>
+        increases the curve should drop closer and closer to zero everywhere. Inside the shell,
+        where Newton predicts \(g = 0\), the residual acceleration normalised by \(M\) is plotted
+        instead.
+      </p>
+    </div>
+  </div>
+
+  <!-- ── Quick start ── -->
+  <h2 id="quickstart">Quick Start</h2>
+
+  <h3>Running the program</h3>
+  <pre>cd SphereGravity
+python main.py</pre>
+
+  <p>
+    With the default settings (<code>nDiv = 500</code>, <code>outputType = 'relative
+    difference'</code>) the program computes the acceleration profile over 1 000 radii and
+    opens a matplotlib window. The plot shows the fractional error in the shell-theorem
+    computation, which should be on the order of \(10^{-6}\) at its worst.
+  </p>
+
+  <h3>Switching output mode</h3>
+  <pre># In main.py — show raw acceleration instead of relative difference
+nDiv       = 100
+outputType = 'acceleration'</pre>
+
+  <h3>Running programmatically</h3>
+  <pre>from driver_spheregravity import run_spheregravity
+from plot_spheregravity   import plot_spheregravity
+
+radius, accel = run_spheregravity(nDiv=1000, outputType='relative difference')
+plot_spheregravity(radius, accel, outputType='relative difference')</pre>
+
+  <!-- ── Experiments ── -->
+  <h2 id="experiments">Suggested Experiments</h2>
+  <p>
+    The following scenarios are drawn from Schutz's suggestions in Chapter 4 and extended
+    with additional numerical investigations:
+  </p>
+
+  <div class="scenario-grid">
+
+    <div class="scenario-card">
+      <h4>1 · Verify the Shell Theorem Visually</h4>
+      <p>
+        Run with the default parameters and <code>outputType = 'acceleration'</code>. Confirm
+        that the acceleration is zero for \(r &lt; 1\) and follows a \(1/r^2\) curve for
+        \(r > 1\). The discontinuity at \(r = 1\) (the shell surface, skipped by the program)
+        should be apparent.
+      </p>
+      <div class="sc-params">nDiv=500 · outputType='acceleration'</div>
+    </div>
+
+    <div class="scenario-card">
+      <h4>2 · Convergence Study: Powers of Ten</h4>
+      <p>
+        Switch to <code>outputType = 'relative difference'</code> and run with
+        <code>nDiv = 10, 100, 1000, 10000</code> in succession. Observe the maximum relative
+        error decrease from roughly 30% down to \(\sim 10^{-7}\), confirming
+        \(\delta \propto n_\text{div}^{-2}\).
+      </p>
+      <div class="sc-params">nDiv=10 / 100 / 1000 / 10000 · outputType='relative difference'</div>
+    </div>
+
+    <div class="scenario-card">
+      <h4>3 · Worst-Case Error Location</h4>
+      <p>
+        At low accuracy (small <code>nDiv</code>) the relative error peaks just outside the
+        shell at \(r \approx 1.1\). Verify this by plotting with <code>nDiv = 100</code> and
+        locating the maximum of \(|\delta(r)|\). As <code>nDiv</code> grows the peak migrates
+        and shrinks.
+      </p>
+      <div class="sc-params">nDiv=100 · outputType='relative difference'</div>
+    </div>
+
+    <div class="scenario-card">
+      <h4>4 · Inside the Shell: Residual Acceleration</h4>
+      <p>
+        With <code>outputType = 'relative difference'</code>, examine the values for
+        \(r &lt; 1\). These should be very small (ideally zero), but numerical discretisation
+        gives a non-zero residual. Watch how this residual shrinks as <code>nDiv</code>
+        increases, providing a second convergence indicator.
+      </p>
+      <div class="sc-params">nDiv=100 / 1000 · focus on r &lt; 1</div>
+    </div>
+
+    <div class="scenario-card">
+      <h4>5 · Effect of Shell Thickness</h4>
+      <p>
+        Vary the optional <code>epsilon</code> parameter in <code>physics_spheregravity.py</code>
+        (e.g., 0.1, 0.01, 0.001). Note that <code>epsilon</code> scales the total mass \(M\)
+        but should not affect the <em>relative difference</em> output, confirming that the
+        shell-theorem result is independent of thickness.
+      </p>
+      <div class="sc-params">epsilon=0.1 / 0.01 / 0.001 · outputType='relative difference'</div>
+    </div>
+
+    <div class="scenario-card">
+      <h4>6 · Ellipsoidal Shell (Advanced)</h4>
+      <p>
+        Schutz's suggested modification: replace the spherical shell with an
+        axially-symmetric ellipsoidal shell. The shell-theorem result (zero interior
+        acceleration) still holds for ellipsoids, but the exterior field differs from a point
+        mass. Modify <code>physics_spheregravity.py</code> to parameterise the shell by an
+        axis ratio \(a/b\) and verify the interior result.
+      </p>
+      <div class="sc-params">custom: replace r=1 shell with r=sqrt(cos²θ + (a/b)²sin²θ)</div>
+    </div>
+
+  </div>
+
+  <!-- ── Related programs ── -->
+  <h2 id="related">Related Programs</h2>
+  <p>
+    <strong>SphereGravity</strong> is the first gravitational computation in the book, establishing
+    the numerical foundations used by later programs:
+  </p>
+  <div class="related-list">
+    <a class="related-tag" href="../Star/Star_Help.html">Star (Ch. 8)</a>
+    <a class="related-tag" href="../Neutron/Neutron_Help.html">Neutron (Ch. 8)</a>
+    <a class="related-tag" href="../RelativisticOrbit/RelativisticOrbit_Help.html">RelativisticOrbit (Ch. 8)</a>
+    <a class="related-tag" href="../Multiple_RK45/Multiple_RK45_Help.html">Multiple_RK45 (Ch. 4/8)</a>
+    <a class="related-tag" href="../Atmosphere/Atmosphere_Help.html">Atmosphere (Ch. 7)</a>
+  </div>
+
+  <p style="margin-top:18px; font-family:var(--sans); font-size:0.875rem; color:var(--muted);">
+    <strong>Textbook reference:</strong>
+    B. F. Schutz, <em>Gravity from the Ground Up</em>, Cambridge University Press, 2003.
+    Chapter 4, Investigation 4.3 ("Newton's shell theorem").
+  </p>
+
+</main>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer>
+  GFtGU Programs &mdash; Python ports of Bernard Schutz's
+  <em>Gravity from the Ground Up</em> (Cambridge, 2003) &mdash;
+  Documentation by Thomas Yee &mdash;
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"
+     rel="noopener">CC BY-NC-SA 4.0</a>
+</footer>
+
+</div><!-- .page-wrap -->
+</body>
+</html>
