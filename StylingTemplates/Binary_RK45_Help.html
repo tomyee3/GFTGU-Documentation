@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Binary_RK45 – Help File | GFtGU Programs</title>
+
+  <!-- MathJax 3 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath:  [['\\(','\\)']],
+        displayMath: [['\\[','\\]']],
+        tags: 'ams'
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+          id="MathJax-script" async></script>
+
+  <style>
+    /* ── Reset & custom properties ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #fdf5e6;
+      --surface:  #ffffff;
+      --border:   #c8bfa0;
+      --accent:   #7b2d00;
+      --accent2:  #a04010;
+      --gold:     #b5811a;
+      --text:     #1c1c1c;
+      --muted:    #5a4a3a;
+      --code-bg:  #f0ede4;
+      --note-bg:  #f4f0e8;
+      --eq-bg:    #f7f2e8;
+      --radius:   5px;
+      --shadow:   0 2px 8px rgba(0,0,0,0.10);
+      --mono:     "Courier New", Courier, monospace;
+      --sans:     "Helvetica Neue", Arial, sans-serif;
+      --serif:    Georgia, "Times New Roman", Times, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 1.80;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Page grid ── */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      grid-column: 1 / -1;
+      background: var(--accent);
+      color: #fff;
+      padding: 26px 38px 20px;
+      border-bottom: 4px solid var(--gold);
+    }
+    header .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 3px;
+      padding: 2px 7px;
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 1.95rem;
+      font-weight: normal;
+      letter-spacing: -.02em;
+    }
+    header h1 em { font-style: normal; color: #ffc9a0; }
+    header .sub {
+      margin-top: 6px;
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: #f0d0b8;
+      line-height: 1.55;
+    }
+    header .sub a {
+      color: #ffd8b8;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,200,150,.4);
+    }
+    header .sub a:hover { border-bottom-color: #ffd8b8; }
+
+    /* ── Sidebar ── */
+    nav {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 0 40px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .nav-label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--muted);
+      padding: 14px 18px 4px;
+    }
+    nav a {
+      display: block;
+      padding: 6px 18px 6px 22px;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: background .15s, border-color .15s;
+    }
+    nav a:hover {
+      background: var(--bg);
+      border-left-color: var(--accent2);
+      color: var(--accent);
+    }
+    nav a.active {
+      background: var(--note-bg);
+      border-left-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    nav hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 10px 14px;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 38px 48px 60px;
+      max-width: 860px;
+    }
+
+    section { margin-bottom: 52px; }
+
+    h2 {
+      font-size: 1.30rem;
+      font-weight: normal;
+      color: var(--accent);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+      margin-bottom: 18px;
+      letter-spacing: -.01em;
+    }
+    h3 {
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: var(--accent2);
+      margin: 24px 0 8px;
+    }
+    h4 {
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      margin: 18px 0 6px;
+    }
+
+    p { margin-bottom: 14px; }
+
+    /* ── Equation block ── */
+    .eq {
+      background: var(--eq-bg);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 20px;
+      margin: 18px 0;
+      overflow-x: auto;
+      font-size: 1.05em;
+    }
+    .eq-label {
+      float: right;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--muted);
+      padding-top: 2px;
+    }
+
+    /* ── Note / tip box ── */
+    .note {
+      background: var(--note-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent2);
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      margin: 18px 0;
+      font-size: 0.93rem;
+    }
+    .note strong { color: var(--accent); }
+
+    /* ── Code ── */
+    pre {
+      background: #2b2b2b;
+      color: #f0ede4;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.55;
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+    code {
+      font-family: var(--mono);
+      font-size: 0.91em;
+      background: var(--code-bg);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    pre code { background: none; padding: 0; font-size: inherit; }
+
+    /* ── Module cards ── */
+    .mc { display: grid; gap: 14px; margin: 18px 0; }
+    .mc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 20px;
+    }
+    .mc-card .mc-name {
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .mc-card .mc-role {
+      font-family: var(--sans);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .mc-card p { font-size: 0.92rem; margin-bottom: 0; color: var(--muted); }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      margin: 16px 0;
+    }
+    th {
+      font-family: var(--sans);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--muted);
+      background: var(--note-bg);
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+    }
+    td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { font-family: var(--mono); color: var(--accent2); }
+
+    /* ── Output type list ── */
+    .output-list { list-style: none; margin: 14px 0; }
+    .output-list li {
+      display: flex;
+      gap: 12px;
+      align-items: baseline;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .output-list li:last-child { border-bottom: none; }
+    .output-list .tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1px 6px;
+      white-space: nowrap;
+      color: var(--accent2);
+      flex-shrink: 0;
+    }
+
+    /* ── Comparison table highlight ── */
+    .compare-better { color: #1a6b1a; font-weight: 600; }
+    .compare-worse  { color: #8b2000; }
+
+    /* ── Footer ── */
+    footer {
+      grid-column: 1 / -1;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 18px 38px;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    footer a { color: var(--accent2); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 720px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      nav { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+      main { padding: 24px 20px 48px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header>
+  <div class="badge">GFtGU Programs</div>
+  <h1>Binary_RK45 &nbsp;—&nbsp; <em>Help File</em></h1>
+  <div class="sub">
+    Orbital Motion of a Binary System &nbsp;·&nbsp;
+    Newtonian Gravity &nbsp;·&nbsp; Runge–Kutta–Fehlberg 4(5) Adaptive Integration<br>
+    Source:
+    <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Binary_RK45"
+       target="_blank">github.com/tomyee3/GFTGU-Programs / Binary_RK45</a>
+  </div>
+</header>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<nav id="sidebar">
+
+  <div class="nav-label">Contents</div>
+  <a href="#overview">Overview</a>
+  <a href="#why-rk45">Why RK45?</a>
+  <a href="#quickstart">Quick Start</a>
+  <a href="#modules">Program Files</a>
+
+  <hr>
+  <div class="nav-label">Physics</div>
+  <a href="#two-body">Two-Body Problem</a>
+  <a href="#eom">Equations of Motion</a>
+  <a href="#energy">Energy Conservation</a>
+  <a href="#closure">Orbit Closure</a>
+
+  <hr>
+  <div class="nav-label">Numerical Methods</div>
+  <a href="#rk45-method">RK45 Method</a>
+  <a href="#state-vector">State Vector</a>
+  <a href="#error-control">Error Control</a>
+
+  <hr>
+  <div class="nav-label">Reference</div>
+  <a href="#parameters">Parameters</a>
+  <a href="#output-types">Output Types</a>
+  <a href="#vs-binary">Comparison with Binary</a>
+  <a href="#related">Related Programs</a>
+  <a href="#license">License</a>
+
+</nav>
+
+<!-- ═══════════════════ MAIN ═══════════════════ -->
+<main>
+
+  <!-- ─── Overview ─── -->
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>
+      <strong>Binary_RK45</strong> simulates the orbital motion of two
+      gravitationally bound point masses under Newtonian gravity — the same
+      physical problem treated by the companion program
+      <a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/13-Binary">Binary</a>,
+      but integrated using the modern, production-quality
+      Runge–Kutta–Fehlberg&nbsp;4(5) adaptive method provided by
+      <code>scipy.integrate.solve_ivp</code> rather than the hand-coded
+      predictor–corrector of the original Schutz Java program.
+    </p>
+    <p>
+      Given the initial positions and velocities of both bodies, the program
+      integrates the coupled equations of motion forward in time to
+      <code>t_max</code>, recording the trajectory of each body at every
+      internally chosen step. It then produces an orbital plot in the
+      \(xy\)-plane with equal aspect ratio.
+    </p>
+    <div class="note">
+      <strong>Scope:</strong> Binary_RK45 is a purely Newtonian simulation.
+      No relativistic corrections are applied. For post-Newtonian or
+      general-relativistic comparisons see
+      <a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/13-MercPert">MercPert</a>
+      and
+      <a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/21-RelativisticOrbit">RelativisticOrbit</a>
+      in this collection.
+    </div>
+  </section>
+
+  <!-- ─── Why RK45? ─── -->
+  <section id="why-rk45">
+    <h2>Why RK45?</h2>
+    <p>
+      The original Schutz Java program uses a predictor–corrector with a
+      hand-managed adaptive timestep: if the fractional change in acceleration
+      over a step exceeds a threshold \(\varepsilon_1\), the timestep is
+      halved and the step is retried. This strategy works well for nearly
+      circular orbits but becomes fragile for highly eccentric ones. Near
+      periapsis — where the two bodies approach closely and the gravitational
+      acceleration changes rapidly — the required timestep can become extremely
+      small. In practice, the algorithm may halve the timestep so many times
+      that progress through the orbit effectively stalls: even with
+      <code>max_steps</code> set to tens of thousands, only a fraction of one
+      orbit is completed before the step budget is exhausted.
+    </p>
+    <p>
+      This timestep-collapse problem is not a user error. It is a known
+      limitation of simple halving strategies applied to stiff or rapidly
+      varying problems. The fix is to use a higher-order integrator with
+      a principled, globally controlled error estimate.
+    </p>
+    <p>
+      RK45 solves this in three ways:
+    </p>
+    <ul style="margin: 0 0 14px 28px; line-height: 2.1;">
+      <li>
+        <strong>Higher-order accuracy.</strong> Each accepted step achieves
+        fifth-order accuracy in the local truncation error, compared to the
+        second-order accuracy of the predictor–corrector. More accuracy per
+        step means fewer steps are needed to cover the same arc.
+      </li>
+      <li>
+        <strong>Principled step-size selection.</strong>
+        <code>scipy</code> chooses each step size so that the estimated
+        local error stays within the user-specified tolerances
+        <code>rtol</code> and <code>atol</code>. Steps grow and shrink
+        smoothly rather than collapsing catastrophically.
+      </li>
+      <li>
+        <strong>Dense output.</strong> The solver can evaluate the solution
+        at any intermediate time without additional function evaluations,
+        so recording the trajectory at uniformly spaced output times
+        costs almost nothing extra.
+      </li>
+    </ul>
+    <div class="note">
+      <strong>Historical note:</strong> Schutz's original help file for
+      Binary notes that some choices of initial conditions can cause the
+      program to run very slowly or produce incomplete orbits, and recommends
+      adjusting the timestep and accuracy parameters as a workaround.
+      Binary_RK45 eliminates this class of problem entirely by delegating
+      step-size control to a battle-tested library integrator.
+    </div>
+  </section>
+
+  <!-- ─── Quick Start ─── -->
+  <section id="quickstart">
+    <h2>Quick Start</h2>
+
+    <h3>Requirements</h3>
+    <p>Python 3.9 or later with <code>numpy</code>, <code>scipy</code>, and
+    <code>matplotlib</code>:</p>
+    <pre>pip install numpy scipy matplotlib</pre>
+
+    <h3>Running the Program</h3>
+    <pre>cd GFTGU-Programs/Binary_RK45
+python main.py</pre>
+
+    <p>
+      The default configuration uses two equal-mass bodies,
+      \(M_A = M_B = 2\times10^{30}\,\mathrm{kg}\) (approximately one solar
+      mass each), placed symmetrically at
+      \(x_A = -5\times10^{10}\,\mathrm{m}\) and
+      \(x_B = +5\times10^{10}\,\mathrm{m}\) on the \(x\)-axis, with equal
+      and opposite transverse velocities of
+      \(\pm\,1\times10^{4}\,\mathrm{m\,s^{-1}}\). The integration runs for
+      \(t_{\max} = 10^9\,\mathrm{s}\) (approximately 31.7 years).
+    </p>
+
+    <h3>Adjusting the Simulation</h3>
+    <p>
+      All initial conditions and run parameters are set near the top of
+      <code>main.py</code>. The key quantities to vary are:
+    </p>
+    <ul style="margin: 0 0 14px 28px; line-height: 2.1;">
+      <li><code>MA</code>, <code>MB</code> — masses of the two bodies (kg)</li>
+      <li><code>xInitA</code>, <code>xInitB</code>,
+          <code>yInitA</code>, <code>yInitB</code> — starting positions (m)</li>
+      <li><code>uInitA</code>, <code>uInitB</code> — transverse velocity
+          components \(\dot y\) (m&nbsp;s<sup>−1</sup>)</li>
+      <li><code>vInitA</code>, <code>vInitB</code> — radial velocity
+          components \(\dot x\) (m&nbsp;s<sup>−1</sup>)</li>
+      <li><code>t_max</code> — total integration time (s)</li>
+      <li><code>rtol</code>, <code>atol</code> — relative and absolute
+          error tolerances passed to <code>solve_ivp</code></li>
+    </ul>
+    <p>
+      No other file needs editing for typical use.
+    </p>
+
+    <h3>Choosing Output</h3>
+    <p>
+      The current version of <code>plot_binary.py</code> renders orbital
+      trajectories in the \(xy\)-plane. Additional output types matching
+      the original Java program (velocity space, position vs. time,
+      velocity vs. time, energy vs. time) are straightforward to add by
+      passing the solver output arrays to additional
+      <code>matplotlib</code> calls — see
+      <a href="#output-types">Output Types</a>.
+    </p>
+  </section>
+
+  <!-- ─── Program Files ─── -->
+  <section id="modules">
+    <h2>Program Files</h2>
+    <div class="mc">
+
+      <div class="mc-card">
+        <div class="mc-name">main.py</div>
+        <div class="mc-role">Entry Point &amp; Configuration</div>
+        <p>
+          Defines every initial condition and run parameter — masses, starting
+          positions and velocities, the simulation end time <code>t_max</code>,
+          and the solver tolerances <code>rtol</code> and <code>atol</code>.
+          Calls <code>run_binary_orbit()</code> to integrate the trajectory and
+          <code>plot_orbits()</code> to display the result. All user-adjustable
+          settings live here; no other file needs editing for typical use.
+        </p>
+      </div>
+
+      <div class="mc-card">
+        <div class="mc-name">physics_binary.py</div>
+        <div class="mc-role">Physics Engine</div>
+        <p>
+          Defines the physical constant \(G = 6.6726\times10^{-11}\,
+          \mathrm{N\,m^2\,kg^{-2}}\) and the right-hand-side function
+          <code>acceleration_binary(t, state, MA, MB)</code>.
+          The function unpacks the eight-component state vector
+          \((x_A, y_A, x_B, y_B, v_A, u_A, v_B, u_B)\),
+          computes the displacement \(\Delta x = x_A - x_B\),
+          \(\Delta y = y_A - y_B\) and scalar separation \(r_{AB}\),
+          evaluates the Newtonian acceleration on each body, and returns
+          the full state derivative as a NumPy array
+          \((v_A,\, u_A,\, v_B,\, u_B,\, a_{x,A},\, a_{y,A},\, a_{x,B},\, a_{y,B})\).
+          This function is the sole interface between the physics and the
+          integrator.
+        </p>
+      </div>
+
+      <div class="mc-card">
+        <div class="mc-name">driver_binary.py</div>
+        <div class="mc-role">Integration Driver</div>
+        <p>
+          Provides <code>run_binary_orbit(MA, MB, y0, t_max, rtol, atol)</code>.
+          Assembles the initial state vector \(\mathbf{y}_0\) from the
+          individual position and velocity components, then calls
+          <code>scipy.integrate.solve_ivp</code> with
+          <code>method='RK45'</code>, passing <code>acceleration_binary</code>
+          as the right-hand side. The solver returns a
+          <code>scipy.integrate.OdeSolution</code> object whose <code>.t</code>
+          and <code>.y</code> arrays contain the accepted time points and
+          state vectors respectively. The driver unpacks these into named
+          arrays (<code>xA</code>, <code>yA</code>, <code>xB</code>,
+          <code>yB</code>, etc.) and returns them as a plain Python dictionary
+          for use by <code>plot_binary.py</code>.
+        </p>
+      </div>
+
+      <div class="mc-card">
+        <div class="mc-name">plot_binary.py</div>
+        <div class="mc-role">Visualisation</div>
+        <p>
+          Provides <code>plot_orbits(data)</code>, which accepts the dictionary
+          returned by <code>run_binary_orbit()</code> and renders an
+          8&nbsp;×&nbsp;8 inch <code>matplotlib</code> figure showing the
+          trajectories of both bodies in the \(xy\)-plane with equal aspect
+          ratio (<code>plt.axis("equal")</code>), axis labels in metres,
+          a legend identifying Body A and Body B, a grid, and the title
+          <em>Binary Orbits (RK45)</em>.
+        </p>
+      </div>
+
+    </div><!-- .mc -->
+  </section>
+
+  <!-- ═══════════════════════════ PHYSICS ═══════════════════════════ -->
+
+  <!-- ─── Two-Body Problem ─── -->
+  <section id="two-body">
+    <h2>Two-Body Problem</h2>
+    <p>
+      Two point masses \(M_A\) and \(M_B\) interact solely through Newtonian
+      gravitational attraction. Newton's law of universal gravitation gives the
+      magnitude of the mutual force:
+    </p>
+    <div class="eq">
+      <span class="eq-label">(1)</span>
+      \[
+        F \;=\; \frac{G\,M_A\,M_B}{r^2}
+      \]
+    </div>
+    <p>
+      where \(G = 6.6726\times10^{-11}\,\mathrm{N\,m^2\,kg^{-2}}\) is
+      Newton's gravitational constant and
+    </p>
+    <div class="eq">
+      <span class="eq-label">(2)</span>
+      \[
+        r \;=\; \sqrt{(x_A - x_B)^2 + (y_A - y_B)^2}
+      \]
+    </div>
+    <p>
+      is the scalar separation between the two bodies. The motion is confined
+      to the \(xy\)-plane. Following the convention of the source code and the
+      original Schutz Java program, \(v\) denotes the \(x\)-component of
+      velocity (\(\dot x\)) and \(u\) denotes the \(y\)-component (\(\dot y\)).
+    </p>
+    <div class="note">
+      <strong>Coordinate convention:</strong> Each body's state is stored as
+      \((x,\,y,\,v,\,u)\) where \(v = \dot x\) and \(u = \dot y\), following
+      the original Schutz Java convention retained in all Python ports.
+    </div>
+    <p>
+      With equal masses and symmetric initial conditions the centre of mass
+      remains at the origin throughout the simulation. Varying the mass ratio
+      or the initial transverse speed produces elliptical orbits of arbitrary
+      eccentricity.
+    </p>
+  </section>
+
+  <!-- ─── Equations of Motion ─── -->
+  <section id="eom">
+    <h2>Equations of Motion</h2>
+    <p>
+      Applying Newton's second law component by component, with the force
+      directed along the line joining the two bodies, yields four coupled
+      second-order ODEs. Define the displacement of A relative to B:
+      \(\Delta x = x_A - x_B\), \(\Delta y = y_A - y_B\), and
+      \(r^3 = \bigl((\Delta x)^2 + (\Delta y)^2\bigr)^{3/2}\).
+    </p>
+
+    <h3>Body A</h3>
+    <div class="eq">
+      <span class="eq-label">(3)</span>
+      \[
+        \ddot x_A \;=\; -\frac{G\,M_B\,\Delta x}{r^3}, \qquad
+        \ddot y_A \;=\; -\frac{G\,M_B\,\Delta y}{r^3}
+      \]
+    </div>
+
+    <h3>Body B</h3>
+    <div class="eq">
+      <span class="eq-label">(4)</span>
+      \[
+        \ddot x_B \;=\; +\frac{G\,M_A\,\Delta x}{r^3}, \qquad
+        \ddot y_B \;=\; +\frac{G\,M_A\,\Delta y}{r^3}
+      \]
+    </div>
+    <p>
+      The sign flip between bodies reflects Newton's third law: the force on
+      B is equal and opposite to the force on A. These four second-order ODEs
+      are rewritten as the eight first-order ODEs that form the state derivative
+      returned by <code>acceleration_binary()</code>.
+    </p>
+    <p>
+      The complete system state at any instant is the eight-component vector
+      \(\mathbf{y} = (x_A,\,y_A,\,x_B,\,y_B,\,v_A,\,u_A,\,v_B,\,u_B)\).
+      Its time derivative is
+    </p>
+    <div class="eq">
+      <span class="eq-label">(5)</span>
+      \[
+        \dot{\mathbf{y}} \;=\;
+        \bigl(v_A,\;u_A,\;v_B,\;u_B,\;
+              a_{x,A},\;a_{y,A},\;a_{x,B},\;a_{y,B}\bigr)
+      \]
+    </div>
+    <p>
+      where \(a_{x,A}\), \(a_{y,A}\), \(a_{x,B}\), \(a_{y,B}\) are given by
+      equations (3) and (4). This is the vector passed to <code>solve_ivp</code>
+      at every internal evaluation point.
+    </p>
+  </section>
+
+  <!-- ─── Energy Conservation ─── -->
+  <section id="energy">
+    <h2>Energy Conservation</h2>
+    <p>
+      The total mechanical energy is the sum of the kinetic energies of both
+      bodies and their mutual gravitational potential energy.
+    </p>
+
+    <h3>Kinetic Energy</h3>
+    <div class="eq">
+      <span class="eq-label">(6)</span>
+      \[
+        K \;=\; \tfrac{1}{2}\,M_A\!\left(v_A^2 + u_A^2\right)
+              + \tfrac{1}{2}\,M_B\!\left(v_B^2 + u_B^2\right)
+      \]
+    </div>
+
+    <h3>Gravitational Potential Energy</h3>
+    <div class="eq">
+      <span class="eq-label">(7)</span>
+      \[
+        U \;=\; -\frac{G\,M_A\,M_B}{r}
+      \]
+    </div>
+
+    <h3>Total Mechanical Energy</h3>
+    <div class="eq">
+      <span class="eq-label">(8)</span>
+      \[
+        E \;=\; K + U
+      \]
+    </div>
+    <p>
+      For a gravitationally bound orbit \(E &lt; 0\) and is a conserved
+      quantity. The RK45 integrator preserves energy far better than the
+      predictor–corrector for the same amount of computational work, because
+      its error estimate is based on a genuine fifth-order local truncation
+      error bound rather than an empirical fractional-change heuristic.
+    </p>
+    <div class="note">
+      <strong>Monitoring energy drift:</strong> Although <code>plot_binary.py</code>
+      currently renders only orbital trajectories, energy conservation can be
+      checked easily by computing \(E(t)\) from the solver output arrays
+      <code>vA</code>, <code>uA</code>, <code>vB</code>, <code>uB</code>,
+      <code>xA</code>, <code>yA</code>, <code>xB</code>, <code>yB</code>
+      returned by <code>run_binary_orbit()</code> and plotting it vs.
+      <code>t</code>. A flat line confirms that the tolerances are tight enough.
+      If drift is visible, halve <code>rtol</code> and <code>atol</code>.
+    </div>
+  </section>
+
+  <!-- ─── Orbit Closure ─── -->
+  <section id="closure">
+    <h2>Orbit Closure</h2>
+    <p>
+      Unlike the original Binary predictor–corrector, Binary_RK45 does not
+      monitor orbit closure automatically. Integration simply runs from
+      \(t = 0\) to \(t = t_{\max}\) and the solver records the trajectory
+      at every internally accepted step. The user is responsible for choosing
+      a <code>t_max</code> that spans the desired number of orbits.
+    </p>
+    <p>
+      For the default equal-mass configuration, the orbital period can be
+      estimated from Kepler's third law applied to the relative orbit of
+      separation \(d = r_{AB,0}\):
+    </p>
+    <div class="eq">
+      <span class="eq-label">(9)</span>
+      \[
+        T \;=\; 2\pi \sqrt{\frac{d^3}{G\,(M_A + M_B)}}
+      \]
+    </div>
+    <p>
+      Setting <code>t_max</code> to a small integer multiple of \(T\) ensures
+      the plot shows complete, closed orbits for a bound system.
+    </p>
+    <div class="note">
+      <strong>Unbound orbits:</strong> If the initial velocities exceed the
+      escape velocity the bodies fly apart and the orbit never closes. You can
+      detect this by checking that the total energy \(E\) (equation 8) is
+      negative. If \(E \ge 0\), increase <code>t_max</code> and you will
+      simply see the bodies receding without returning — a correct result,
+      not a numerical failure.
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ NUMERICAL METHODS ═══════════════════════════ -->
+
+  <!-- ─── RK45 Method ─── -->
+  <section id="rk45-method">
+    <h2>RK45 Method</h2>
+    <p>
+      The Runge–Kutta–Fehlberg 4(5) method — commonly called RK45 — is an
+      embedded pair of explicit Runge–Kutta schemes of order 4 and order 5
+      that share the same function evaluations. At each step of width
+      \(h\), the method evaluates the right-hand side \(\mathbf{f}(t,\mathbf{y})\)
+      at six (or seven, in the Dormand–Prince variant used by SciPy) internal
+      stages \(k_1, \ldots, k_s\).
+    </p>
+
+    <h3>Stage Evaluations</h3>
+    <p>
+      The internal stages are defined by
+    </p>
+    <div class="eq">
+      <span class="eq-label">(10)</span>
+      \[
+        \mathbf{k}_i \;=\; \mathbf{f}\!\left(
+          t_n + c_i\,h,\;
+          \mathbf{y}_n + h\sum_{j=1}^{i-1} a_{ij}\,\mathbf{k}_j
+        \right), \qquad i = 1, \ldots, s
+      \]
+    </div>
+    <p>
+      where the coefficients \(c_i\) and \(a_{ij}\) are fixed by the
+      Butcher tableau of the chosen method (Dormand–Prince in SciPy's
+      default RK45 implementation).
+    </p>
+
+    <h3>Fourth- and Fifth-Order Solutions</h3>
+    <p>
+      Two solution approximations are formed as weighted combinations of the
+      stage values:
+    </p>
+    <div class="eq">
+      <span class="eq-label">(11)</span>
+      \[
+        \mathbf{y}_{n+1}^{(4)} \;=\; \mathbf{y}_n + h\sum_{i=1}^{s} b_i^*\,\mathbf{k}_i
+        \qquad \text{(4th order)}
+      \]
+    </div>
+    <div class="eq">
+      <span class="eq-label">(12)</span>
+      \[
+        \mathbf{y}_{n+1}^{(5)} \;=\; \mathbf{y}_n + h\sum_{i=1}^{s} b_i\,\mathbf{k}_i
+        \qquad \text{(5th order, used to advance)}
+      \]
+    </div>
+    <p>
+      The fifth-order solution is accepted as the new state. The
+      fourth-order solution is used only to estimate the local error.
+    </p>
+
+    <h3>Local Error Estimate</h3>
+    <p>
+      The difference between the two solutions provides a per-component
+      estimate of the local truncation error:
+    </p>
+    <div class="eq">
+      <span class="eq-label">(13)</span>
+      \[
+        \mathbf{e}_{n+1} \;=\; \mathbf{y}_{n+1}^{(5)} - \mathbf{y}_{n+1}^{(4)}
+        \;=\; h\sum_{i=1}^{s} (b_i - b_i^*)\,\mathbf{k}_i
+      \]
+    </div>
+    <p>
+      This estimate is free — it uses stage values already computed for
+      the accepted step.
+    </p>
+  </section>
+
+  <!-- ─── State Vector ─── -->
+  <section id="state-vector">
+    <h2>State Vector</h2>
+    <p>
+      The eight-component state vector passed to <code>solve_ivp</code> is
+      assembled in <code>driver_binary.py</code> as:
+    </p>
+    <div class="eq">
+      <span class="eq-label">(14)</span>
+      \[
+        \mathbf{y}_0 \;=\;
+        \begin{pmatrix}
+          x_A^{(0)} \\ y_A^{(0)} \\ x_B^{(0)} \\ y_B^{(0)} \\
+          v_A^{(0)} \\ u_A^{(0)} \\ v_B^{(0)} \\ u_B^{(0)}
+        \end{pmatrix}
+      \]
+    </div>
+    <p>
+      At each internal evaluation point <code>solve_ivp</code> calls
+      <code>acceleration_binary(t, y, MA, MB)</code>, which returns
+      \(\dot{\mathbf{y}}\) as in equation&nbsp;(5). The solver never
+      calls any other function; all physics is encapsulated in
+      <code>physics_binary.py</code>.
+    </p>
+    <p>
+      After integration, the solution arrays are extracted from the
+      <code>sol.y</code> attribute of the returned
+      <code>OdeResult</code> object by index:
+    </p>
+    <pre>xA = sol.y[0],  yA = sol.y[1],  xB = sol.y[2],  yB = sol.y[3]
+vA = sol.y[4],  uA = sol.y[5],  vB = sol.y[6],  uB = sol.y[7]</pre>
+  </section>
+
+  <!-- ─── Error Control ─── -->
+  <section id="error-control">
+    <h2>Error Control</h2>
+    <p>
+      <code>scipy</code>'s RK45 implementation controls step size so that
+      the estimated local error satisfies a mixed absolute-relative tolerance
+      criterion for every component of the state vector. For component \(i\):
+    </p>
+    <div class="eq">
+      <span class="eq-label">(15)</span>
+      \[
+        |e_i| \;\le\; \mathrm{atol} + \mathrm{rtol} \cdot |y_i|
+      \]
+    </div>
+    <p>
+      If this condition is satisfied for all eight components the step is
+      accepted and the solver advances. Otherwise the step is rejected and
+      retried with a smaller \(h\), chosen by the standard PI controller.
+      After each accepted step the solver proposes the next step size as
+    </p>
+    <div class="eq">
+      <span class="eq-label">(16)</span>
+      \[
+        h_{\mathrm{new}} \;=\; h \cdot \min\!\left(
+          \text{factor}_{\max},\;
+          \max\!\left(\text{factor}_{\min},\;
+            \text{safety} \cdot \left(\frac{\text{tol}}{\|e\|}\right)^{1/5}
+          \right)
+        \right)
+      \]
+    </div>
+    <p>
+      where <code>safety</code>&nbsp;= 0.9, <code>factor_min</code>&nbsp;= 0.2,
+      and <code>factor_max</code>&nbsp;= 10 are SciPy defaults. This produces
+      smooth, efficient step-size variation that adapts to the local dynamics
+      without catastrophic collapse near periapsis.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>rtol</code></td>
+          <td>\(10^{-9}\)</td>
+          <td>Relative tolerance — controls error proportional to
+              the magnitude of each state component. Dominant for large
+              coordinates (far from origin).</td>
+        </tr>
+        <tr>
+          <td><code>atol</code></td>
+          <td>\(10^{-9}\)</td>
+          <td>Absolute tolerance — controls error in absolute terms.
+              Dominant when a state component is near zero (e.g. \(y\)-velocity
+              at apoapsis for a symmetric orbit).</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <strong>Tightening tolerances:</strong> The defaults
+      \(\mathrm{rtol} = \mathrm{atol} = 10^{-9}\) are tight enough for
+      excellent energy conservation over many orbits. Loosening them (to
+      \(10^{-6}\), say) speeds up the computation at the cost of visible
+      energy drift. Tightening them further (to \(10^{-12}\)) may be useful
+      for very long runs or for close-passage orbits where rounding error
+      becomes relevant, though at significantly increased compute time.
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ REFERENCE ═══════════════════════════ -->
+
+  <!-- ─── Parameters ─── -->
+  <section id="parameters">
+    <h2>Parameters</h2>
+    <p>All parameters are defined near the top of <code>main.py</code>.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Default value</th>
+          <th>Unit</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>MA</code></td>
+          <td>\(2\times10^{30}\)</td>
+          <td>kg</td>
+          <td>Mass of body A (≈ 1 M<sub>☉</sub>)</td>
+        </tr>
+        <tr>
+          <td><code>MB</code></td>
+          <td>\(2\times10^{30}\)</td>
+          <td>kg</td>
+          <td>Mass of body B (≈ 1 M<sub>☉</sub>)</td>
+        </tr>
+        <tr>
+          <td><code>xInitA</code></td>
+          <td>\(-5\times10^{10}\)</td>
+          <td>m</td>
+          <td>Initial \(x\)-position of body A</td>
+        </tr>
+        <tr>
+          <td><code>xInitB</code></td>
+          <td>\(+5\times10^{10}\)</td>
+          <td>m</td>
+          <td>Initial \(x\)-position of body B</td>
+        </tr>
+        <tr>
+          <td><code>yInitA</code>, <code>yInitB</code></td>
+          <td>\(0\)</td>
+          <td>m</td>
+          <td>Initial \(y\)-positions — both bodies start on the \(x\)-axis</td>
+        </tr>
+        <tr>
+          <td><code>vInitA</code>, <code>vInitB</code></td>
+          <td>\(0\)</td>
+          <td>m s<sup>−1</sup></td>
+          <td>Initial \(x\)-velocities — no initial radial motion</td>
+        </tr>
+        <tr>
+          <td><code>uInitA</code></td>
+          <td>\(+1\times10^{4}\)</td>
+          <td>m s<sup>−1</sup></td>
+          <td>Initial \(y\)-velocity of body A (transverse)</td>
+        </tr>
+        <tr>
+          <td><code>uInitB</code></td>
+          <td>\(-1\times10^{4}\)</td>
+          <td>m s<sup>−1</sup></td>
+          <td>Initial \(y\)-velocity of body B (transverse, opposite)</td>
+        </tr>
+        <tr>
+          <td><code>t_max</code></td>
+          <td>\(1\times10^{9}\)</td>
+          <td>s</td>
+          <td>Total integration time (≈ 31.7 years); controls how many
+              orbits are simulated</td>
+        </tr>
+        <tr>
+          <td><code>rtol</code></td>
+          <td>\(10^{-9}\)</td>
+          <td>—</td>
+          <td>Relative error tolerance passed to <code>solve_ivp</code></td>
+        </tr>
+        <tr>
+          <td><code>atol</code></td>
+          <td>\(10^{-9}\)</td>
+          <td>—</td>
+          <td>Absolute error tolerance passed to <code>solve_ivp</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ─── Output Types ─── -->
+  <section id="output-types">
+    <h2>Output Types</h2>
+    <p>
+      The current release of <code>plot_binary.py</code> renders orbital
+      trajectories. The following additional output modes — all present in
+      the original Schutz Java program — are straightforward to implement
+      from the arrays returned by <code>run_binary_orbit()</code>:
+    </p>
+    <ul class="output-list">
+      <li>
+        <span class="tag">"orbits"</span>
+        <span>Orbital trajectories of both bodies in the \(xy\)-plane with
+        equal aspect ratio. <strong>Currently implemented.</strong></span>
+      </li>
+      <li>
+        <span class="tag">"velocity space"</span>
+        <span>Velocity-space trajectories — \(u\) vs. \(v\) for each body.
+        For circular orbits these traces are circles; elliptical orbits
+        produce ellipses.</span>
+      </li>
+      <li>
+        <span class="tag">"position vs. time body A"</span>
+        <span>\(x_A(t)\) and \(y_A(t)\) as functions of time for body A.</span>
+      </li>
+      <li>
+        <span class="tag">"position vs. time body B"</span>
+        <span>\(x_B(t)\) and \(y_B(t)\) as functions of time for body B.</span>
+      </li>
+      <li>
+        <span class="tag">"velocity vs. time body A"</span>
+        <span>\(v_A(t)\) and \(u_A(t)\) as functions of time for body A.</span>
+      </li>
+      <li>
+        <span class="tag">"velocity vs. time body B"</span>
+        <span>\(v_B(t)\) and \(u_B(t)\) as functions of time for body B.</span>
+      </li>
+      <li>
+        <span class="tag">"energy vs time"</span>
+        <span>Kinetic \(K(t)\), gravitational potential \(U(t)\), and total
+        mechanical energy \(E(t)\) vs. time. Primary diagnostic for assessing
+        numerical accuracy.</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ─── Comparison with Binary ─── -->
+  <section id="vs-binary">
+    <h2>Comparison with Binary</h2>
+    <p>
+      Binary_RK45 and Binary solve the same physical problem with different
+      numerical strategies. The table below summarises the key differences.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Binary (predictor–corrector)</th>
+          <th>Binary_RK45 (scipy RK45)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Integrator order</td>
+          <td>2nd order (averaged acceleration)</td>
+          <td class="compare-better">5th order (Dormand–Prince)</td>
+        </tr>
+        <tr>
+          <td>Step-size control</td>
+          <td>Halving only; no recovery growth beyond 10%/step</td>
+          <td class="compare-better">PI controller; smooth growth and shrink</td>
+        </tr>
+        <tr>
+          <td>Eccentric orbit robustness</td>
+          <td class="compare-worse">Timestep collapse possible near periapsis</td>
+          <td class="compare-better">Robust; adapts smoothly near periapsis</td>
+        </tr>
+        <tr>
+          <td>Energy conservation</td>
+          <td>Good for circular/mildly elliptical orbits</td>
+          <td class="compare-better">Excellent; \(10^{-9}\) tolerances suppress drift</td>
+        </tr>
+        <tr>
+          <td>Dependencies</td>
+          <td class="compare-better">matplotlib only</td>
+          <td>numpy, scipy, matplotlib</td>
+        </tr>
+        <tr>
+          <td>Orbit-closure detection</td>
+          <td class="compare-better">Automatic (angular tracking)</td>
+          <td>None — user sets <code>t_max</code></td>
+        </tr>
+        <tr>
+          <td>User-tunable accuracy</td>
+          <td><code>eps1</code>, <code>eps2</code>, <code>dt</code></td>
+          <td><code>rtol</code>, <code>atol</code></td>
+        </tr>
+        <tr>
+          <td>Output types</td>
+          <td>7 (orbits, vel-space, pos/vel/energy vs. time)</td>
+          <td>1 currently (orbits); others easy to add</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <strong>Which to use?</strong> For nearly circular orbits and quick
+      experimentation, Binary's predictor–corrector is self-contained and
+      requires only <code>matplotlib</code>. For eccentric orbits, long
+      runs, or whenever energy conservation matters quantitatively,
+      Binary_RK45 is the better choice — it will complete the orbit where
+      Binary stalls, and its energy error is orders of magnitude smaller.
+    </div>
+  </section>
+
+  <!-- ─── Related Programs ─── -->
+  <section id="related">
+    <h2>Related Programs</h2>
+    <table>
+      <thead>
+        <tr><th>Program</th><th>Chapter</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/13-Binary">Binary</a></td>
+          <td>13</td>
+          <td>Same two-body problem; predictor–corrector integrator</td>
+        </tr>
+        <tr>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/13-MercPert">MercPert</a></td>
+          <td>13</td>
+          <td>Mercury-like orbit perturbed by a binary companion; predictor–corrector</td>
+        </tr>
+        <tr>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/13-MercPert_RK45">MercPert_RK45</a></td>
+          <td>13</td>
+          <td>MercPert with RK45 integrator</td>
+        </tr>
+        <tr>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/13-Multiple">Multiple</a></td>
+          <td>13</td>
+          <td>N-body gravitational simulation; predictor–corrector</td>
+        </tr>
+        <tr>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/13-Multiple_RK45">Multiple_RK45</a></td>
+          <td>13</td>
+          <td>N-body simulation with RK45 integrator</td>
+        </tr>
+        <tr>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/21-RelativisticOrbit">RelativisticOrbit</a></td>
+          <td>21</td>
+          <td>Orbital motion in the Schwarzschild metric</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ─── License ─── -->
+  <section id="license">
+    <h2>License</h2>
+    <div class="license-banner" style="margin:18px 0; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;">
+      <img src="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/LicenseBanner.png"
+           alt="Creative Commons BY-NC-SA License Banner"
+           style="display:block; width:100%; height:auto;" />
+    </div>
+    <p>
+      This program and help file are released under the
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+         target="_blank">Creative Commons Attribution–NonCommercial–ShareAlike
+      4.0 International (CC BY-NC-SA 4.0)</a> license. You are free to share
+      and adapt the material for non-commercial purposes, provided you give
+      appropriate credit and distribute any derivative works under the same
+      license. Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+    </p>
+    <p>
+      The Python source is adapted from the original Java program
+      <em>Binary.java</em>, License version 1.0 © 2003 Bernard Schutz, used
+      with permission under the same Creative Commons license.
+    </p>
+    <p>
+      Source repository:
+      <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Binary_RK45"
+         target="_blank">github.com/tomyee3/GFTGU-Programs / Binary_RK45</a><br>
+      Documentation repository:
+      <a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/13-Binary_RK45"
+         target="_blank">github.com/tomyee3/GFTGU-Documentation / 13-Binary_RK45</a>
+    </p>
+  </section>
+
+</main>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <span>
+    Binary_RK45 – Help File &nbsp;·&nbsp; GFtGU Programs &nbsp;·&nbsp;
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+       target="_blank">CC BY-NC-SA 4.0</a>
+  </span>
+  <span>
+    <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Binary_RK45"
+       target="_blank">Source on GitHub</a>
+  </span>
+</footer>
+
+</div><!-- .page-wrap -->
+
+<!-- Sidebar active-link highlight on scroll -->
+<script>
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const hit = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+        if (hit) hit.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
