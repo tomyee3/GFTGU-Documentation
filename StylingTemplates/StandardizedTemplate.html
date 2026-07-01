@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{PROGRAM_NAME}} – Help File | GFtGU Programs</title>
+
+  <!-- Shared stylesheet from Planck_Help.html -->
+  <style>
+    /* Full stylesheet identical to Planck_Help.html */
+    /* (You may keep this as-is across all help files) */
+    /* ...[omitted here for brevity — use your Planck_Help.html CSS verbatim]... */
+  </style>
+</head>
+
+<body>
+<div class="page-wrap">
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header>
+  <div class="badge">GFtGU Programs · Chapter {{CHAPTER_NUMBER}}</div>
+  <h1><em>{{PROGRAM_NAME}}</em> — {{PROGRAM_SUBTITLE}}</h1>
+  <div class="sub">
+    Help file for the Python program suite accompanying<br>
+    <a href="https://www.cambridge.org/gb/academic/subjects/physics/cosmology-relativity-and-gravitation/gravity-ground-up-introductory-guide-gravity-and-general-relativity">
+      <em>Gravity from the Ground Up</em>
+    </a>
+    by Bernard Schutz · © 2003 Bernard Schutz ·
+    Repository:
+    <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/{{PROGRAM_FOLDER}}">
+      tomyee3/GFTGU-Programs / {{PROGRAM_FOLDER}}
+    </a>
+  </div>
+</header>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<nav aria-label="Page sections">
+  <div class="nav-label">Contents</div>
+  <a href="#description">Description of {{PROGRAM_NAME}}</a>
+  <a href="#using">Using {{PROGRAM_NAME}}</a>
+  <a href="#playing">Suggestions for Playing with {{PROGRAM_NAME}}</a>
+  <a href="#understanding">Understanding {{PROGRAM_NAME}}</a>
+  <a href="#modules">The Python Modules</a>
+
+  <div class="nav-label">Physics</div>
+  <!-- Add program-specific physics subsections here -->
+  {{PHYSICS_SIDEBAR_LINKS}}
+
+  <div class="nav-label">Reference</div>
+  <a href="#variables">Variables and Parameters</a>
+  <a href="#investigations">Relevant Investigations</a>
+</nav>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- ─── DESCRIPTION ─── -->
+<h2 id="description">Description of <code>{{PROGRAM_NAME}}</code></h2>
+
+<p>
+  {{PROGRAM_DESCRIPTION_PARAGRAPH_1}}
+</p>
+
+<p>
+  {{PROGRAM_DESCRIPTION_PARAGRAPH_2}}
+</p>
+
+<div class="note">
+  <strong>Chapter Reference</strong>
+  {{CHAPTER_REFERENCE_TEXT}}
+</div>
+
+<hr>
+
+<!-- ─── USING ─── -->
+<h2 id="using">Using <code>{{PROGRAM_NAME}}</code></h2>
+
+<p>
+  Run the program by executing <code>main.py</code> from the command line:
+</p>
+
+<pre>python main.py</pre>
+
+<p>
+  The user-adjustable parameters in <code>main.py</code> are:
+</p>
+
+<table>
+  <thead>
+    <tr><th>Parameter</th><th>Default value</th><th>Meaning</th></tr>
+  </thead>
+  <tbody>
+    {{VARIABLE_TABLE_ROWS}}
+  </tbody>
+</table>
+
+<div class="note">
+  <strong>Prerequisites</strong>
+  Python 3.9 or later. No third-party libraries unless specified.
+</div>
+
+<hr>
+
+<!-- ─── PLAYING ─── -->
+<h2 id="playing">Suggestions for playing with <code>{{PROGRAM_NAME}}</code></h2>
+
+<p>
+  {{PLAYING_INTRO}}
+</p>
+
+<ol>
+  {{PLAYING_SUGGESTIONS_LIST}}
+</ol>
+
+<hr>
+
+<!-- ─── UNDERSTANDING ─── -->
+<h2 id="understanding">Understanding <code>{{PROGRAM_NAME}}</code></h2>
+
+<p>
+  {{UNDERSTANDING_INTRO}}
+</p>
+
+<!-- Insert physics subsections and equations -->
+{{PHYSICS_SECTIONS}}
+
+<hr>
+
+<!-- ─── PYTHON MODULES ─── -->
+<h2 id="modules">The Python Modules</h2>
+
+<p>
+  The Python port is organised into three files inside the
+  <code>{{PROGRAM_FOLDER}}/</code> folder of the
+  <a href="https://github.com/tomyee3/GFTGU-Programs">tomyee3/GFTGU-Programs</a> repository.
+</p>
+
+<div class="module-row">
+  <div class="mc">
+    <div class="mc-name">main.py</div>
+    <div class="mc-size">{{MAIN_SIZE}}</div>
+    <div class="mc-desc">{{MAIN_DESCRIPTION}}</div>
+    <a href="https://github.com/tomyee3/GFTGU-Programs/blob/main/{{PROGRAM_FOLDER}}/main.py">View on GitHub ↗</a>
+  </div>
+
+  <div class="mc">
+    <div class="mc-name">{{DRIVER_FILENAME}}</div>
+    <div class="mc-size">{{DRIVER_SIZE}}</div>
+    <div class="mc-desc">{{DRIVER_DESCRIPTION}}</div>
+    <a href="https://github.com/tomyee3/GFTGU-Programs/blob/main/{{PROGRAM_FOLDER}}/{{DRIVER_FILENAME}}">View on GitHub ↗</a>
+  </div>
+
+  <div class="mc">
+    <div class="mc-name">{{PHYSICS_FILENAME}}</div>
+    <div class="mc-size">{{PHYSICS_SIZE}}</div>
+    <div class="mc-desc">{{PHYSICS_DESCRIPTION}}</div>
+    <a href="https://github.com/tomyee3/GFTGU-Programs/blob/main/{{PROGRAM_FOLDER}}/{{PHYSICS_FILENAME}}">View on GitHub ↗</a>
+  </div>
+</div>
+
+<hr>
+
+<!-- ─── VARIABLES TABLE ─── -->
+<h2 id="variables">Variables and Parameters — Quick Reference</h2>
+
+<table>
+  <thead>
+    <tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    {{VARIABLE_REFERENCE_ROWS}}
+  </tbody>
+</table>
+
+<hr>
+
+<!-- ─── INVESTIGATIONS ─── -->
+<h2 id="investigations">Relevant Investigations</h2>
+
+<p>
+  {{INVESTIGATIONS_TEXT}}
+</p>
+
+<hr>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div>
+    Documentation folder:
+    <a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/{{CHAPTER_NUMBER}}-{{PROGRAM_FOLDER}}">
+      {{CHAPTER_NUMBER}}-{{PROGRAM_FOLDER}}
+    </a>
+  </div>
+
+  <div>
+    Creative Commons Attribution–NonCommercial–ShareAlike 4.0 International License<br>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+      https://creativecommons.org/licenses/by-nc-sa/4.0/
+    </a>
+  </div>
+
+  <div>
+    Creative Commons<br>
+    PO Box 1866<br>
+    Mountain View, CA 94042<br>
+    USA
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
