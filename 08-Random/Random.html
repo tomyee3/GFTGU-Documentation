@@ -1,291 +1,990 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Random</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random – Help File | GFtGU Programs</title>
 
-  <meta name="Author" content="Bernard F. Schutz">
-  <meta name="Description" content="Help file for the Python program Random, part of the Gravity From the Ground Up Python suite.">
-  <meta name="KeyWords" content="Gravity from the Ground Up, Random Walk, Python, help file">
+  <!-- MathJax 3 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath:  [['\\(','\\)']],
+        displayMath: [['\\[','\\]']],
+        tags: 'ams'
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+          id="MathJax-script" async></script>
 
   <style>
-    body { background-color: #fdf5e6; color: #000; font-family: Arial, sans-serif; }
-    tt { font-family: monospace; }
+    /* ── Reset & custom properties ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #fdf5e6;
+      --surface:  #ffffff;
+      --border:   #c8bfa0;
+      --accent:   #7b2d00;
+      --accent2:  #a04010;
+      --gold:     #b5811a;
+      --text:     #1c1c1c;
+      --muted:    #5a4a3a;
+      --code-bg:  #f0ede4;
+      --note-bg:  #f4f0e8;
+      --eq-bg:    #f7f2e8;
+      --radius:   5px;
+      --shadow:   0 2px 8px rgba(0,0,0,0.10);
+      --mono:     "Courier New", Courier, monospace;
+      --sans:     "Helvetica Neue", Arial, sans-serif;
+      --serif:    Georgia, "Times New Roman", Times, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 1.80;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Page grid ── */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      grid-column: 1 / -1;
+      background: var(--accent);
+      color: #fff;
+      padding: 26px 38px 20px;
+      border-bottom: 4px solid var(--gold);
+    }
+    header .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 3px;
+      padding: 2px 7px;
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 1.95rem;
+      font-weight: normal;
+      letter-spacing: -.02em;
+    }
+    header h1 em { font-style: normal; color: #ffc9a0; }
+    header .sub {
+      margin-top: 6px;
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: #f0d0b8;
+      line-height: 1.55;
+    }
+    header .sub a {
+      color: #ffd8b8;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,200,150,.4);
+    }
+    header .sub a:hover { border-bottom-color: #ffd8b8; }
+
+    /* ── Sidebar ── */
+    nav {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 0 40px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .nav-label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 18px 6px;
+      margin-top: 18px;
+    }
+    nav a {
+      display: block;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text);
+      text-decoration: none;
+      padding: 5px 18px 5px 22px;
+      border-left: 3px solid transparent;
+      transition: background .15s, border-color .15s;
+    }
+    nav a:hover {
+      background: var(--bg);
+      border-left-color: var(--gold);
+      color: var(--accent);
+    }
+    nav a.active {
+      border-left-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 42px 52px 60px;
+      max-width: 900px;
+    }
+
+    /* ── Sections ── */
+    section { margin-bottom: 52px; }
+    h2 {
+      font-size: 1.35rem;
+      font-weight: normal;
+      color: var(--accent);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+      margin-bottom: 18px;
+      letter-spacing: -.01em;
+    }
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent2);
+      margin: 22px 0 8px;
+    }
+    p { margin-bottom: 14px; }
+    ul, ol { padding-left: 22px; margin-bottom: 14px; }
+    li { margin-bottom: 4px; }
+
+    /* ── Equation blocks ── */
+    .eq-block {
+      background: var(--eq-bg);
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 14px 20px 14px 18px;
+      margin: 18px 0;
+      overflow-x: auto;
+    }
+    .eq-block .eq-label {
+      float: right;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--muted);
+      margin-left: 12px;
+    }
+
+    /* ── Note boxes ── */
+    .note {
+      background: var(--note-bg);
+      border-left: 4px solid var(--accent2);
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      font-family: var(--sans);
+      font-size: 0.90rem;
+      color: var(--muted);
+      margin: 16px 0;
+    }
+    .note strong { color: var(--accent); }
+
+    /* ── Parameter table ── */
+    .param-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      margin: 18px 0;
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .param-table thead tr {
+      background: var(--accent);
+      color: #fff;
+    }
+    .param-table thead th {
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+    .param-table tbody tr:nth-child(even) { background: var(--bg); }
+    .param-table tbody tr:nth-child(odd)  { background: var(--surface); }
+    .param-table tbody td {
+      padding: 9px 14px;
+      border-top: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .param-table code {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent2);
+    }
+
+    /* ── Module cards ── */
+    .module-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin: 20px 0;
+    }
+    .module-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+    }
+    .module-card h4 {
+      font-family: var(--mono);
+      font-size: 0.92rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .module-card p {
+      font-family: var(--sans);
+      font-size: 0.855rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .module-card .sig {
+      font-family: var(--mono);
+      font-size: 0.80rem;
+      background: var(--code-bg);
+      border-radius: 3px;
+      padding: 6px 10px;
+      color: var(--accent2);
+      line-height: 1.55;
+      white-space: pre;
+    }
+
+    /* ── Scenario cards ── */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .scenario-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+    }
+    .scenario-card h4 {
+      font-family: var(--sans);
+      font-size: 0.90rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 7px;
+    }
+    .scenario-card p {
+      font-family: var(--sans);
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+    .scenario-card .params {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      background: var(--code-bg);
+      border-radius: 3px;
+      padding: 5px 8px;
+      margin-top: 9px;
+      color: var(--accent2);
+      line-height: 1.55;
+    }
+
+    /* ── Related programs ── */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 13px;
+      margin: 18px 0;
+    }
+    .related-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 15px;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      transition: border-color .18s, box-shadow .18s;
+    }
+    .related-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    }
+    .related-card .rc-name {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .related-card .rc-desc {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      grid-column: 1 / -1;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 22px 38px;
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    footer img { height: 28px; }
+    footer a { color: var(--accent2); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 780px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      nav {
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 12px 0 16px;
+      }
+      main { padding: 28px 22px 44px; }
+      .module-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 
-<body background="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/BH-posneg.negative.watermark.png">
+<body>
+<div class="page-wrap">
 
-<a href="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license.html">
+<!-- ═══════════════════════════════════ HEADER ══════════════════════════════════ -->
+<header>
+  <div class="badge">CHAPTER 8 &middot; INVESTIGATION 8.7</div>
+  <h1><em>Random</em> &mdash; Random Walk Simulation</h1>
+  <div class="sub">
+    Part of the <em>Gravity from the Ground Up</em> Python program suite &nbsp;&bull;&nbsp;
+    Based on Bernard Schutz, <em>Gravity from the Ground Up</em> (Cambridge, 2003) &nbsp;&bull;&nbsp;
+    Source:
+    <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Random"
+       target="_blank">github.com/tomyee3/GFTGU-Programs/tree/main/Random</a>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════ SIDEBAR ═════════════════════════════════ -->
+<nav id="sidebar">
+  <div class="nav-label">On This Page</div>
+  <a href="#description">Program Description</a>
+  <a href="#physics">Physics &amp; Equations</a>
+  <a href="#algorithm">Algorithm Overview</a>
+  <a href="#modules">Module Structure</a>
+  <a href="#parameters">Parameters</a>
+  <a href="#output">Program Output</a>
+  <a href="#experiments">Suggested Experiments</a>
+  <a href="#related">Related Programs</a>
+
+  <div class="nav-label" style="margin-top:28px;">Resources</div>
+  <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Random"
+     target="_blank">Source Code</a>
+  <a href="https://www.gravityfromthegroundup.org/programs/Random.html"
+     target="_blank">Schutz Original (Java)</a>
+</nav>
+
+<!-- ═══════════════════════════════════ MAIN ════════════════════════════════════ -->
+<main>
+
+<!-- ─── Description ─── -->
+<section id="description">
+  <h2>Program Description</h2>
+
+  <p>
+    <strong>Random</strong> simulates three-dimensional random walks and measures how far
+    a randomly wandering particle travels from its starting point as a function of the
+    number of steps taken. The simulation is motivated by one of astrophysics' most
+    striking transport phenomena: the extraordinarily slow journey of a photon from the
+    core of the Sun to its surface.
+  </p>
+
+  <p>
+    A photon produced by nuclear fusion at the Sun's center does not travel outward in a
+    straight line. Instead, it is absorbed and re-emitted by the dense solar plasma
+    billions of times, changing direction randomly at each interaction. The net outward
+    displacement after \(N\) such steps is not proportional to \(N\) — as it would be
+    for directed motion — but rather to \(\sqrt{N}\). This square-root scaling is the
+    hallmark of <em>diffusion</em>, and it means that a photon requires roughly 10,000
+    to 170,000 years to traverse the 700,000 km from core to surface, even though light
+    itself crosses that distance in about 2.3 seconds if unobstructed.
+  </p>
+
+  <p>
+    The program performs a systematic suite of experiments. Starting with a maximum walk
+    length of <code>maxSteps</code>, it halves the number of steps repeatedly, running
+    <code>nTrials</code> independent random walks at each step-count to obtain a
+    statistically reliable average. The result is a table — and a log-log plot —
+    of average scaled net displacement versus number of steps. On log-log axes a
+    diffusive process appears as a straight line with slope exactly
+    \(\tfrac{1}{2}\), confirming the \(\langle d \rangle \propto \sqrt{N}\) scaling law.
+  </p>
+
+  <p>
+    Each step in a single walk has three components drawn independently and uniformly
+    from the interval \([-1, +1]\). This mimics an isotropic scattering event where
+    direction is equally likely in any direction. Because the step lengths vary (a step
+    drawn near a corner of the unit cube is longer than one drawn near a face), the raw
+    displacement is normalized by the average step length before averaging across trials,
+    producing a dimensionless <em>scaled distance</em> that cleanly reveals the
+    diffusive scaling.
+  </p>
+
+  <div class="note">
+    <strong>Astrophysical context:</strong> The random walk is the simplest model of
+    radiative diffusion in stellar interiors. More realistic models account for the
+    frequency-dependent mean free path of photons and the temperature gradient driving
+    a net outward energy flux, but the \(\sqrt{N}\) scaling persists and governs the
+    overall timescale of energy transport.
+  </div>
+</section>
+
+<!-- ─── Physics & Equations ─── -->
+<section id="physics">
+  <h2>Physics &amp; Equations</h2>
+
+  <h3>The Random Step</h3>
+  <p>
+    At each step \(i\), three displacements are drawn independently and uniformly
+    from \([-1, +1]\):
+  </p>
+  <div class="eq-block">
+    <span class="eq-label">(1)</span>
+    \[
+      \Delta x_i = 2 U_i^{(x)} - 1, \quad
+      \Delta y_i = 2 U_i^{(y)} - 1, \quad
+      \Delta z_i = 2 U_i^{(z)} - 1,
+      \qquad U \sim \mathrm{Uniform}(0,1).
+    \]
+  </div>
+
+  <h3>Individual Step Length</h3>
+  <p>
+    The Euclidean length of step \(i\) is:
+  </p>
+  <div class="eq-block">
+    <span class="eq-label">(2)</span>
+    \[
+      \ell_i = \sqrt{\Delta x_i^2 + \Delta y_i^2 + \Delta z_i^2}.
+    \]
+  </div>
+  <p>
+    Because each component is uniform on \([-1,1]\), the expected step length is
+    \(\langle \ell \rangle = \sqrt{3}/2 \approx 0.866\), but individual values range
+    from \(0\) to \(\sqrt{3}\).
+  </p>
+
+  <h3>Accumulated Position and Net Displacement</h3>
+  <p>
+    After \(N\) steps the walker's position is:
+  </p>
+  <div class="eq-block">
+    <span class="eq-label">(3)</span>
+    \[
+      X = \sum_{i=1}^{N} \Delta x_i, \quad
+      Y = \sum_{i=1}^{N} \Delta y_i, \quad
+      Z = \sum_{i=1}^{N} \Delta z_i.
+    \]
+  </div>
+  <div class="eq-block">
+    <span class="eq-label">(4)</span>
+    \[
+      D = \sqrt{X^2 + Y^2 + Z^2}.
+    \]
+  </div>
+
+  <h3>Average Step Length and Scaled Distance</h3>
+  <p>
+    To compare walks of different step sizes on equal footing, the net displacement
+    is divided by the mean step length accumulated during that walk:
+  </p>
+  <div class="eq-block">
+    <span class="eq-label">(5)</span>
+    \[
+      \bar{\ell} = \frac{1}{N} \sum_{i=1}^{N} \ell_i.
+    \]
+  </div>
+  <div class="eq-block">
+    <span class="eq-label">(6)</span>
+    \[
+      d = \frac{D}{\bar{\ell}}.
+    \]
+  </div>
+
+  <h3>Diffusion Scaling Law</h3>
+  <p>
+    For an unbiased random walk in three dimensions the expected scaled distance
+    grows as the square root of the number of steps:
+  </p>
+  <div class="eq-block">
+    <span class="eq-label">(7)</span>
+    \[
+      \langle d \rangle \propto \sqrt{N}.
+    \]
+  </div>
+  <p>
+    On a log-log plot this appears as a straight line with slope \(\tfrac{1}{2}\):
+  </p>
+  <div class="eq-block">
+    <span class="eq-label">(8)</span>
+    \[
+      \log \langle d \rangle = \tfrac{1}{2} \log N + \mathrm{const}.
+    \]
+  </div>
+  <p>
+    The driver performs \(n_{\mathrm{walks}}\) experiments at geometrically spaced
+    step counts. The number of experiments is determined by how many times
+    <code>maxSteps</code> can be halved before reaching unity:
+  </p>
+  <div class="eq-block">
+    <span class="eq-label">(9)</span>
+    \[
+      n_{\mathrm{walks}} = \left\lfloor \log_2(\texttt{maxSteps}) \right\rfloor.
+    \]
+  </div>
+  <p>
+    For the default <code>maxSteps = 4096 = 2^{12}</code> this yields
+    \(n_{\mathrm{walks}} = 12\) experiments with step counts
+    \(4096, 2048, 1024, \ldots, 4, 2\).
+  </p>
+</section>
+
+<!-- ─── Algorithm ─── -->
+<section id="algorithm">
+  <h2>Algorithm Overview</h2>
+
+  <p>
+    The simulation uses three nested levels of iteration, mirroring the structure
+    of Schutz's original Java program:
+  </p>
+
+  <ol>
+    <li>
+      <strong>Outer loop — experiment suite:</strong> Iterates over walk lengths in
+      descending order. Index \(j\) runs from \(n_{\mathrm{walks}}-1\) down to \(0\);
+      the step count \(n_{\mathrm{steps}}\) starts at <code>maxSteps</code> and is
+      integer-halved after each experiment. The loop exits early if
+      \(n_{\mathrm{steps}} \le 1\).
+    </li>
+    <li>
+      <strong>Middle loop — trial averaging:</strong> For each step count,
+      <code>nTrials</code> independent walks are performed and their scaled
+      distances are accumulated, then divided by <code>nTrials</code> to yield
+      \(\langle d \rangle\) for that step count.
+    </li>
+    <li>
+      <strong>Inner loop — single walk:</strong> Steps through \(n_{\mathrm{steps}}\)
+      iterations, drawing random components, accumulating the running position
+      \((x, y, z)\) and total step length <code>step_size_total</code>.
+    </li>
+  </ol>
+
+  <div class="note">
+    <strong>Why descending order?</strong> The outer loop fills <code>lengths[j]</code>
+    and <code>avgDist[j]</code> with \(j\) running from high to low, so that upon
+    return the arrays are in ascending order of step count — ready for plotting
+    without any sorting.
+  </div>
+
+  <p>
+    After all experiments are complete, the driver returns two parallel lists:
+    <code>lengths</code> (number of steps per experiment) and <code>avgDist</code>
+    (mean scaled distance per experiment). The plot module renders these on log-log
+    axes, where diffusive \(\sqrt{N}\) scaling manifests as a line of slope
+    \(\tfrac{1}{2}\).
+  </p>
+</section>
+
+<!-- ─── Module Structure ─── -->
+<section id="modules">
+  <h2>Module Structure</h2>
+
+  <p>
+    The program is divided into four Python modules following the standard GFtGU
+    pattern: physics, driver, plot, and main. Each module has a single,
+    well-defined responsibility.
+  </p>
+
+  <div class="module-grid">
+
+    <!-- random_physics.py -->
+    <div class="module-card">
+      <h4>random_physics.py</h4>
+      <p>
+        Contains all physics: random step generation, displacement accumulation,
+        step-length normalization. No I/O, no plotting, no driver logic.
+        The only numbers allowed are physical constants (none needed here —
+        the walk is dimensionless).
+      </p>
+      <div class="sig">perform_single_walk(n_steps)
+  → (net_distance, avg_step_length)
+
+perform_trials(n_steps, n_trials)
+  → avg_scaled_distance</div>
+      <p style="margin-top:10px;">
+        <code>perform_single_walk</code> executes one 3D walk and returns the net
+        displacement \(D\) and the mean step length \(\bar{\ell}\).
+        <code>perform_trials</code> calls <code>perform_single_walk</code>
+        <code>n_trials</code> times, accumulating \(D/\bar{\ell}\) for each,
+        and returns the mean scaled distance.
+      </p>
+    </div>
+
+    <!-- random_driver.py -->
+    <div class="module-card">
+      <h4>random_driver.py</h4>
+      <p>
+        Orchestrates the full suite of experiments. Computes the number of
+        experiments from <code>max_steps</code>, allocates result arrays, and
+        fills them by calling <code>perform_trials</code> at each step count
+        in the halving sequence.
+      </p>
+      <div class="sig">run_random_walk_experiments(
+    max_steps, n_trials)
+  → (lengths, avgDist)</div>
+      <p style="margin-top:10px;">
+        <code>lengths[j]</code> holds the step count and <code>avgDist[j]</code>
+        holds the corresponding mean scaled distance. Arrays are returned in
+        ascending order of step count (smallest steps first).
+      </p>
+    </div>
+
+    <!-- random_plot.py -->
+    <div class="module-card">
+      <h4>random_plot.py</h4>
+      <p>
+        Receives the two result arrays and renders a log-log scatter/line plot
+        using matplotlib. Both axes are logarithmic; grid lines on both major
+        and minor ticks help the eye judge the slope.
+      </p>
+      <div class="sig">plot_random_walk_results(
+    lengths, avgDist)
+  → None  (displays figure)</div>
+      <p style="margin-top:10px;">
+        The plot title, axis labels, and grid are all set inside this module.
+        No physics or driver logic appears here.
+      </p>
+    </div>
+
+    <!-- main.py -->
+    <div class="module-card">
+      <h4>main.py</h4>
+      <p>
+        The user-facing entry point. Sets the two editable parameters, calls
+        the driver, and passes the results to the plot module.
+        All adjustments to program behavior begin here.
+      </p>
+      <div class="sig">maxSteps = 4096
+nTrials  = 2000
+
+lengths, avgDist = \
+  run_random_walk_experiments(
+      maxSteps, nTrials)
+
+plot_random_walk_results(
+    lengths, avgDist)</div>
+    </div>
+
+  </div><!-- /module-grid -->
+
+  <div class="note">
+    <strong>Naming convention:</strong> The Random program uses the module names
+    <code>random_physics.py</code>, <code>random_driver.py</code>, and
+    <code>random_plot.py</code> (prefix-first style), rather than the suffix-first
+    style (<code>physics_random.py</code>, etc.) used in some other GFtGU programs.
+    This avoids a name conflict with Python's built-in <code>random</code> module.
+  </div>
+</section>
+
+<!-- ─── Parameters ─── -->
+<section id="parameters">
+  <h2>Parameters</h2>
+
+  <p>
+    Both parameters are set at the top of <code>main.py</code>. Edit them
+    there before running the program.
+  </p>
+
+  <table class="param-table">
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Default</th>
+        <th>Units</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>maxSteps</code></td>
+        <td><code>4096</code></td>
+        <td>steps (dimensionless)</td>
+        <td>
+          Maximum walk length. The program runs experiments at
+          <code>maxSteps</code>, <code>maxSteps/2</code>,
+          <code>maxSteps/4</code>, &hellip; down to 2.
+          Must be a power of 2 for cleanest results; any integer &ge;2 is
+          accepted. Controls the upper end of the log-log plot and the
+          total number of experiments (\(n_{\mathrm{walks}} =
+          \lfloor \log_2(\texttt{maxSteps}) \rfloor\)).
+        </td>
+      </tr>
+      <tr>
+        <td><code>nTrials</code></td>
+        <td><code>2000</code></td>
+        <td>trials (dimensionless)</td>
+        <td>
+          Number of independent random walks averaged at each step count.
+          Larger values reduce statistical scatter and smooth the log-log
+          curve; smaller values run faster but produce noisier results.
+          Typical useful range: 100 – 10,000.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>Run time:</strong> With the defaults the program executes roughly
+    \(12 \times 2000 \times \overline{n_{\mathrm{steps}}}\) random-number draws.
+    The most expensive experiment uses 4,096 steps &times; 2,000 trials &asymp;
+    8.2&thinsp;million draws; the full suite completes in a few seconds on
+    a modern laptop.
+  </div>
+</section>
+
+<!-- ─── Output ─── -->
+<section id="output">
+  <h2>Program Output</h2>
+
+  <p>
+    The program produces a single matplotlib figure: a <strong>log-log plot</strong>
+    of average scaled distance \(\langle d \rangle\) (vertical axis) versus number of
+    steps \(N\) (horizontal axis). Both axes carry the label "(log scale)" to remind
+    the reader of the logarithmic scaling.
+  </p>
+
+  <p>
+    Data points are shown as filled circles connected by a line. The grid is drawn
+    on both major and minor tick marks so that the slope of the data can be estimated
+    visually. If the simulation is working correctly, the points should lie close to
+    a straight line with slope \(\tfrac{1}{2}\), confirming the theoretical diffusion
+    scaling law \(\langle d \rangle \propto \sqrt{N}\).
+  </p>
+
+  <div class="note">
+    <strong>Reading the slope:</strong> On a log-log plot, a slope of
+    \(\tfrac{1}{2}\) means that each time \(N\) increases by a factor of 4,
+    \(\langle d \rangle\) doubles. Check this by comparing any two points separated
+    by two halvings (i.e., a factor of 4 in step count): the mean distance should be
+    approximately twice as large at the longer walk.
+  </div>
+
+  <p>
+    With <code>maxSteps = 4096</code> and <code>nTrials = 2000</code>, the typical
+    output shows 12 data points spanning step counts from 2 to 4096, with scaled
+    distances ranging from roughly 1.1 (2 steps) to about 50 (4096 steps).
+    Statistical fluctuations are small at 2000 trials, producing a smooth curve
+    that closely follows the theoretical slope.
+  </p>
+</section>
+
+<!-- ─── Suggested Experiments ─── -->
+<section id="experiments">
+  <h2>Suggested Experiments</h2>
+
+  <div class="scenario-grid">
+
+    <div class="scenario-card">
+      <h4>Verify the \(\sqrt{N}\) Law</h4>
+      <p>
+        Run with defaults and inspect the log-log slope. Overlay a reference line
+        with slope \(\tfrac{1}{2}\) (edit <code>random_plot.py</code> to add
+        <code>ax.plot(x, c*np.sqrt(x))</code> for a suitable constant \(c\)).
+        The data should lie on top of the reference.
+      </p>
+      <div class="params">maxSteps = 4096
+nTrials  = 2000</div>
+    </div>
+
+    <div class="scenario-card">
+      <h4>Effect of Trial Count on Noise</h4>
+      <p>
+        Reduce <code>nTrials</code> dramatically and observe how much scatter
+        appears in the log-log curve. Re-run several times with the same parameters
+        to see run-to-run variability. At what trial count does the slope become
+        reliably measurable?
+      </p>
+      <div class="params">maxSteps = 4096
+nTrials  = 50   # then 200, 2000</div>
+    </div>
+
+    <div class="scenario-card">
+      <h4>Extend the Step-Count Range</h4>
+      <p>
+        Double or quadruple <code>maxSteps</code> to add more data points at the
+        long-walk end of the plot. Does the \(\sqrt{N}\) scaling hold over a wider
+        range? Note the increase in run time for the longest experiments.
+      </p>
+      <div class="params">maxSteps = 16384  # 2^14
+nTrials  = 1000</div>
+    </div>
+
+    <div class="scenario-card">
+      <h4>1D and 2D Walks</h4>
+      <p>
+        Edit <code>random_physics.py</code> to perform a 1D walk
+        (set \(\Delta y = \Delta z = 0\), net displacement = \(|X|\)) or a 2D
+        walk (\(\Delta z = 0\)). The \(\sqrt{N}\) law is dimension-independent —
+        do your modified results confirm this?
+      </p>
+      <div class="params">maxSteps = 4096
+nTrials  = 2000
+# modify random_physics.py</div>
+    </div>
+
+    <div class="scenario-card">
+      <h4>Gaussian Steps</h4>
+      <p>
+        Replace the uniform draw <code>2*random.random()-1</code> with a Gaussian
+        draw <code>random.gauss(0, 1)</code> in each component. The diffusion law
+        is universal — does the slope remain \(\tfrac{1}{2}\)?
+      </p>
+      <div class="params">maxSteps = 4096
+nTrials  = 2000
+# modify random_physics.py</div>
+    </div>
+
+    <div class="scenario-card">
+      <h4>Solar Photon Estimate</h4>
+      <p>
+        Use the result to estimate how many steps a photon takes to traverse
+        the Sun. The solar radius is about \(7 \times 10^8\) m; the mean free
+        path in the solar interior is roughly 1 cm = \(10^{-2}\) m. If
+        \(\langle d \rangle = R_\odot / \lambda_{\mathrm{mfp}}\), what is \(N\)?
+        What travel time does that imply?
+      </p>
+      <div class="params">maxSteps = 4096
+nTrials  = 2000
+# N ~ (R/lambda)^2</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── Related Programs ─── -->
+<section id="related">
+  <h2>Related Programs</h2>
+
+  <p>
+    The following Chapter 8 programs appear in Schutz's
+    <em>Gravity from the Ground Up</em>. Each link points to the corresponding
+    help-file folder in the GFTGU-Documentation repository.
+  </p>
+
+  <div class="related-grid">
+
+    <a class="related-card"
+       href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/08-Star"
+       target="_blank">
+      <div class="rc-name">Star</div>
+      <div class="rc-desc">Polytropic stellar structure (Newtonian)</div>
+    </a>
+
+    <a class="related-card"
+       href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/08-Random"
+       target="_blank">
+      <div class="rc-name">Random</div>
+      <div class="rc-desc">Random walk / diffusion (this file)</div>
+    </a>
+
+    <a class="related-card"
+       href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/08-Neutron"
+       target="_blank">
+      <div class="rc-name">Neutron</div>
+      <div class="rc-desc">Neutron star structure (TOV equation)</div>
+    </a>
+
+    <a class="related-card"
+       href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/08-RelativisticOrbit"
+       target="_blank">
+      <div class="rc-name">RelativisticOrbit</div>
+      <div class="rc-desc">Schwarzschild test-particle orbit</div>
+    </a>
+
+    <a class="related-card"
+       href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/08-Multiple"
+       target="_blank">
+      <div class="rc-name">Multiple</div>
+      <div class="rc-desc">N-body predictor-corrector integrator</div>
+    </a>
+
+    <a class="related-card"
+       href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/08-Multiple_RK45"
+       target="_blank">
+      <div class="rc-name">Multiple_RK45</div>
+      <div class="rc-desc">N-body integrator with scipy RK45</div>
+    </a>
+
+  </div>
+</section>
+
+</main><!-- /main -->
+
+<!-- ═══════════════════════════════════ FOOTER ══════════════════════════════════ -->
+<footer>
   <img src="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/LicenseBanner.png"
-       alt="Creative Commons License Banner"
-       title="Click to view license information."
-       style="border:0; width:375px; height:362px;" align="right">
-</a>
+       alt="Creative Commons BY-NC-SA 4.0" />
+  <span>
+    &copy; 2024 Thomas Yee &mdash; released under the
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+      Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+    Based on Bernard Schutz,
+    <em>Gravity from the Ground Up</em> (Cambridge University Press, 2003).
+  </span>
+</footer>
 
-<table cellpadding="2" cellspacing="2" border="3"
-       style="text-align:left; width:50%; margin-left:auto; margin-right:auto;">
-  <tbody>
-    <tr>
-      <td style="vertical-align:top; background-color:#ccc;">
-        <h3 style="color:#ff0000; font-family:monospace; font-weight:bold; text-align:center;">
-          <big><big><big><big>Random</big></big></big></big>
-        </h3>
+</div><!-- /page-wrap -->
 
-        <div style="text-align:center;">
-          <big><font size="+2"><big>
-            <span style="color:#000; font-weight:bold;">version 1.0</span>
-          </big></font></big>
-          <br>
-          <big><big>
-            <span lang="EN-GB" style="font-size:12pt; font-family:'Times New Roman'; font-weight:bold;">
-              © 2003 Bernard Schutz
-            </span>
-          </big></big>
-        </div>
-
-        <h3 style="font-family:helvetica,arial,sans-serif; text-align:center;">
-          <b>
-            Study random walks: compute the mean distance traveled.  
-            This simulates the way a photon moves outward from the energy‑generating center of a star.
-          </b>
-        </h3>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<h2>Contents</h2>
-<ul>
-  <li><a href="#description">Description of <tt>Random</tt></a></li>
-  <li><a href="#using">Using <tt>Random</tt></a></li>
-  <li><a href="#understanding">Understanding <tt>Random</tt></a></li>
-  <li><a href="#playing">Suggestions for playing</a></li>
-  <li><a href="#suggestions">Suggested modifications</a></li>
-  <li><a href="#listing">Python source code</a></li>
-</ul>
-
-<hr width="15%" size="4">
-
-<h2 id="description">Description of <tt><font size="+3">Random</font></tt></h2>
-
-<p>
-The <tt>Random</tt> program computes a three‑dimensional random walk, as
-described in Investigation 8.7 of <i>Gravity From the Ground Up</i>.
-Each step has the same length, but the direction of each step is chosen
-randomly. The resulting walk gradually moves away from the origin.
-</p>
-
-<p>
-Random walks model many physical processes. In the book, this program is
-used to illustrate how photons diffuse outward from the Sun’s core.
-Mathematically, random walks demonstrate the important result that the
-expected displacement grows as the square root of the number of steps.
-</p>
-
-<hr width="15%" size="4">
-
-<h2 id="using">Using <tt><font size="+3">Random</font></tt></h2>
-
-<p>
-The Python version of <tt>Random</tt> is located at:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Random">
-  https://github.com/tomyee3/GFTGU-Programs/tree/main/Random
-</a>
-</p>
-
-<p>
-The program is divided into four modules:
-</p>
-
-<ol>
-  <li>
-    <b>Physics module (<tt>physics.py</tt>):</b><br>
-    Implements the random‑step generator. Each step has components:
-    <pre>
-dx = 2 * random() - 1
-dy = 2 * random() - 1
-dz = 2 * random() - 1
-    </pre>
-    producing a uniform distribution between −1 and +1 in each direction.
-  </li>
-
-  <li>
-    <b>Driver module (<tt>driver.py</tt>):</b><br>
-    Performs:
-    <ul>
-      <li>the random walk itself</li>
-      <li>repetition of the walk <i>nTrials</i> times</li>
-      <li>averaging of the net displacement</li>
-      <li>reduction of step count by factors of 2</li>
-    </ul>
-    It produces arrays of:
-    <ul>
-      <li>number of steps</li>
-      <li>mean displacement</li>
-    </ul>
-  </li>
-
-  <li>
-    <b>Plot module (<tt>plot_random.py</tt>):</b><br>
-    Uses Matplotlib to display mean displacement vs number of steps.
-    Log–log axes reveal the expected slope of 1/2.
-  </li>
-
-  <li>
-    <b>Main module (<tt>main.py</tt>):</b><br>
-    The user-facing entry point. It sets:
-    <ul>
-      <li><tt>maxSteps</tt> — maximum number of steps in the longest walk</li>
-      <li><tt>nTrials</tt> — number of repeated walks for averaging</li>
-    </ul>
-    Users may overwrite these values to explore different random‑walk
-    behaviors.
-  </li>
-</ol>
-
-<p>
-To run the program:
-</p>
-
-<pre>
-python main.py
-</pre>
-
-<p>
-The resulting plot shows the mean displacement for walks of decreasing
-length (each half of the previous).
-</p>
-
-<hr width="15%" size="4">
-
-<h2 id="understanding">Understanding <tt><font size="+3">Random</font></tt></h2>
-
-<p>
-The Python version follows Schutz’s original logic: three nested loops.
-</p>
-
-<ol>
-  <li>
-    <b>Outer loop:</b>  
-    Controls the number of steps in the walk.  
-    Each iteration halves the number of steps.
-  </li>
-
-  <li>
-    <b>Middle loop:</b>  
-    Repeats the walk <tt>nTrials</tt> times to compute an average.
-  </li>
-
-  <li>
-    <b>Inner loop:</b>  
-    Performs the random walk itself by generating random step components
-    and accumulating displacement.
-  </li>
-</ol>
-
-<p>
-The net displacement is:
-</p>
-
-<pre>
-sqrt(x*x + y*y + z*z)
-</pre>
-
-<p>
-The average step length is:
-</p>
-
-<pre>
-stepSize / nSteps
-</pre>
-
-<p>
-The program outputs the scaled displacement:
-</p>
-
-<pre>
-net_displacement / average_step_length
-</pre>
-
-<p>
-Plotting this quantity against the number of steps on log–log axes
-produces a straight line of slope 1/2, demonstrating the square‑root
-law.
-</p>
-
-<hr width="15%" size="4">
-
-<h2 id="playing">Suggestions for playing with <tt><font size="+3">Random</font></tt></h2>
-
-<p>
-Try:
-</p>
-
-<ul>
-  <li>Increasing <tt>nTrials</tt> for smoother averages</li>
-  <li>Changing <tt>maxSteps</tt> to explore longer or shorter walks</li>
-  <li>Plotting on linear axes to see the curvature</li>
-  <li>Plotting on log–log axes to reveal the slope of 1/2</li>
-</ul>
-
-<hr width="15%" size="4">
-
-<h2 id="suggestions">Suggested modifications</h2>
-
-<p>
-You may experiment with:
-</p>
-
-<ul>
-  <li>changing the definition of “walk length”</li>
-  <li>removing the division by average step length</li>
-  <li>using Gaussian random numbers instead of uniform ones</li>
-  <li>changing dimensionality (2D or 1D walks)</li>
-</ul>
-
-<p>
-All reasonable definitions still produce the square‑root dependence.
-</p>
-
-<hr width="15%" size="4">
-
-<h2 id="listing">Python source code</h2>
-
-<p>
-The complete Python implementation of <tt>Random</tt> is available at:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Random">
-  https://github.com/tomyee3/GFTGU-Programs/tree/main/Random
-</a>
-</p>
-
-<p>
-Updated help documentation is maintained at:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/08-Random">
-  https://github.com/tomyee3/GFTGU-Documentation/tree/main/08-Random
-</a>
-</p>
-
-<p>
-This documentation is released under the Creative Commons
-Attribution–NonCommercial–ShareAlike 4.0 International License:
-<br>
-<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
-  https://creativecommons.org/licenses/by-nc-sa/4.0/
-</a>
-</p>
-
-<p>
-Creative Commons address:
-<br>
-Creative Commons  
-PO Box 1866  
-Mountain View, CA 94042  
-USA
-</p>
+<!-- ── Active-link tracker ── -->
+<script>
+  const sections = document.querySelectorAll('section[id]');
+  const links    = document.querySelectorAll('nav a[href^="#"]');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
 
 </body>
 </html>
