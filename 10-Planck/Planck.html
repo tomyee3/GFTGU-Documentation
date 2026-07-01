@@ -1,420 +1,902 @@
-<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
-<!-- saved from url=(0059)https://www.gravityfromthegroundup.org/programs/Planck.html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-  
-  <meta name="Generator" content="Microsoft Word 97">
-  <meta name="Template" content="C:\PROGRAM FILES\MICROSOFT OFFICE\OFFICE\html.dot">
-  <meta name="GENERATOR" content="Mozilla/4.79 [en] (Windows NT 5.0; U) [Netscape]">
-  <meta name="Author" content="Bernard F Schutz">
-  <title>Planck</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planck – Help File | GFtGU Programs</title>
+  <style>
+    /* ── Reset & custom properties ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #fdf5e6;   /* Schutz's original parchment colour */
+      --surface:   #ffffff;
+      --border:    #c8bfa0;
+      --accent:    #7b2d00;   /* warm brick-red, echoing the original */
+      --accent2:   #a04010;
+      --gold:      #b5811a;
+      --text:      #1c1c1c;
+      --muted:     #5a4a3a;
+      --code-bg:   #f0ede4;
+      --note-bg:   #f4f0e8;
+      --eq-bg:     #f7f2e8;
+      --radius:    5px;
+      --shadow:    0 2px 8px rgba(0,0,0,0.10);
+      --mono:      "Courier New", Courier, monospace;
+      --sans:      "Helvetica Neue", Arial, sans-serif;
+      --serif:     Georgia, "Times New Roman", Times, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 1.80;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Page grid ── */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      grid-column: 1 / -1;
+      background: var(--accent);
+      color: #fff;
+      padding: 26px 38px 20px;
+      border-bottom: 4px solid var(--gold);
+    }
+    header .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 3px;
+      padding: 2px 7px;
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 1.95rem;
+      font-weight: normal;
+      letter-spacing: -.02em;
+    }
+    header h1 em { font-style: normal; color: #ffc9a0; }
+    header .sub {
+      margin-top: 6px;
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: #f0d0b8;
+      line-height: 1.55;
+    }
+    header .sub a { color: #ffd8b8; text-decoration: none; border-bottom: 1px solid rgba(255,200,150,.4); }
+    header .sub a:hover { border-bottom-color: #ffd8b8; }
+
+    /* ── Sidebar ── */
+    nav {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 0 40px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .nav-label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--muted);
+      padding: 14px 18px 4px;
+    }
+    nav a {
+      display: block;
+      padding: 6px 18px 6px 22px;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: background .12s, border-color .12s;
+    }
+    nav a:hover { background: #fdf0e4; border-left-color: var(--accent2); }
+    nav a.sub  { padding-left: 34px; font-size: 12px; color: var(--muted); }
+
+    /* ── Main content ── */
+    main {
+      padding: 46px 58px 90px;
+      max-width: 860px;
+    }
+
+    /* ── Section headings (Schutz originals) ── */
+    h2 {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: normal;
+      color: var(--accent);
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 7px;
+      margin-top: 54px;
+      margin-bottom: 16px;
+    }
+    h2:first-child { margin-top: 0; }
+
+    h3 {
+      font-family: var(--sans);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #4a1800;
+      margin-top: 28px;
+      margin-bottom: 9px;
+    }
+
+    h4 {
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--muted);
+      margin-top: 20px;
+      margin-bottom: 5px;
+    }
+
+    /* ── Body text ── */
+    p { margin-bottom: .95rem; }
+    ul, ol { margin: 0 0 .95rem 1.7rem; }
+    li { margin-bottom: .3rem; }
+    strong { color: #1a1a1a; }
+    a { color: var(--accent2); }
+    a:hover { color: var(--accent); }
+    hr { border: none; border-top: 2px solid var(--border); width: 15%; margin: 36px 0; }
+
+    /* ── Equation blocks ── */
+    .eq {
+      background: var(--eq-bg);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 20px;
+      margin: 20px 0;
+      font-family: "Palatino Linotype", Palatino, Georgia, serif;
+      font-size: 1.06rem;
+      overflow-x: auto;
+    }
+    .eq .eq-num {
+      float: right;
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+    .eq .eq-note {
+      display: block;
+      margin-top: 8px;
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.55;
+      font-style: normal;
+    }
+
+    /* ── Code and monospace ── */
+    code {
+      font-family: var(--mono);
+      font-size: 0.875em;
+      background: var(--code-bg);
+      border: 1px solid #d8cdb8;
+      border-radius: 3px;
+      padding: 1px 5px;
+    }
+    pre {
+      background: #1e1a14;
+      color: #e8dcc8;
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 0.86rem;
+      line-height: 1.62;
+      margin: 16px 0;
+      box-shadow: var(--shadow);
+    }
+    pre .cm { color: #7a7060; font-style: italic; }
+    pre .kw { color: #e8a070; }
+    pre .fn { color: #88b8e8; }
+    pre .nm { color: #a8d8a8; }
+    pre .st { color: #d8a870; }
+
+    /* ── Callout boxes ── */
+    .note {
+      background: var(--note-bg);
+      border-left: 4px solid var(--accent2);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 12px 18px;
+      margin: 18px 0;
+      font-family: var(--sans);
+      font-size: 0.89rem;
+      line-height: 1.60;
+    }
+    .note strong { display: block; margin-bottom: 3px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); }
+
+    /* ── Module cards ── */
+    .module-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+      margin: 22px 0;
+    }
+    .mc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent2);
+      border-radius: var(--radius);
+      padding: 14px 15px;
+      box-shadow: var(--shadow);
+    }
+    .mc-name {
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: var(--accent);
+    }
+    .mc-size {
+      font-family: var(--sans);
+      font-size: 0.74rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .mc-desc {
+      font-family: var(--sans);
+      font-size: 0.80rem;
+      color: #3a2a1a;
+      margin-top: 7px;
+      line-height: 1.50;
+    }
+    .mc a {
+      display: inline-block;
+      margin-top: 8px;
+      font-family: var(--sans);
+      font-size: 0.76rem;
+      color: var(--accent2);
+    }
+
+    /* ── Variable / parameter table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-family: var(--sans);
+      font-size: 0.86rem;
+    }
+    thead tr { background: var(--accent); color: #fff; }
+    thead th { padding: 9px 12px; text-align: left; font-weight: 600; }
+    tbody tr:nth-child(even) { background: #f4ede0; }
+    tbody td { padding: 7px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tbody td:first-child { font-family: var(--mono); font-size: 0.83rem; }
+
+    /* ── Figure placeholder ── */
+    .fig {
+      background: #ede7d8;
+      border: 1px dashed #b0a080;
+      border-radius: var(--radius);
+      padding: 26px 18px;
+      text-align: center;
+      margin: 18px 0;
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ── Footer ── */
+    footer {
+      grid-column: 1 / -1;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      padding: 15px 40px;
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    footer a { color: var(--muted); }
+
+    /* ── Responsive ── */
+    @media (max-width: 740px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      nav { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+      main { padding: 26px 20px 60px; }
+      header { padding: 18px 20px 14px; }
+    }
+  </style>
 </head>
-<body text="#000000" bgcolor="#fdf5e6" link="#808080" vlink="#808080" alink="#ff0000" background="./Planck_files/BH-posneg.negative.watermark.png">
-<br>
-<a href="https://www.gravityfromthegroundup.org/programs/license.html"><img src="./Planck_files/HelpfileBanner.png" title="Click to view license information." alt="" style="border: 0px solid ; width: 375px; height: 362px;" align="right"></a><br>
-<table cellpadding="2" cellspacing="2" border="3" style="text-align: left; width: 50%; margin-left: auto; margin-right: auto;">
+<body>
+<div class="page-wrap">
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header>
+  <div class="badge">GFtGU Programs · Chapter 10</div>
+  <h1><em>Planck</em> — Black-Body Radiation</h1>
+  <div class="sub">
+    Help file for the Python program suite accompanying<br>
+    <a href="https://www.cambridge.org/gb/academic/subjects/physics/cosmology-relativity-and-gravitation/gravity-ground-up-introductory-guide-gravity-and-general-relativity"><em>Gravity from the Ground Up</em></a>
+    by Bernard Schutz &nbsp;·&nbsp; © 2003 Bernard Schutz &nbsp;·&nbsp;
+    Repository: <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Planck">tomyee3/GFTGU-Programs / Planck</a>
+  </div>
+</header>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<nav aria-label="Page sections">
+  <div class="nav-label">Contents</div>
+  <a href="#description">Description of Planck</a>
+  <a href="#using">Using Planck</a>
+  <a href="#understanding">Understanding Planck</a>
+  <a href="#modules">The Python Modules</a>
+
+  <div class="nav-label">Physics</div>
+  <a href="#dimensionless">The Dimensionless Variable</a>
+  <a href="#exact">The Exact Planck Function</a>
+  <a href="#small-x">Small-<em>x</em>: Rayleigh–Jeans</a>
+  <a href="#large-x">Large-<em>x</em>: Wien Approximation</a>
+  <a href="#peak">Peak Location (Wien's Law)</a>
+  <a href="#area">Area and Stefan–Boltzmann</a>
+
+  <div class="nav-label">Reference</div>
+  <a href="#variables">Variables and Parameters</a>
+  <a href="#investigations">Investigations 10.1–10.3</a>
+</nav>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+<!-- ─── DESCRIPTION ─── -->
+<h2 id="description">Description of <code>Planck</code></h2>
+
+<p>
+  The program suite called <code>Planck</code> implements, in Python, the computation of two
+  properties of the Planck black-body radiation curve: the <strong>location of the maximum</strong>
+  of the curve (the Wien peak), and the <strong>total area under the curve</strong> (proportional
+  to the total radiated power). Unlike many of the other programs for <em>Gravity from the Ground
+  Up</em>, <code>Planck</code> does not output a graph — it reports whichever of these two numbers
+  the user chooses.
+</p>
+<p>
+  The maximum of the Planck curve tells us, when the appropriate scaling is applied, the
+  wavelength at which peak emission occurs for a black body at a given temperature. This
+  is the content of <strong>Wien's displacement law</strong>. The area under the curve tells us
+  how much energy the black body radiates in total, which is governed by the
+  <strong>Stefan–Boltzmann law</strong>. The Planck function is studied in Chapter 10 of
+  <em>Gravity from the Ground Up</em>; Investigations 10.1, 10.2, and 10.3 are directly
+  relevant to this program.
+</p>
+<p>
+  The original Java implementation (by Bernard Schutz, version 1.0, © 2003) has been
+  faithfully ported to Python. The logic, variable names, approximation thresholds, and
+  step-counting approach are preserved exactly, with the code reorganised into three
+  focused modules following modern Python conventions.
+</p>
+
+<div class="note">
+  <strong>Chapter Reference</strong>
+  The physics background for this program is in Chapter 10 of <em>Gravity from the Ground Up</em>.
+  Investigations 10.1, 10.2, and 10.3 guide you through using the program and interpreting its
+  output in terms of real stellar temperatures and luminosities.
+</div>
+
+<hr>
+
+<!-- ─── USING ─── -->
+<h2 id="using">Using <code>Planck</code></h2>
+
+<p>
+  Run the program by executing <code>main.py</code> from the command line or from an IDE:
+</p>
+
+<pre><span class="cm"># from the Planck/ directory:</span>
+python main.py</pre>
+
+<p>
+  There are two user-adjustable parameters near the top of <code>main.py</code>:
+</p>
+
+<table>
+  <thead>
+    <tr><th>Parameter</th><th>Default value</th><th>Meaning</th></tr>
+  </thead>
   <tbody>
     <tr>
-      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">
-      <h3 style="color: rgb(102, 255, 153); font-family: monospace; font-weight: bold; text-align: center;"><big><big><big><big><span style="color: rgb(255, 0, 0);">Planck</span></big></big></big></big></h3>
-      <div style="text-align: center;"><big><font size="+2"><big><span style="color: rgb(255, 0, 0);"><small><span style="font-weight: bold;"><small><span style="color: rgb(0, 0, 0);">version 1.0<br>
-      </span></small></span></small></span></big></font><big><big><span lang="EN-GB" style="font-size: 12pt; font-family: &quot;Times New Roman&quot;; font-weight: bold;">�
-2003 Bernard Schutz</span></big></big></big><br>
-      </div>
-      <h3 style="font-family: helvetica,arial,sans-serif; text-align: center;"><large><b><span style="color: rgb(0, 0, 0);">Study the spectrum of a black body, which
-is a good approximation to the radiation from a star or a black hole.
-Find the wavelength at which the radiation peaks, and the total
-luminosity, by using the spectral energy distribution first proposed by
-Max Planck.<br>
-      </span></b></large></h3>
-      </td>
+      <td>n_steps</td>
+      <td>20 000</td>
+      <td>Number of steps across the domain of <em>x</em>. More steps → finer sampling →
+          more precise answers. 20 000 is ample for six significant figures.</td>
+    </tr>
+    <tr>
+      <td>output_type</td>
+      <td><code>"maximum"</code></td>
+      <td>What the program reports. Set to <code>"maximum"</code> to find the Wien peak
+          (<em>x</em><sub>peak</sub> and <em>y</em><sub>peak</sub>), or to
+          <code>"area"</code> to compute the total area under the curve.</td>
     </tr>
   </tbody>
 </table>
-<h2><a name="contents"></a>Contents</h2>
-<ul>
-  <li>
-    <a href="https://www.gravityfromthegroundup.org/programs/Planck.html#description">Description of <tt><font size="+1">Planck</font></tt></a></li>
-  <li>
-    <a href="https://www.gravityfromthegroundup.org/programs/Planck.html#using">Using <tt><font size="+1">Planck</font></tt></a></li>
-  <li>
-    <a href="https://www.gravityfromthegroundup.org/programs/Planck.html#understanding">Understanding <tt><font size="+1">Planck</font></tt></a></li>
-  <li>
-    <a href="https://www.gravityfromthegroundup.org/programs/Planck.html#listing">Listing of the Java code for <tt><font size="+1">Planck</font></tt></a></li>
-</ul>
-<hr width="15%" size="4">
-<h2><a name="description"></a>Description of <tt><font size="+3">Planck</font></tt></h2>
-The unit called <tt><font size="+1">Planck</font></tt> implements the
-Java
-program for computing the area under the Planck curve and the location
-of the maximum of the Planck curve. Unlike the other programs for <i>Gravity
-from the ground up</i>, <tt><font size="+1">Planck</font></tt> does
-not output
-a graph: it just reports whichever of these two numbers the user
-chooses.
-The maximum of the Planck curve tells us, when the appropriate scaling
-is applied, what wavelength the peak emission occurs at for a black
-body
-at a given temperature. The area under the curve tells us how much
-energy
-the black body radiates in total. The Planck function is studied in
-Chapter
-10, and Investigations 10.1, 10.2 and 10.3 are relevant to this
-program.
-<p></p>
-<hr width="15%" size="4">
-<h2><a name="using"></a>Using <tt><font size="+3">Planck</font></tt></h2>
-Simply drag the <tt><font size="+1">Planck</font></tt> icon from the
-toolbox
-into the working area, drag the icon for <tt><font size="+1">ConstView</font></tt>,
-and connect them up if Triana has not already done so. If you press the
-Start button then the program will execute with its default settings,
-producing
-the value of the location of the maximum of the Planck curve.
-<p><img src="./Planck_files/image5BG.JPG" height="130" width="455">The parameter
-window for
-<tt><font size="+1">Planck</font></tt>
-is shown here. There are only two parameters, one to fix the number of
-steps along the domain of the Planck function that the program should
-take,
-and the other to choose the type of output. The first parameter
-determines
-the accuracy of the answer: the more steps, the more precision you will
-sample the Planck function with. The output type is chosen from a
-drop-down
-list (called a choice box). shown here. If you choose "maximum" then
-you
-will get the value of<img src="./Planck_files/imageQHT.JPG" border="0" height="63" width="85" align="left"><i> x</i>
-(the independent variable) at which the maximum occurs. If you choose
-"area"
-you will get the area under the Planck curve. See Investigation 10.2
-for
-more detail.
-</p>
-<p></p>
-<hr width="15%" size="4">
-<h2><a name="understanding"></a>Understanding <tt><font size="+3">Planck</font></tt></h2>
-This program is a straightforward implementation of the procedure
-indicated
-in Investigations 10.2 and 10.3. It uses a loop to step through values
-of x; the more steps the user chooses, the finer will be the steps and
-the more exact will be the answers. It finds the maximum by a simple
-procedure:
-define a variable <tt><font size="+1">yPeak</font></tt> which looks
-for the
-largest value of the function. It is set to zero initially, and then
-each
-value of the function is tested against it. If the new value is bigger
-than <tt><font size="+1">yPeak</font></tt> then we re-set <tt><font size="+1">yPeak</font></tt>
-to the new value. If the new value is smaller then we don't change <tt><font size="+1">yPeak</font></tt>.Whenever
-we set <tt><font size="+1">yPeak</font></tt> we also record in the
-variable
-<tt><font size="+1">xPeak</font></tt>
-the location of the currently recorded value. This is then the value
-that
-is output when the user asks for the maximum. The code for this is
-simply:
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if (y &gt; yPeak) {</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yPeak = y;</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-xPeak = x;</font></tt>
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-}</font></tt>
-<br>
-where <tt><font size="+1">y</font></tt> is the value of the function
-computed at the current step in <i>x</i>.
-<p>The area is computed by the trapezoidal rule, as illustrated in
-Figure
-10.5. To use this, the loop has to remember the previous value of <i>y</i>
-as well as the current one. This is stored in <tt><font size="+1">yLast</font></tt>.
-Then the area is computed in the step
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-area += 0.5*(y + yLast)*dx;</font></tt>
-<br>
-Notice that this uses the Java increment-assingment operator "+=",
-which adds the right-hand-side to the area. The last step in the loop
-is
-<br>
-<tt><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yLast = y;</font></tt>
-<br>
-in which we ensure that at the next step, <tt><font size="+1">yLast</font></tt>
-will hold the correct (i.e. previous) value.
-<br>
-&nbsp;
-</p>
-<p></p>
-<hr width="15%" size="4"><br>
-&nbsp;
-<h2><a name="listing"></a>Listing of the Java code for <tt><font size="+3">Planck</font></tt></h2>
-<h3>
-Preliminary definitions of parameters and constants</h3>
-<tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nSteps is the number of divisions
-that the domain x of the Planck</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; function will be divided into. It
-is chosen by the user in the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; user interface window.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private int nSteps;</tt>
-<p><tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; outputType determines what data
-will be output. The user chooses</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; it in the user interface window
-in order to select between</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the location of the maximum of the
-function (for Wien's law) or</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the area under the Planck curve
-(for the Stefan-Boltzmann law).</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private String outputType;</tt>
-<br>
-&nbsp;
-</p>
-<h3>Program Code</h3>
-<tt>&nbsp;&nbsp;&nbsp; public void process() throws Exception {</tt>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Variables
-needed for the calculation:</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - x is the
-independent variable in the Planck function.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - y is the
-value of the Planck function y=x^5/(e^x-1)</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - xMin is
-the beginning of the range of x.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - XMax is
-the end of the range of x.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - xLow is
-the value of x, below which we use the small-x</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-approximation for the Planck function, as in the text.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - xHigh
-is the value of x, above which we use the large-x</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-approximation for the Planck function, as in the text.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - dx is
-the step-size in x.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - area will
-accumulate the area under the curve.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - xPeak
-is the value of x where the Planck function reaches</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-its maximum. It is set to zero at first and changed in</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-the loop until the correct value is reached.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - yPeak
-is the maximum value of the Planck function. It is</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-set to zero at first and changed in the loop until the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-correct value is reached.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - yLast
-is a variable that will hold the value of y at the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-lower of the two values of x in the intervals used for</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-finding the area under the curve.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double x, y;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double xMin = 0.01;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double xMax = 100.0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double xLow = 0.05;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double xHigh = 20.0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double dx = 0.01;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double area = 0.0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double xPeak = 0.0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double yPeak = 0.0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double yLast = 0;</tt>
-<br>
-&nbsp;
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Now we enter
-the for loop that runs across the domain x and</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; searches
-for the maximum of the Planck function and calculates</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the area
-under the curve.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for ( x = xMin; x &lt;=
-xMax; x += dx ) {</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Compute the value of the Planck function, using the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-approximations for small or large x as appropriate.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if ( x &lt; xLow ) y = Math.pow(x, 4);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-else if ( x &gt; xHigh ) y = Math.exp( 5.0*Math.log(x)-x );</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-else y = Math.pow(x, 5) / (Math.exp(x) - 1);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Find the maximum by testing each new value of y to</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-see if is larger than the one already stored in</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yPeak. If it is larger, then yPeak is set equal to</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-the new value and xPeak is set equal to x. In this</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-way when the loop is finished xPeak contains the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-location of the maximum.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if (y &gt; yPeak) {</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yPeak = y;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-xPeak = x;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-}</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-To find the area, add in the area under the curve</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-(as computed by the approximation described in the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-text) between the present value of x and the previous</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-one. The value of y at the previous x has been stored</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-in yLast. Note that the area required is under the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-curve x^3/(e^x-1), so we must divide by x^2.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-y /= (x*x);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-area += 0.5*(y + yLast)*dx;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Now make sure yLast contains the current value of y,</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-which will be the previous value at the next step.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-yLast = y;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
-(outputType.equals("area"))
-output( new Const(area));</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if
-(outputType.equals("maximum"))
-output( new Const(xPeak));</tt>
-<br>
-&nbsp;
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp; }</tt>
-<br>
-&nbsp;
-</p>
-<p></p>
-<hr width="15%" size="4"><br>
-<b><font size="-1">Return to <a href="https://www.gravityfromthegroundup.org/programs/index.html">index</a> of all
-computer
-programs.</font></b>
 
+<p>
+  To change the output, edit <code>main.py</code> and replace <code>"maximum"</code> with
+  <code>"area"</code> (or vice versa), then re-run. The program prints its result to the
+  terminal. For example, with the default settings you should see output similar to:
+</p>
 
-</body></html>
+<pre>Location of maximum of Planck function:
+x_peak = 4.9651...
+y_peak = 21.201...</pre>
+
+<p>
+  The value of <em>x</em><sub>peak</sub> ≈ 4.965 is the dimensionless location of the Wien
+  peak and can be converted to a physical wavelength for any temperature — see
+  <a href="#peak">Peak Location</a> below and Investigation 10.2 in the book.
+</p>
+
+<div class="note">
+  <strong>Prerequisites</strong>
+  Python 3.9 or later is required. No third-party libraries are needed beyond the Python
+  standard library; the code uses only built-in <code>math</code> functions.
+</div>
+
+<hr>
+
+<!-- ─── UNDERSTANDING ─── -->
+<h2 id="understanding">Understanding <code>Planck</code></h2>
+
+<p>
+  The program is a direct implementation of the procedure described in Investigations 10.2
+  and 10.3. A loop steps through values of the dimensionless variable <em>x</em> from
+  <em>x</em><sub>min</sub> = 0.01 to <em>x</em><sub>max</sub> = 100. At each step it
+  evaluates the Planck function (using the appropriate exact formula or approximation),
+  tests whether a new maximum has been found, and accumulates the area under the curve by
+  the trapezoidal rule.
+</p>
+
+<h3 id="dimensionless">The Dimensionless Variable <em>x</em></h3>
+
+<p>
+  The Planck spectral radiance depends on temperature <em>T</em> and wavelength λ through
+  the combination hc/(λk<sub>B</sub>T), or equivalently on frequency ν through hν/(k<sub>B</sub>T).
+  Schutz's treatment introduces the dimensionless variable:
+</p>
+
+<div class="eq">
+  <span class="eq-num">(1)</span>
+  <em>x</em> = h<em>c</em> / (λ <em>k</em><sub>B</sub><em>T</em>) &nbsp;=&nbsp; h<em>ν</em> / (<em>k</em><sub>B</sub><em>T</em>)
+  <span class="eq-note">
+    <em>h</em> = Planck constant, &nbsp;
+    <em>c</em> = speed of light, &nbsp;
+    <em>k</em><sub>B</sub> = Boltzmann constant, &nbsp;
+    <em>T</em> = absolute temperature (K)
+  </span>
+</div>
+
+<p>
+  In terms of <em>x</em>, the spectral energy density of black-body radiation (up to a
+  temperature-dependent prefactor) takes the tidy dimensionless form studied in the program:
+</p>
+
+<div class="eq">
+  <span class="eq-num">(2)</span>
+  <em>f</em>(<em>x</em>) = <em>x</em><sup>5</sup> / (e<sup><em>x</em></sup> − 1)
+  <span class="eq-note">
+    This is the function whose maximum and area the program finds. It is proportional to
+    <em>B</em><sub>λ</sub> × λ<sup>5</sup>, where <em>B</em><sub>λ</sub> is the spectral
+    radiance per unit wavelength. See Chapter 10 for the full dimensional form.
+  </span>
+</div>
+
+<p>
+  Using the variable <em>x</em> achieves two things: it makes the function
+  <em>temperature-independent</em> (the peak position and the normalised area do not depend on T),
+  and it brings the domain into a convenient range — the function is negligibly small below
+  <em>x</em> ≈ 0.01 and above <em>x</em> ≈ 50, so the range [0.01, 100] captures everything
+  that matters.
+</p>
+
+<h3 id="exact">The Exact Planck Function</h3>
+
+<p>
+  For intermediate values of <em>x</em> — the program uses 0.05 ≤ <em>x</em> ≤ 20.0 as the
+  "middle" regime — the function is evaluated exactly:
+</p>
+
+<div class="eq">
+  <span class="eq-num">(3)</span>
+  <em>f</em>(<em>x</em>) = <em>x</em><sup>5</sup> / (e<sup><em>x</em></sup> − 1)
+  &nbsp;&nbsp; [<em>x</em><sub>low</sub> ≤ <em>x</em> ≤ <em>x</em><sub>high</sub>]
+  <span class="eq-note">
+    Implemented as <code>planck_exact(x)</code> in <code>planck_physics.py</code>.
+    Direct evaluation is numerically safe in this range because
+    e<sup><em>x</em></sup> − 1 is neither too close to zero nor too large to overflow.
+  </span>
+</div>
+
+<h3 id="small-x">Small-<em>x</em> Approximation: the Rayleigh–Jeans Limit</h3>
+
+<p>
+  When <em>x</em> is small (long wavelengths or high temperatures, so hν ≪ k<sub>B</sub>T),
+  the exponential can be expanded as e<sup><em>x</em></sup> ≈ 1 + <em>x</em>, giving
+  e<sup><em>x</em></sup> − 1 ≈ <em>x</em>. The Planck function then simplifies to:
+</p>
+
+<div class="eq">
+  <span class="eq-num">(4)</span>
+  <em>f</em>(<em>x</em>) ≈ <em>x</em><sup>5</sup> / <em>x</em> = <em>x</em><sup>4</sup>
+  &nbsp;&nbsp; [<em>x</em> &lt; <em>x</em><sub>low</sub> = 0.05]
+  <span class="eq-note">
+    Implemented as <code>planck_small_x(x)</code> in <code>planck_physics.py</code>.
+    This is the classical <strong>Rayleigh–Jeans regime</strong>: in dimensional form it
+    gives <em>B</em><sub>λ</sub> ∝ <em>T</em>/λ<sup>4</sup>, independent of Planck's constant.
+    It was derived from pure classical physics by Lord Rayleigh (1900) and James Jeans (1905).
+  </span>
+</div>
+
+<p>
+  At first glance the x<sup>4</sup> growth looks alarming — if the function kept growing as
+  λ → 0 (x → ∞) it would predict infinite total radiation, the <em>ultraviolet catastrophe</em>.
+  The approximation only applies for small <em>x</em>; the exact formula (eq. 3) cures this
+  by the exponential denominator.
+</p>
+
+<h3 id="large-x">Large-<em>x</em> Approximation: the Wien Exponential</h3>
+
+<p>
+  When <em>x</em> is large (short wavelengths or low temperatures, so hν ≫ k<sub>B</sub>T),
+  the exponential e<sup><em>x</em></sup> dominates and the −1 in the denominator is negligible.
+  The Planck function becomes:
+</p>
+
+<div class="eq">
+  <span class="eq-num">(5)</span>
+  <em>f</em>(<em>x</em>) ≈ <em>x</em><sup>5</sup> e<sup>−<em>x</em></sup>
+  = exp(5 ln <em>x</em> − <em>x</em>)
+  &nbsp;&nbsp; [<em>x</em> &gt; <em>x</em><sub>high</sub> = 20.0]
+  <span class="eq-note">
+    Implemented as <code>planck_large_x(x)</code> in <code>planck_physics.py</code>.
+    The form exp(5 ln x − x) is used rather than x<sup>5</sup> × exp(−x) to avoid
+    floating-point overflow when x is large. This is the <strong>Wien exponential
+    approximation</strong>, first derived empirically by Wilhelm Wien in 1896.
+  </span>
+</div>
+
+<p>
+  The exponential decay e<sup>−x</sup> kills the Planck function rapidly for large <em>x</em>
+  (short wavelengths), preventing the ultraviolet catastrophe. It is this term — arising from
+  Planck's quantisation hypothesis — that classical physics had no way to derive.
+</p>
+
+<h3 id="peak">Finding the Peak — Wien's Displacement Law</h3>
+
+<p>
+  The program locates the maximum by a simple running-maximum scan: it maintains a variable
+  <code>y_peak</code> (initialised to zero) and checks each new function value against it.
+  Whenever the new value exceeds <code>y_peak</code>, it updates both <code>y_peak</code> and
+  <code>x_peak</code>. In pseudocode (directly reflecting the Python in <code>planck_driver.py</code>):
+</p>
+
+<pre><span class="kw">if</span> y &gt; y_peak:
+    y_peak = y
+    x_peak = x</pre>
+
+<p>
+  When the loop is finished, <code>x_peak</code> contains the location of the maximum.
+  With 20 000 steps across [0.01, 100], the step size is dx ≈ 0.005, so <em>x</em><sub>peak</sub>
+  is accurate to about four decimal places.
+</p>
+<p>
+  The theoretical value comes from setting d<em>f</em>/d<em>x</em> = 0. Differentiating
+  equation (2) and simplifying leads to the transcendental equation:
+</p>
+
+<div class="eq">
+  <span class="eq-num">(6)</span>
+  5(1 − e<sup>−<em>x</em></sup>) = <em>x</em>
+  <span class="eq-note">
+    Solved numerically, the root is <em>x</em><sub>peak</sub> ≈ 4.9651. Converting back to
+    wavelength: λ<sub>max</sub> = hc / (4.9651 k<sub>B</sub>T), giving Wien's displacement
+    constant <em>b</em> = λ<sub>max</sub>T ≈ 2.898 × 10<sup>−3</sup> m K.
+    Equivalently, λ<sub>max</sub> [nm] ≈ 2 898 000 / T [K].
+  </span>
+</div>
+
+<p>
+  Some astrophysical examples of Wien's law in action:
+</p>
+
+<table>
+  <thead>
+    <tr><th>Object</th><th>T (K)</th><th>λ<sub>max</sub> (nm)</th><th>Colour / band</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Cosmic Microwave Background</td><td>2.725</td><td>1 064 000</td><td>Microwave</td></tr>
+    <tr><td>Red giant (Betelgeuse)</td><td>3 600</td><td>805</td><td>Near-infrared</td></tr>
+    <tr><td>Sun (photosphere)</td><td>5 778</td><td>501</td><td>Yellow-green visible</td></tr>
+    <tr><td>Blue-white star (Rigel)</td><td>12 000</td><td>241</td><td>Near-ultraviolet</td></tr>
+    <tr><td>White dwarf</td><td>25 000</td><td>116</td><td>Ultraviolet</td></tr>
+  </tbody>
+</table>
+
+<h3 id="area">Computing the Area — Stefan–Boltzmann</h3>
+
+<p>
+  The total area under the curve is related to the total power radiated by the black body.
+  However, the program works with <em>f</em>(<em>x</em>) = <em>x</em><sup>5</sup>/(e<sup>x</sup>−1),
+  whereas the Stefan–Boltzmann integral involves
+  <em>x</em><sup>3</sup>/(e<sup><em>x</em></sup>−1). The two are related by:
+</p>
+
+<div class="eq">
+  <span class="eq-num">(7)</span>
+  <em>x</em><sup>3</sup> / (e<sup><em>x</em></sup> − 1)
+  = [<em>x</em><sup>5</sup> / (e<sup><em>x</em></sup> − 1)] / <em>x</em><sup>2</sup>
+  = <em>f</em>(<em>x</em>) / <em>x</em><sup>2</sup>
+  <span class="eq-note">
+    So the area accumulated by the program is ∫ f(x)/x² dx = ∫ x³/(eˣ−1) dx.
+    The program divides each <em>f</em>(<em>x</em>) value by <em>x</em>² before adding it to
+    the running area sum — as noted in the original Schutz comment: "the area required is
+    under the curve x³/(eˣ−1), so we must divide by x²."
+  </span>
+</div>
+
+<p>
+  The area is accumulated using the <strong>trapezoidal rule</strong>, illustrated in Figure
+  10.5 of the book. The program stores the previous value of the integrand in
+  <code>y_last</code>, so that at each step it can add the area of the trapezoid
+  formed by the two successive values:
+</p>
+
+<pre>y /= (x * x)          <span class="cm"># convert to x³/(eˣ−1)</span>
+area += 0.5 * (y + y_last) * dx
+y_last = y</pre>
+
+<p>
+  The exact analytic result is:
+</p>
+
+<div class="eq">
+  <span class="eq-num">(8)</span>
+  ∫<sub>0</sub><sup>∞</sup> <em>x</em><sup>3</sup> / (e<sup><em>x</em></sup> − 1) d<em>x</em>
+  = π<sup>4</sup> / 15 ≈ 6.4939
+  <span class="eq-note">
+    This result involves the Riemann zeta function: ζ(4) = π⁴/90, combined with the
+    identity ∫ x³/(eˣ−1) dx = 6ζ(4). When the program's area output is compared against
+    π⁴/15, it provides a check on the accuracy of the numerical integration (Investigation 10.3).
+  </span>
+</div>
+
+<p>
+  With 20 000 steps the trapezoidal sum converges to this value to better than 0.01%. The
+  Stefan–Boltzmann law M(T) = σT⁴ then follows from multiplying by the appropriate
+  dimensional prefactor: σ = 2π⁵k<sub>B</sub>⁴ / (15 c² h³) ≈ 5.67 × 10<sup>−8</sup>
+  W m<sup>−2</sup> K<sup>−4</sup>.
+</p>
+
+<hr>
+
+<!-- ─── PYTHON MODULES ─── -->
+<h2 id="modules">The Python Modules</h2>
+
+<p>
+  The Python port is organised into three files inside the <code>Planck/</code> folder of
+  the <a href="https://github.com/tomyee3/GFTGU-Programs">tomyee3/GFTGU-Programs</a> repository.
+  The separation mirrors standard Python practice: physics functions in one file, the
+  computational driver in another, and a clean user entry point at the top.
+</p>
+
+<div class="module-row">
+  <div class="mc">
+    <div class="mc-name">main.py</div>
+    <div class="mc-size">38 lines · 1.2 KB</div>
+    <div class="mc-desc">User entry point. Sets <code>n_steps</code> and <code>output_type</code>,
+    calls <code>run_planck()</code>, and prints the result. Edit this file to change
+    parameters.</div>
+    <a href="https://github.com/tomyee3/GFTGU-Programs/blob/main/Planck/main.py">View on GitHub ↗</a>
+  </div>
+  <div class="mc">
+    <div class="mc-name">planck_driver.py</div>
+    <div class="mc-size">85 lines · 2.2 KB</div>
+    <div class="mc-desc">Contains <code>run_planck(n_steps, output_type)</code>. Implements
+    the main loop, regime switching, peak detection, and trapezoidal area integration.
+    Returns a dict.</div>
+    <a href="https://github.com/tomyee3/GFTGU-Programs/blob/main/Planck/planck_driver.py">View on GitHub ↗</a>
+  </div>
+  <div class="mc">
+    <div class="mc-name">planck_physics.py</div>
+    <div class="mc-size">38 lines · 1.1 KB</div>
+    <div class="mc-desc">Defines three pure functions of the dimensionless variable <em>x</em>:
+    <code>planck_exact</code>, <code>planck_small_x</code>, and <code>planck_large_x</code>.</div>
+    <a href="https://github.com/tomyee3/GFTGU-Programs/blob/main/Planck/planck_physics.py">View on GitHub ↗</a>
+  </div>
+</div>
+
+<h3>planck_physics.py — the three Planck functions</h3>
+
+<p>
+  All three functions take a single argument <code>x</code> (dimensionless, as in eq. 1) and
+  return the value of the dimensionless Planck integrand. They contain no references to
+  physical constants or temperature — all dimensional information is handled by the caller.
+</p>
+
+<table>
+  <thead>
+    <tr><th>Function</th><th>Formula</th><th>Regime</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>planck_small_x(x)</td>
+      <td>x<sup>4</sup></td>
+      <td>x &lt; 0.05 (Rayleigh–Jeans, long λ)</td>
+    </tr>
+    <tr>
+      <td>planck_exact(x)</td>
+      <td>x<sup>5</sup> / (exp(x) − 1)</td>
+      <td>0.05 ≤ x ≤ 20.0 (full Planck formula)</td>
+    </tr>
+    <tr>
+      <td>planck_large_x(x)</td>
+      <td>exp(5 ln x − x)</td>
+      <td>x &gt; 20.0 (Wien exponential, short λ)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  The form <code>exp(5 * log(x) − x)</code> for the large-<em>x</em> case is a direct
+  transcription of the original Schutz Java: <code>Math.exp(5.0 * Math.log(x) − x)</code>.
+  It avoids computing <code>x**5</code> and <code>exp(−x)</code> separately, which would
+  risk overflow for large <em>x</em>.
+</p>
+
+<h3>planck_driver.py — run_planck(n_steps, output_type)</h3>
+
+<p>
+  The driver function controls the sweep across the domain of <em>x</em> and selects the
+  appropriate physics function at each step. The key internal variables are:
+</p>
+
+<table>
+  <thead>
+    <tr><th>Variable</th><th>Value / Role</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>x_min</td><td>0.01 — lower bound of the sweep; f(x) is negligible here</td></tr>
+    <tr><td>x_max</td><td>100.0 — upper bound; f(x) is effectively zero above ≈ 50</td></tr>
+    <tr><td>x_low</td><td>0.05 — threshold below which <code>planck_small_x</code> is used</td></tr>
+    <tr><td>x_high</td><td>20.0 — threshold above which <code>planck_large_x</code> is used</td></tr>
+    <tr><td>dx</td><td>(x_max − x_min) / n_steps — uniform step size</td></tr>
+    <tr><td>x_peak, y_peak</td><td>Running maximum location and value</td></tr>
+    <tr><td>y_last</td><td>Previous integrand value, needed for the trapezoidal rule</td></tr>
+    <tr><td>area</td><td>Accumulated trapezoidal sum of x³/(eˣ−1)</td></tr>
+  </tbody>
+</table>
+
+<p>
+  The function returns a Python dictionary: <code>{'x_peak': ..., 'y_peak': ...}</code>
+  when <code>output_type == "maximum"</code>, or <code>{'area': ...}</code> when
+  <code>output_type == "area"</code>.
+</p>
+
+<h3>main.py — the entry point</h3>
+
+<p>
+  <code>main.py</code> is the only file the user needs to run or modify. It imports
+  <code>run_planck</code> from <code>planck_driver</code>, calls it with the chosen parameters,
+  and prints a clearly labelled result to the terminal. No other imports are required.
+</p>
+
+<hr>
+
+<!-- ─── VARIABLES TABLE ─── -->
+<h2 id="variables">Variables and Parameters — Quick Reference</h2>
+
+<table>
+  <thead>
+    <tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>n_steps</td><td>int</td><td>20 000</td><td>Accuracy parameter: number of equally spaced x values sampled across [x_min, x_max]</td></tr>
+    <tr><td>output_type</td><td>str</td><td>"maximum"</td><td>"maximum" → report x_peak and y_peak; "area" → report trapezoidal area</td></tr>
+    <tr><td>x_min</td><td>float</td><td>0.01</td><td>Start of the domain in dimensionless x</td></tr>
+    <tr><td>x_max</td><td>float</td><td>100.0</td><td>End of the domain in dimensionless x</td></tr>
+    <tr><td>x_low</td><td>float</td><td>0.05</td><td>Rayleigh–Jeans/exact crossover threshold</td></tr>
+    <tr><td>x_high</td><td>float</td><td>20.0</td><td>Exact/Wien exponential crossover threshold</td></tr>
+    <tr><td>x_peak</td><td>float</td><td>0.0 (init)</td><td>x-coordinate of the current running maximum</td></tr>
+    <tr><td>y_peak</td><td>float</td><td>0.0 (init)</td><td>Value of the Planck function at the current running maximum</td></tr>
+    <tr><td>y_last</td><td>float</td><td>0.0 (init)</td><td>Integrand value at the previous step (for trapezoidal rule)</td></tr>
+    <tr><td>area</td><td>float</td><td>0.0 (init)</td><td>Running trapezoidal sum of x³/(eˣ−1)</td></tr>
+  </tbody>
+</table>
+
+<hr>
+
+<!-- ─── INVESTIGATIONS ─── -->
+<h2 id="investigations">Investigations 10.1, 10.2, and 10.3</h2>
+
+<h3>Investigation 10.1 — Qualitative Features of the Spectrum</h3>
+<p>
+  Use the dimensional form of the Planck function (equation 2, rewritten with the prefactor
+  2hc²/λ⁵) to sketch the spectrum for a star at 3 000 K, 6 000 K, and 12 000 K. Without
+  running any program: predict which curve has its peak at the longest wavelength, and which
+  has the greatest area. Confirm your predictions using Wien's displacement law (eq. 6) and
+  the Stefan–Boltzmann law (eq. 8). The program is not needed for this investigation.
+</p>
+
+<h3>Investigation 10.2 — The Wien Peak</h3>
+<p>
+  Run <code>Planck</code> with <code>output_type = "maximum"</code> and the default
+  <code>n_steps = 20000</code>. Record the value of <em>x</em><sub>peak</sub>. Compare it
+  to the theoretical value 4.9651 (the root of equation 6). Then:
+</p>
+<ol>
+  <li>Use Wien's displacement law λ<sub>max</sub> = hc / (4.9651 k<sub>B</sub>T) to
+      compute the peak wavelength for the Sun (T ≈ 5 778 K) and check it falls in the
+      visible band (400–700 nm).</li>
+  <li>Repeat for the Cosmic Microwave Background (T = 2.725 K) and confirm the peak is
+      in the microwave region (λ ≈ 1 mm).</li>
+  <li>Try reducing <code>n_steps</code> to 200 and observe how the precision of
+      <em>x</em><sub>peak</sub> changes. What is the minimum number of steps that still
+      gives a result accurate to 1%?</li>
+</ol>
+
+<h3>Investigation 10.3 — The Stefan–Boltzmann Law</h3>
+<p>
+  Run <code>Planck</code> with <code>output_type = "area"</code>. The program integrates
+  <em>x</em><sup>3</sup>/(e<sup><em>x</em></sup>−1) from x_min to x_max. Compare the result
+  to the analytical value π<sup>4</sup>/15 ≈ 6.4939. Then:
+</p>
+<ol>
+  <li>Compute the Stefan–Boltzmann constant from the area:
+      σ = (area × 2π k<sub>B</sub><sup>4</sup>) / (c² h³ × 15/π<sup>4</sup>)
+      and compare to the tabulated value 5.6704 × 10<sup>−8</sup> W m<sup>−2</sup> K<sup>−4</sup>.</li>
+  <li>Use L = 4πR²σT⁴ to compute the Sun's luminosity, given R<sub>☉</sub> = 6.96 × 10<sup>8</sup> m
+      and T = 5 778 K. Compare to the accepted value 3.83 × 10<sup>26</sup> W.</li>
+  <li>Show that doubling a star's temperature at fixed radius increases its luminosity by
+      a factor of 16. Verify numerically using two area calculations at T and 2T.</li>
+</ol>
+
+<hr>
+
+<p style="font-family: var(--sans); font-size: 0.82rem; color: var(--muted);">
+  Return to the
+  <a href="https://github.com/tomyee3/GFTGU-Programs">index of all GFtGU programs</a>.
+  &nbsp;·&nbsp;
+  Original help file: Bernard Schutz © 2003 &nbsp;·&nbsp;
+  Python port &amp; revised documentation: © 2024 Thomas Yee &nbsp;·&nbsp;
+  Licensed under
+  <a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/00-License">CC BY-NC-SA</a>.
+</p>
+
+</main>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <span>
+    <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Planck">tomyee3/GFTGU-Programs/Planck</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/tomyee3/GFTGU-Documentation/blob/main/10-Planck/Planck.html">Original documentation</a>
+  </span>
+  <span>
+    <em>Gravity from the Ground Up</em> by Bernard Schutz &nbsp;·&nbsp; Chapter 10
+  </span>
+</footer>
+
+</div><!-- .page-wrap -->
+</body>
+</html>
