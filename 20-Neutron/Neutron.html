@@ -1,723 +1,1101 @@
-<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
-<!-- saved from url=(0060)https://www.gravityfromthegroundup.org/programs/Neutron.html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-  
-  <meta name="Generator" content="Microsoft Word 97">
-  <meta name="Template" content="C:\PROGRAM FILES\MICROSOFT OFFICE\OFFICE\html.dot">
-  <meta name="GENERATOR" content="Mozilla/4.79 [en] (Windows NT 5.0; U) [Netscape]">
-  <meta name="Author" content="Bernard F Schutz">
-  <title>Neutron</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neutron – Help File | GFtGU Programs</title>
+
+  <!-- MathJax 3 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath:  [['\\(','\\)']],
+        displayMath: [['\\[','\\]']],
+        tags: 'ams'
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+          id="MathJax-script" async></script>
+
+  <style>
+    /* ── Reset & custom properties ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #fdf5e6;
+      --surface:  #ffffff;
+      --border:   #c8bfa0;
+      --accent:   #7b2d00;
+      --accent2:  #a04010;
+      --gold:     #b5811a;
+      --text:     #1c1c1c;
+      --muted:    #5a4a3a;
+      --code-bg:  #f0ede4;
+      --note-bg:  #f4f0e8;
+      --eq-bg:    #f7f2e8;
+      --radius:   5px;
+      --shadow:   0 2px 8px rgba(0,0,0,0.10);
+      --mono:     "Courier New", Courier, monospace;
+      --sans:     "Helvetica Neue", Arial, sans-serif;
+      --serif:    Georgia, "Times New Roman", Times, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 1.80;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Page grid ── */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      grid-column: 1 / -1;
+      background: var(--accent);
+      color: #fff;
+      padding: 26px 38px 20px;
+      border-bottom: 4px solid var(--gold);
+    }
+    header .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 3px;
+      padding: 2px 7px;
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 1.95rem;
+      font-weight: normal;
+      letter-spacing: -.02em;
+    }
+    header h1 em { font-style: normal; color: #ffc9a0; }
+    header .sub {
+      margin-top: 6px;
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: #f0d0b8;
+      line-height: 1.55;
+    }
+    header .sub a {
+      color: #ffd8b8;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,200,150,.4);
+    }
+    header .sub a:hover { border-bottom-color: #ffd8b8; }
+
+    /* ── Sidebar ── */
+    nav {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 0 40px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .nav-label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 18px 20px 5px;
+      display: block;
+    }
+    nav a {
+      display: block;
+      font-family: var(--sans);
+      font-size: 12.5px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 20px 4px 26px;
+      border-left: 3px solid transparent;
+      transition: border-color .15s, color .15s;
+    }
+    nav a:hover,
+    nav a.active {
+      color: var(--accent);
+      border-left-color: var(--gold);
+      background: #fdf5e6;
+    }
+    .nav-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 14px 16px;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 44px 52px 60px 48px;
+      max-width: 860px;
+    }
+
+    /* ── Section headings ── */
+    h2 {
+      font-size: 1.35rem;
+      font-weight: normal;
+      color: var(--accent);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 5px;
+      margin: 44px 0 16px;
+    }
+    h2:first-child { margin-top: 0; }
+    h3 {
+      font-size: 1.08rem;
+      font-weight: bold;
+      color: var(--accent2);
+      margin: 28px 0 10px;
+    }
+    h4 {
+      font-size: 0.98rem;
+      font-weight: bold;
+      color: var(--muted);
+      margin: 20px 0 6px;
+    }
+
+    p { margin-bottom: 1em; }
+    ul, ol { margin: 0.4em 0 1em 1.5em; }
+    li { margin-bottom: 0.3em; }
+    strong { color: var(--accent2); }
+
+    /* ── Equation blocks ── */
+    .eq {
+      background: var(--eq-bg);
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 14px 20px 14px 18px;
+      margin: 18px 0;
+      overflow-x: auto;
+      position: relative;
+    }
+    .eq-label {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--sans);
+      font-size: 11.5px;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* ── Note / tip boxes ── */
+    .note {
+      background: var(--note-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent2);
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      margin: 18px 0;
+      font-size: 0.93rem;
+    }
+    .note strong { display: block; margin-bottom: 4px; color: var(--accent); }
+    .note.tip  { border-left-color: var(--gold); }
+    .note.warn { border-left-color: #c04000; }
+
+    /* ── Code blocks ── */
+    pre {
+      background: #2b2b2b;
+      color: #f8f8f2;
+      font-family: var(--mono);
+      font-size: 13px;
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      margin: 14px 0 20px;
+      line-height: 1.55;
+    }
+    code {
+      font-family: var(--mono);
+      font-size: 0.875em;
+      background: var(--code-bg);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    pre code {
+      background: transparent;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    /* ── Module cards ── */
+    .mc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+      gap: 20px;
+      margin: 20px 0 30px;
+    }
+    .mc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 18px 20px 16px;
+      box-shadow: var(--shadow);
+    }
+    .mc-card h4 {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--accent);
+      margin: 0 0 8px;
+    }
+    .mc-card p {
+      font-size: 0.90rem;
+      color: var(--muted);
+      margin-bottom: 0.6em;
+      line-height: 1.6;
+    }
+    .mc-card ul {
+      font-size: 0.88rem;
+      color: var(--text);
+      margin-left: 1.2em;
+    }
+    .mc-card .fn {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      background: var(--code-bg);
+      border-radius: 3px;
+      padding: 1px 5px;
+    }
+
+    /* ── Param table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px;
+      font-size: 0.91rem;
+    }
+    th {
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      text-align: left;
+      padding: 7px 12px;
+    }
+    td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #faf7f2; }
+    td:first-child { font-family: var(--mono); font-size: 12.5px; color: var(--accent2); }
+
+    /* ── Footer ── */
+    footer {
+      grid-column: 1 / -1;
+      background: #f0e8d8;
+      border-top: 1px solid var(--border);
+      padding: 22px 38px;
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    footer img { height: 30px; opacity: 0.88; }
+    footer a { color: var(--accent2); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
 </head>
-<body text="#000000" bgcolor="#fdf5e6" link="#808080" vlink="#808080" alink="#ff0000" background="./Neutron_files/BH-posneg.negative.watermark.png">
-<span style="font-weight: bold;"><a href="https://www.gravityfromthegroundup.org/programs/license.html"><img src="./Neutron_files/HelpfileBanner.png" title="Click to view license information." alt="" style="border: 0px solid ; width: 375px; height: 362px;" align="right"></a></span><br>
-<table cellpadding="2" cellspacing="2" border="3" style="text-align: left; width: 50%; margin-left: auto; margin-right: auto;">
+
+<body>
+<div class="page-wrap">
+
+<!-- ════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════ -->
+<header>
+  <div class="badge">GFtGU Programs &nbsp;·&nbsp; Python Port</div>
+  <h1>Neutron &mdash; <em>Neutron Star Structure</em></h1>
+  <div class="sub">
+    General-relativistic stellar structure &nbsp;|&nbsp;
+    Tolman–Oppenheimer–Volkoff equation &nbsp;|&nbsp;
+    Polytropic equation of state<br>
+    Source:
+    <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Neutron"
+       target="_blank">github.com/tomyee3/GFTGU-Programs/tree/main/Neutron</a>
+    &nbsp;&nbsp;Based on original Java programs by Bernard Schutz,
+    <em>Gravity From the Ground Up</em> (Cambridge, 2003).
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════
+     SIDEBAR NAV
+════════════════════════════════════════════ -->
+<nav>
+  <span class="nav-label">Contents</span>
+  <a href="#overview">Overview</a>
+  <a href="#parameters">Parameters</a>
+  <a href="#output">Output Modes</a>
+  <a href="#modules">Module Structure</a>
+
+  <hr class="nav-divider" />
+  <span class="nav-label">Physics</span>
+  <a href="#newtonian">Newtonian Hydrostatics</a>
+  <a href="#tov">TOV Equation</a>
+  <a href="#eos">Equation of State</a>
+  <a href="#mass">Mass Integral</a>
+  <a href="#buchdahl">Buchdahl's Theorem</a>
+  <a href="#masslimit">Maximum Mass</a>
+
+  <hr class="nav-divider" />
+  <span class="nav-label">Numerical Methods</span>
+  <a href="#radial-march">Radial Marching Scheme</a>
+  <a href="#stepsize">Step Sizing</a>
+  <a href="#ic">Initial Conditions</a>
+  <a href="#doubling">Step Doubling</a>
+
+  <hr class="nav-divider" />
+  <span class="nav-label">Reference</span>
+  <a href="#experiments">Suggested Experiments</a>
+  <a href="#seealso">See Also</a>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════════ -->
+<main>
+
+<!-- ─── Overview ─── -->
+<h2 id="overview">Overview</h2>
+
+<p>
+  <strong>Neutron</strong> builds a complete model of a neutron star's internal structure by
+  integrating the equations of <em>general-relativistic hydrostatics</em> outward from the
+  stellar center to the surface.  Unlike the orbital programs in this collection
+  (Binary, Multiple, MercPert), Neutron does not evolve a system through time; instead it
+  computes a <em>static, spherically symmetric</em> equilibrium configuration — the unique
+  structure that results from a given central pressure and equation of state.
+</p>
+<p>
+  The central physics ingredient is the <strong>Tolman–Oppenheimer–Volkoff (TOV) equation</strong>,
+  which is the general-relativistic replacement for Newtonian hydrostatic equilibrium.
+  It accounts for the fact that in a sufficiently compact object, pressure itself contributes
+  to gravity — an effect that is negligible for ordinary stars but crucial for neutron stars.
+  This feedback between pressure and gravity is responsible for the famous <em>maximum mass</em>
+  of neutron stars: beyond a critical central pressure, adding more mass actually reduces the
+  star's size until it collapses to a black hole.
+</p>
+<p>
+  The program uses a <strong>polytropic equation of state</strong>,
+  \( p = K\rho^\gamma \), which captures a broad class of stellar models with two
+  parameters: the polytropic exponent \(\gamma\) and the proportionality constant \(K\).
+  By varying these parameters the user can explore normal neutron stars, strange-quark-matter
+  stars, and ultra-stiff or ultra-soft nuclear equations of state.
+</p>
+<div class="note tip">
+  <strong>How this program differs from the others in this collection</strong>
+  Neutron is a <em>radial structure solver</em>, not a time-domain ODE integrator.
+  There is no predictor–corrector loop, no RK45 adaptive stepper, and no orbit to complete.
+  The independent variable is radius \(r\) (not time), and the integration marches outward
+  from \(r = 0\) until pressure first becomes negative — that point is the stellar surface.
+</div>
+
+
+<!-- ─── Parameters ─── -->
+<h2 id="parameters">Parameters</h2>
+
+<p>
+  All parameters are set near the top of <code>main.py</code> and passed to the
+  <code>compute_neutron_star()</code> driver function.  No command-line interface or GUI
+  is provided; edit the values directly in the source file.
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Default</th>
+      <th>Units</th>
+      <th>Description</th>
+    </tr>
+  </thead>
   <tbody>
     <tr>
-      <td style="vertical-align: top; background-color: rgb(204, 204, 204);">
-      <h3 style="color: rgb(102, 255, 153); font-family: monospace; font-weight: bold; text-align: center;"><big><big><big><big><span style="color: rgb(255, 0, 0);">Neutron</span></big></big></big></big></h3>
-      <div style="text-align: center;"><big><font size="+2"><big><span style="color: rgb(255, 0, 0);"><small><span style="font-weight: bold;"><small><span style="color: rgb(0, 0, 0);">version 1.0<br>
-      </span></small></span></small></span></big></font><big><big><span lang="EN-GB" style="font-size: 12pt; font-family: &quot;Times New Roman&quot;; font-weight: bold;">�
-2003 Bernard Schutz</span></big></big></big><br>
-      </div>
-      <h3 style="font-family: helvetica,arial,sans-serif; text-align: center;"><large><b><span style="color: rgb(0, 0, 0);">Build a model of a neutron star using the
-full structure equations of general relativity. The user can choose the
-central pressure and some aspects of the equation of state. The program
-will output graphs of the density, pressure, or mass as functions of
-the radius.<br>
-      </span></b></large></h3>
+      <td>gamma</td>
+      <td>5/3</td>
+      <td>dimensionless</td>
+      <td>
+        Polytropic exponent \(\gamma\) in \(p = K\rho^\gamma\).
+        \(\gamma = 5/3\) corresponds to a non-relativistic, degenerate neutron gas.
+        Use \(\gamma = 1\) with \(K = c^2/3\) to model strange-quark matter.
+      </td>
+    </tr>
+    <tr>
+      <td>pC</td>
+      <td>1e34</td>
+      <td>Pa</td>
+      <td>
+        Central pressure \(p_C\) (pressure at \(r = 0\)).  This is the
+        primary free parameter determining the star's mass and radius.
+        Larger \(p_C\) gives a more massive, more compact star.
+      </td>
+    </tr>
+    <tr>
+      <td>K</td>
+      <td>1e-15</td>
+      <td>SI (Pa&nbsp;·&nbsp;m<sup>3γ</sup>&nbsp;kg<sup>&minus;γ</sup>)</td>
+      <td>
+        Polytropic proportionality constant.  Together with \(\gamma\) it
+        determines how stiff the equation of state is.  Larger \(K\) produces
+        larger, less dense stars at the same central pressure.
+      </td>
+    </tr>
+    <tr>
+      <td>output_type</td>
+      <td>"Pressure"</td>
+      <td>string</td>
+      <td>
+        Selects the plotted quantity.  Must be exactly one of
+        <code>"Pressure"</code>, <code>"Density"</code>, or <code>"Mass"</code>.
       </td>
     </tr>
   </tbody>
 </table>
-<p><br>
+
+<div class="note">
+  <strong>Physical constants (hard-coded in physics_neutron.py)</strong>
+  <ul>
+    <li>\(G = 6.672 \times 10^{-11}\) N&nbsp;m<sup>2</sup>&nbsp;kg<sup>&minus;2</sup> — Newton's gravitational constant</li>
+    <li>\(c^2 = 8.98755 \times 10^{16}\) m<sup>2</sup>&nbsp;s<sup>&minus;2</sup> — speed of light squared</li>
+  </ul>
+  These match the values used in Schutz's original Java program and in the textbook examples.
+</div>
+
+
+<!-- ─── Output Modes ─── -->
+<h2 id="output">Output Modes</h2>
+
+<p>
+  The program always integrates the full stellar structure (pressure, density, and enclosed mass
+  as functions of radius).  The <code>output_type</code> parameter selects which of the three
+  profiles is displayed in the matplotlib figure.
 </p>
-<h2><a name="contents"></a>Contents</h2>
+
+<table>
+  <thead>
+    <tr><th>output_type</th><th>y-axis quantity</th><th>y-axis label</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>"Pressure"</td>
+      <td>Pressure \(p(r)\)</td>
+      <td>Pressure (Pa)</td>
+    </tr>
+    <tr>
+      <td>"Density"</td>
+      <td>Mass density \(\rho(r)\)</td>
+      <td>Density (kg/m³)</td>
+    </tr>
+    <tr>
+      <td>"Mass"</td>
+      <td>Enclosed mass \(m(r)\)</td>
+      <td>Mass interior (kg)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  The x-axis is always the radial coordinate in metres.  The figure title reads
+  "Neutron Star: &lt;output_type&gt;".  To see all three profiles, change
+  <code>output_type</code> and re-run; no recomputation is needed because the driver
+  already returns all three arrays.
+</p>
+
+
+<!-- ─── Module Structure ─── -->
+<h2 id="modules">Module Structure</h2>
+
+<p>
+  The program is divided into four Python modules following the same architecture as
+  the other programs in this collection:
+</p>
+
+<div class="mc-grid">
+
+  <div class="mc-card">
+    <h4>main.py</h4>
+    <p>Entry point.  Sets all user-adjustable parameters and calls the driver and plot functions.</p>
+    <ul>
+      <li>Imports <span class="fn">compute_neutron_star</span> from <code>driver_neutron</code></li>
+      <li>Imports <span class="fn">plot_neutron</span> from <code>plot_neutron</code></li>
+      <li>Sets <code>gamma</code>, <code>pC</code>, <code>K</code>, <code>output_type</code></li>
+      <li>One-line call: <code>data = compute_neutron_star(gamma, pC, K)</code></li>
+      <li>One-line plot: <code>plot_neutron(data, output_type)</code></li>
+    </ul>
+  </div>
+
+  <div class="mc-card">
+    <h4>driver_neutron.py</h4>
+    <p>
+      Orchestrates the radial integration.  Implements the marching loop, step-doubling
+      logic, surface detection, and array trimming.  Returns a dictionary of trimmed
+      arrays ready for plotting.
+    </p>
+    <ul>
+      <li><span class="fn">compute_neutron_star(gamma, pC, K)</span> &rarr; dict</li>
+      <li>Computes \(\rho_C\), scale height, and initial step size \(dr\)</li>
+      <li>Fills arrays: <code>radius</code>, <code>pressure</code>, <code>density</code>, <code>mass</code></li>
+      <li>Stops integration when \(p &lt; 0\) (surface reached)</li>
+      <li>Doubles <code>dr</code> and retries if surface not reached in 2000 steps</li>
+      <li>Returns dict with key <code>last_step</code> and trimmed arrays</li>
+    </ul>
+  </div>
+
+  <div class="mc-card">
+    <h4>physics_neutron.py</h4>
+    <p>
+      Defines the three physics kernels — the equation of state, the TOV pressure step,
+      and the mass increment — plus the physical constants \(G\) and \(c^2\).
+    </p>
+    <ul>
+      <li><span class="fn">eos_density(p, K, gamma)</span> — polytropic inversion: \(\rho = (p/K)^{1/\gamma}\)</li>
+      <li><span class="fn">tov_pressure_step(p, rho, m, r, dr)</span> — one radial step of the TOV equation</li>
+      <li><span class="fn">mass_step(m, rho, r, dr)</span> — one radial step of the mass integral</li>
+      <li>Constants: <code>G = 6.672e-11</code>, <code>c2 = 8.98755e16</code></li>
+    </ul>
+  </div>
+
+  <div class="mc-card">
+    <h4>plot_neutron.py</h4>
+    <p>
+      Produces the matplotlib figure.  Reads the data dictionary returned by the driver
+      and plots the selected profile versus radius.
+    </p>
+    <ul>
+      <li><span class="fn">plot_neutron(data, output_type)</span></li>
+      <li>8&nbsp;&times;&nbsp;6 inch figure, line width 2, grid on</li>
+      <li>x-axis: "Radius (m)"</li>
+      <li>y-axis label and title determined by <code>output_type</code></li>
+      <li>Raises <code>ValueError</code> for unrecognised <code>output_type</code></li>
+    </ul>
+  </div>
+
+</div><!-- end mc-grid -->
+
+
+<!-- ════════════════════════════════════════════
+     PHYSICS
+════════════════════════════════════════════ -->
+<h2 id="newtonian">Newtonian Hydrostatics</h2>
+
+<p>
+  An ordinary star is in <em>hydrostatic equilibrium</em>: at each radius the outward
+  pressure gradient exactly balances the inward gravitational pull of the mass below.
+  In Newtonian gravity this condition reads
+</p>
+<div class="eq">
+  \[
+    \frac{dp}{dr} = -\frac{G\,m(r)\,\rho}{r^2},
+    \tag{1}
+  \]
+  <span class="eq-label">(1)</span>
+</div>
+<p>
+  where \(m(r)\) is the mass enclosed within radius \(r\), \(\rho\) is the local
+  mass density, and \(G\) is Newton's gravitational constant.  Equation (1) is the
+  foundation of the companion program <strong>Star</strong> in this collection.
+</p>
+<p>
+  For white dwarfs and most ordinary stars, equation (1) is adequate.  But for neutron stars,
+  where \(p\) approaches \(\rho c^2\) and the gravitational radius
+  \(r_g = 2GM/c^2\) is comparable to the physical radius, two Newtonian approximations
+  break down simultaneously:
+</p>
+<ul>
+  <li>Pressure contributes to the <em>source of gravity</em> through Einstein's equations —
+      it is not merely a restoring force.</li>
+  <li>The geometry of space inside a compact object is curved; the Newtonian formula
+      for enclosed volume underestimates the actual amount of matter.</li>
+</ul>
+<p>
+  These two effects are captured by the Tolman–Oppenheimer–Volkoff equation.
+</p>
+
+
+<!-- ─── TOV Equation ─── -->
+<h2 id="tov">The Tolman–Oppenheimer–Volkoff (TOV) Equation</h2>
+
+<p>
+  Derived from Einstein's field equations for a static, spherically symmetric perfect fluid,
+  the TOV equation replaces Newtonian hydrostatics for relativistic stellar interiors:
+</p>
+<div class="eq">
+  \[
+    \frac{dp}{dr}
+    = -\frac{G\!\left(\rho + \dfrac{p}{c^2}\right)
+            \!\left(m + \dfrac{4\pi r^3 p}{c^2}\right)}
+           {r\!\left(r - \dfrac{2Gm}{c^2}\right)}.
+    \tag{2}
+  \]
+  <span class="eq-label">(2)</span>
+</div>
+<p>
+  Comparing with the Newtonian equation (1), three corrections are immediately visible:
+</p>
+<ol>
+  <li>
+    <strong>\(\rho \to \rho + p/c^2\).</strong>
+    Pressure itself carries energy, and energy gravitates.  At nuclear densities,
+    \(p \sim \rho c^2\), so this correction can double the effective gravitational source.
+  </li>
+  <li>
+    <strong>\(m \to m + 4\pi r^3 p/c^2\).</strong>
+    The pressure inside the star contributes to the gravitational mass felt by a shell
+    at radius \(r\).  This "pressure mass" is negligible in Newtonian stars but significant
+    in compact ones.
+  </li>
+  <li>
+    <strong>Schwarzschild factor \((r - 2Gm/c^2)\) in the denominator.</strong>
+    As the gravitational radius \(r_g = 2Gm/c^2\) approaches the physical radius \(r\),
+    the pressure gradient diverges — the star can no longer be held up and collapses.
+    This is the GR origin of the neutron-star mass limit.
+  </li>
+</ol>
+
+<div class="note">
+  <strong>Implementation note — Schutz's simplified form</strong>
+  The denominator \(r(r - 2Gm/c^2)\) in equation (2) is algebraically equivalent to
+  \(r^2(1 - 2Gm/rc^2)\), the standard form found in many GR texts.
+  Schutz factors the \(r^2\) into the numerator to give the compact form used in the
+  Java original, and the Python port faithfully reproduces this factored expression
+  in <code>tov_pressure_step()</code>.
+</div>
+
+<p>
+  The TOV equation is integrated numerically by <code>tov_pressure_step()</code> using a
+  forward-Euler step of size \(dr\):
+</p>
+
+<pre><code>def tov_pressure_step(p, rho, m, r, dr):
+    numerator   = G * (rho + p / c2) * (m + 4.0 * math.pi * r**3 / c2)
+    denominator = r * (r - 2.0 * G * m / c2)
+    return p - numerator * dr / denominator</code></pre>
+
+<p>
+  Each call advances the pressure by one radial step:
+  \(p_{j} = p_{j-1} - (dp/dr)\,\Delta r\).
+</p>
+
+
+<!-- ─── Equation of State ─── -->
+<h2 id="eos">Polytropic Equation of State</h2>
+
+<p>
+  To close the system of equations we need a relationship between pressure and density.
+  The program uses a <strong>polytropic</strong> equation of state:
+</p>
+<div class="eq">
+  \[
+    p = K\,\rho^\gamma.
+    \tag{3}
+  \]
+  <span class="eq-label">(3)</span>
+</div>
+<p>
+  Given the pressure \(p\) at each step, the density is recovered by inverting equation (3):
+</p>
+<div class="eq">
+  \[
+    \rho = \left(\frac{p}{K}\right)^{1/\gamma}.
+    \tag{4}
+  \]
+  <span class="eq-label">(4)</span>
+</div>
+<p>
+  This inversion is implemented in <code>eos_density(p, K, gamma)</code>
+  as <code>(p / K) ** (1.0 / gamma)</code>.
+</p>
+
+<div class="note tip">
+  <strong>Choice of \(\gamma\) and physical interpretation</strong>
+  <ul style="margin-top:6px;">
+    <li>
+      <strong>\(\gamma = 5/3\)</strong> (default) — non-relativistic degenerate neutron gas.
+      Appropriate for the outer layers of a neutron star.
+    </li>
+    <li>
+      <strong>\(\gamma = 2\)</strong> — a stiff, "hard" EOS; gives heavier, larger stars.
+      Explores the effect of strong nuclear repulsion at high density.
+    </li>
+    <li>
+      <strong>\(\gamma = 1\), \(K = c^2/3\)</strong> — a gas of massless fermions
+      (strange-quark matter / "MIT bag model").  Explores the hypothesis that the true
+      ground state of cold matter is quark matter rather than nuclear matter.
+    </li>
+  </ul>
+</div>
+
+
+<!-- ─── Mass Integral ─── -->
+<h2 id="mass">Mass Integral</h2>
+
+<p>
+  The mass enclosed within radius \(r\) satisfies the continuity equation,
+  which in the weak-field Newtonian limit takes the familiar form:
+</p>
+<div class="eq">
+  \[
+    \frac{dm}{dr} = 4\pi r^2 \rho.
+    \tag{5}
+  \]
+  <span class="eq-label">(5)</span>
+</div>
+<p>
+  (In full GR the right-hand side carries a metric factor, but for the purpose of this
+  program Schutz uses the flat-space approximation for the mass increment, consistent
+  with the level of the textbook.)
+  One radial step gives:
+</p>
+<div class="eq">
+  \[
+    m_j = m_{j-1} + 4\pi r_{j-1}^2\,\rho_{j-1}\,\Delta r,
+    \tag{6}
+  \]
+  <span class="eq-label">(6)</span>
+</div>
+<p>
+  implemented in <code>mass_step(m, rho, r, dr)</code>
+  as <code>m + 4.0 * math.pi * r**2 * rho * dr</code>.
+  The value <code>data["mass"][-1]</code> (the last element after trimming)
+  gives the total gravitational mass of the star, in kg.
+</p>
+
+
+<!-- ─── Buchdahl Theorem ─── -->
+<h2 id="buchdahl">Buchdahl's Theorem</h2>
+
+<p>
+  A purely GR result, due to Hans Buchdahl (1959), states that for any static,
+  spherically symmetric fluid star in GR, the stellar radius \(R\) must satisfy:
+</p>
+<div class="eq">
+  \[
+    R \;\geq\; \frac{9}{4}\,\frac{GM}{c^2} \;=\; \frac{9}{8}\,r_g,
+    \tag{7}
+  \]
+  <span class="eq-label">(7)</span>
+</div>
+<p>
+  where \(r_g = 2GM/c^2\) is the Schwarzschild (gravitational) radius.
+  In other words, the physical radius of a stable star can be no smaller than
+  \(\tfrac{9}{8}\) of its gravitational radius; equivalently, the gravitational radius
+  cannot exceed \(\tfrac{8}{9}\) of the physical radius.
+</p>
+<p>
+  This bound is independent of the equation of state — it is a consequence of geometry and
+  the energy conditions alone.  For the default parameters in this program, you can verify
+  Buchdahl's theorem by reading off the stellar radius (where pressure first vanishes) and
+  comparing it with \((9/4)\,GM/c^2\) computed from the final enclosed mass.
+</p>
+
+
+<!-- ─── Maximum Mass ─── -->
+<h2 id="masslimit">The Maximum Mass of Neutron Stars</h2>
+
+<p>
+  One of the most striking predictions of the TOV equation is that there is an
+  <em>absolute maximum mass</em> for a cold neutron star in hydrostatic equilibrium.
+  As the central pressure \(p_C\) is increased, the stellar mass \(M\) first rises,
+  then reaches a maximum, and then decreases — beyond the peak, adding central pressure
+  makes the star less massive and less stable.  The critical configuration at the mass
+  peak is unstable against radial perturbations and will collapse to a black hole.
+</p>
+<p>
+  For the default polytrope (\(\gamma = 5/3\), \(K = 10^{-15}\)) this maximum can be
+  found by running a sequence of models with increasing \(p_C\) and plotting total mass
+  versus central pressure.  For realistic nuclear equations of state the maximum is
+  typically in the range \(1.5\)–\(3\,M_\odot\), depending on the stiffness.
+</p>
+<div class="note">
+  <strong>Historical note</strong>
+  Oppenheimer and Volkoff (1939) derived the first quantitative maximum mass for a gas of
+  free neutrons, obtaining \(M_\text{max} \approx 0.7\,M_\odot\).  Modern equations
+  of state that include nuclear forces push the limit to \(2\)–\(3\,M_\odot\).
+  Observed pulsars with masses \(\sim 2\,M_\odot\) already rule out the softest
+  proposed equations of state.
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     NUMERICAL METHODS
+════════════════════════════════════════════ -->
+<h2 id="radial-march">Radial Marching Scheme</h2>
+
+<p>
+  Neutron star structure is determined by a system of two first-order ODEs in \(r\):
+  the TOV pressure equation (2) and the mass continuity equation (5), coupled through
+  the equation of state (3)–(4).  The driver solves these by a simple
+  <strong>forward-Euler radial march</strong>: starting at the stellar center and
+  stepping outward by a fixed increment \(\Delta r\) until the surface is located.
+</p>
+<p>
+  At each radius step \(j\):
+</p>
+<ol>
+  <li>Advance the pressure: \(p_j \leftarrow \texttt{tov\_pressure\_step}(p_{j-1}, \rho_{j-1}, m_{j-1}, r_{j-1}, dr)\)</li>
+  <li>Check for surface: if \(p_j &lt; 0\), record <code>lastStep = j</code> and break.</li>
+  <li>Advance the enclosed mass: \(m_j \leftarrow \texttt{mass\_step}(m_{j-1}, \rho_{j-1}, r_{j-1}, dr)\)</li>
+  <li>Invert the EOS: \(\rho_j \leftarrow \texttt{eos\_density}(p_j, K, \gamma)\)</li>
+</ol>
+
+<p>
+  The arrays are declared with a maximum of <code>NMAX = 2000</code> steps and trimmed to
+  <code>[:lastStep]</code> before being returned to the caller.
+</p>
+
+<div class="note warn">
+  <strong>Forward Euler accuracy</strong>
+  Forward Euler is first-order accurate and accumulates truncation error proportional to
+  \(\Delta r\).  The step size is chosen to be small enough that this error is acceptable
+  for the illustrations in the textbook, but for high-precision stellar models a higher-order
+  integrator (e.g. Runge–Kutta) would be preferable.  Halving <code>dr</code> manually
+  (by setting <code>dr = scale / 800</code> in <code>driver_neutron.py</code>) is a quick
+  way to check convergence.
+</div>
+
+
+<!-- ─── Step Sizing ─── -->
+<h2 id="stepsize">Step Sizing and the Scale Height</h2>
+
+<p>
+  The integration step size \(\Delta r\) is set automatically from a characteristic
+  <em>scale height</em> of the star.  At the center, the pressure gradient is dominated
+  by the central density \(\rho_C\) and the central pressure \(p_C\).  A natural length
+  scale is obtained by balancing these:
+</p>
+<div class="eq">
+  \[
+    \ell = \frac{\sqrt{p_C / G}}{\rho_C},
+    \tag{8}
+  \]
+  <span class="eq-label">(8)</span>
+</div>
+<p>
+  where the central density is derived from the central pressure via the equation of state:
+  \(\rho_C = (p_C / K)^{1/\gamma}\).  The step size is then:
+</p>
+<div class="eq">
+  \[
+    \Delta r = \frac{\ell}{400}.
+    \tag{9}
+  \]
+  <span class="eq-label">(9)</span>
+</div>
+<p>
+  With 400 steps per scale height and a maximum of 2000 steps, the integration covers
+  up to \(5\,\ell\) before doubling is triggered — sufficient for most stellar models whose
+  surface pressure falls to zero within a few scale heights of the center.
+</p>
+
+
+<!-- ─── Initial Conditions ─── -->
+<h2 id="ic">Initial Conditions at the Stellar Center</h2>
+
+<p>
+  The TOV equation (2) is singular at \(r = 0\): the denominator vanishes.
+  To avoid this singularity the driver does not attempt to start the integration at
+  \(r = 0\); instead it sets the first grid point at \(r_1 = \Delta r\) and uses
+  the analytically known small-\(r\) behaviour to initialise the arrays:
+</p>
+<div class="eq">
+  \[
+    r_1 = \Delta r, \quad
+    p_1 = p_C, \quad
+    \rho_1 = \rho_C, \quad
+    m_1 = \tfrac{4}{3}\pi\,(\Delta r)^3\,\rho_C.
+    \tag{10}
+  \]
+  <span class="eq-label">(10)</span>
+</div>
+<p>
+  The mass initialisation uses the fact that near the center a sphere of radius \(\Delta r\)
+  filled uniformly at density \(\rho_C\) has mass \(\frac{4}{3}\pi(\Delta r)^3\rho_C\).
+  This is a first-order approximation that becomes exact as \(\Delta r \to 0\).
+</p>
+
+
+<!-- ─── Step Doubling ─── -->
+<h2 id="doubling">Automatic Step Doubling</h2>
+
+<p>
+  If the stellar surface (the radius at which pressure first becomes negative) is not reached
+  within 2000 steps, the step size is doubled and the integration is restarted from scratch:
+</p>
+
+<pre><code># Conceptual outline of the while loop in driver_neutron.py
+while lastStep == 0:
+    dr = initial_dr
+    # ... fill arrays ...
+    if surface not reached in NMAX steps:
+        dr *= 2           # double and retry</code></pre>
+
+<p>
+  This doubling continues until the surface is found, at the cost of reduced radial resolution.
+  It is <em>not</em> an adaptive accuracy control (as in RK45 or similar schemes) — it simply
+  ensures the integration range is wide enough to encompass the whole star.  If you find that
+  your chosen parameters require many doublings, the resulting coarse grid may not resolve
+  the stellar structure well, and you should consider whether the parameters describe a
+  physically reasonable star.
+</p>
+
+<div class="note tip">
+  <strong>When does step doubling occur?</strong>
+  Step doubling is triggered when the star is much larger than the estimated scale height \(\ell\).
+  This can happen when \(K\) is very large (very stiff EOS), \(\gamma\) is very close to 1
+  (nearly incompressible), or \(p_C\) is unusually low.  The default parameters (\(\gamma = 5/3\),
+  \(p_C = 10^{34}\) Pa, \(K = 10^{-15}\)) do not require doubling.
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     EXPERIMENTS
+════════════════════════════════════════════ -->
+<h2 id="experiments">Suggested Experiments</h2>
+
+<h3>1. Mass–Central-Pressure Sequence (Finding the Maximum Mass)</h3>
+<p>
+  Run the program repeatedly with <code>output_type = "Mass"</code>, increasing
+  <code>pC</code> from \(10^{33}\) to \(10^{36}\) Pa in steps of a factor of 3.
+  For each run, note the value of <code>data["mass"][-1]</code> (total mass in kg;
+  divide by \(1.989 \times 10^{30}\) to convert to solar masses).
+  Plot total mass vs.\ \(p_C\) and identify the maximum.  Beyond the peak, the
+  TOV equation predicts an unstable branch.
+</p>
+
+<h3>2. Strange Quark Stars</h3>
+<p>
+  Set \(\gamma = 1\) and \(K = c^2/3 \approx 2.996 \times 10^{16}\) m<sup>2</sup>&nbsp;s<sup>&minus;2</sup>.
+  This models strange-quark matter, for which the EOS is \(p = (\rho c^2 - \rho_0 c^2)/3\),
+  approximated here by a linear polytrope.  Quark stars are predicted to have significantly
+  different mass–radius relations from neutron stars — compare the surface radii and total
+  masses with the \(\gamma = 5/3\) case.
+</p>
+
+<h3>3. Comparison with Newtonian Hydrostatics (Star Program)</h3>
+<p>
+  The companion program <strong>Star</strong> (Chapter 4 of GFtGU) integrates the Newtonian
+  hydrostatic equation (1) with the same polytropic EOS.  Running both programs with identical
+  \(\gamma\), \(K\), and \(p_C\) reveals the importance of the GR corrections: the Newtonian
+  version overestimates the radius and underestimates the central density for the same central
+  pressure.  At the highest pressures the Newtonian star does not collapse — it just keeps
+  growing — while the TOV star reaches an instability.
+</p>
+
+<h3>4. Verifying Buchdahl's Theorem</h3>
+<p>
+  After running any model, compute the gravitational radius \(r_g = 2GM_\text{tot}/c^2\)
+  using the total mass from <code>data["mass"][-1]</code>, and compare it with the stellar
+  radius (the last element of <code>data["radius"]</code>).  Buchdahl's theorem requires
+  \(R \geq (9/4)(GM/c^2) = (9/8)\,r_g\).  For the default parameters this ratio should
+  comfortably exceed 9/8; try to push \(p_C\) until the ratio approaches the Buchdahl bound.
+</p>
+
+<h3>5. Effect of EOS Stiffness</h3>
+<p>
+  Vary \(\gamma\) between 1.2 and 3 while keeping \(K\) and \(p_C\) fixed.  A larger
+  \(\gamma\) represents a stiffer EOS (pressure rises more steeply with density).
+  Stiffer equations of state support heavier and larger stars and tend to give higher
+  maximum masses.  Plot the stellar radius and total mass as functions of \(\gamma\).
+</p>
+
+<h3>6. Minimum Neutron Star Mass</h3>
+<p>
+  Decrease \(p_C\) until the total mass approaches a minimum.  Very low central pressures
+  correspond to small, low-mass neutron stars whose surfaces are reached after very few steps.
+  The minimum mass for a stable neutron star (set by the weak-force neutron-decay threshold)
+  is of order \(0.1\,M_\odot\); explore how close your polytropic model gets.
+</p>
+
+
+<!-- ─── See Also ─── -->
+<h2 id="seealso">See Also</h2>
+
 <ul>
   <li>
-    <a href="https://www.gravityfromthegroundup.org/programs/Neutron.html#description">Description of <tt><font size="+1">Neutron</font></tt></a></li>
+    <strong><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/04-SphereGravity"
+              target="_blank">Star / SphereGravity</a></strong> —
+    Newtonian stellar structure (companion program; compare directly with Neutron).
+  </li>
   <li>
-    <a href="https://www.gravityfromthegroundup.org/programs/Neutron.html#using">Using <tt><font size="+1">Neutron</font></tt></a></li>
+    <strong><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/13-Binary"
+              target="_blank">Binary</a></strong> —
+    Two-body gravitational orbit (predictor–corrector integrator).
+  </li>
   <li>
-    <a href="https://www.gravityfromthegroundup.org/programs/Neutron.html#playing">Suggestions for playing with <tt><font size="+1">Neutron</font></tt></a></li>
+    <strong><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/13-Binary"
+              target="_blank">Binary_RK45</a></strong> —
+    Two-body orbit using scipy's RK45 adaptive integrator.
+  </li>
   <li>
-    <a href="https://www.gravityfromthegroundup.org/programs/Neutron.html#understanding">Understanding <tt><font size="+1">Neutron</font></tt></a></li>
+    <strong><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/13-MercPert"
+              target="_blank">MercPert / MercPert_RK45</a></strong> —
+    GR perihelion precession of Mercury.
+  </li>
   <li>
-    <a href="https://www.gravityfromthegroundup.org/programs/Neutron.html#suggestions">Suggested modifications of <tt><font size="+1">Neutron</font></tt></a></li>
+    <strong><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/14-Multiple"
+              target="_blank">Multiple / Multiple_RK45</a></strong> —
+    N-body gravitational simulation in 3D.
+  </li>
   <li>
-    <a href="https://www.gravityfromthegroundup.org/programs/Neutron.html#listing">Listing of the Java code for <tt><font size="+1">Neutron</font></tt></a></li>
-  <br>
-&nbsp;
-  <p>&nbsp;
-  <br>
-&nbsp;
-  <br>
-&nbsp;
-  </p>
-  <p></p>
-  <hr width="15%" size="4">
+    Bernard Schutz, <em>Gravity from the Ground Up</em>, Cambridge University Press, 2003.
+    Original Java program and help file:
+    <a href="https://www.gravityfromthegroundup.org/programs/Neutron.html"
+       target="_blank">gravityfromthegroundup.org/programs/Neutron.html</a>.
+  </li>
+  <li>
+    R.C. Tolman (1939); J.R. Oppenheimer &amp; G.M. Volkoff (1939) — original derivations
+    of the TOV equation.
+  </li>
+  <li>
+    H.A. Buchdahl, <em>General Relativistic Fluid Spheres</em>,
+    Phys. Rev. <strong>116</strong>, 1027 (1959) — proof of the compactness bound.
+  </li>
 </ul>
-<h2>
-<a name="description"></a>Description of <tt><font size="+3">Neutron</font></tt></h2>
-The unit called <tt><font size="+1">Neutron</font></tt> implements the
-Java
-program for computing the structure of a neutron star. It is a
-modification
-of the program <tt><font size="+1"><a href="https://www.gravityfromthegroundup.org/programs/Star.html">Star</a></font></tt>,
-in which the Newtonian equation of hydrostatic equilibrium (the neutral
-buoyancy equation) is replaced by its counterpart in general
-relativity.
-The rest of the program is similar to <tt><font size="+1">Star</font></tt>,
-with one exception: in neutron stars, temperature is not important,
-because
-the pressure comes from quantum effects between neutrons rather than
-from
-thermal motions of particles. Therefore, the user is not asked to
-specify
-a central temperature for the star; instead, the program needs directly
-the proportionality constant <i>k</i> in the polytropic equation of
-state,
-<i>p</i>
-= <i>k <font face="SymbolPS">r<sup>g</sup></font></i>. The value of <i>k</i>
-must be calculated from the basic physics of neutrons and protons.
-<p>The program allows users to see directly that the relatively small
-changes
-that relativity makes in the structure equation, which are described in
-Investigation 20.3, lead to the existence of an upper limit on the mass
-of a neutron star. By increasing the central density and finding the
-point
-where the mass of the star stops increasing and starts to decrease, the
-user can determine the point of onset of instability: this is the
-densest
-a neutron star can be, and the most massive (for the assumed equation
-of
-state, of course).
-</p>
-<p></p>
-<hr width="15%" size="4">
-<h2><a name="using"></a>Using <tt><font size="+3">Neutron</font></tt></h2>
-Simply drag the <tt><font size="+1">Neutron</font></tt> icon from the
-toolbox
-into the working area, drag the <tt><font size="+1">SGTGrapher</font></tt>
-unit into the area, and connect the two if Triana has not already done
-so. If you press the <tt><font size="+1">Start</font></tt> button then
-the
-program will execute with its default settings, producing a model of a
-neutron star, as given by its pressure as a function of radius. Because
-the pressure falls off quickly with radius, you will get a better plot
-if you use a logarithmic scale for the vertical axis. Choose this from
-the "<tt><font size="+1">Plot</font></tt>" menu of <tt><font size="+1">SGTGrapher</font></tt>.
-<p><img src="./Neutron_files/imageSHH.JPG" height="176" width="564" align="left">The
-parameter
-window shown here allows the user to determine what kind of star is
-being
-modelled. The first parameter is the polytropic exponent <i><font face="SymbolPS">g</font></i>.
-The default value is the one that gives the best fit to the detailed
-nuclear
-physics calculations of the equation of state of dense neutron matter:
-<i><font face="SymbolPS">g</font></i>
-= 5/3.&nbsp; The second parameter is the central pressure of the star,
-in pascals. The third is the proportionality constant <i>k</i> in the
-equation
-of state. The pressure and constant <i>k</i> together determine the
-structure
-of the star: its mass and radius.
-</p>
-<p><img src="./Neutron_files/image04J.JPG" height="85" width="81" align="left">The
-final parameter
-is a drop-down list (choice box) that allows the user to choose what
-data
-is actually output. To find the mass of the star, for example, you
-should
-output the mass as a function of radius and read off the maximum value,
-which occurs at the surface of the star.
-</p>
-<p></p>
-<hr width="15%" size="4">
-<h2><a name="playing"></a>Suggestions for playing with <tt><font size="+3">Neutron</font></tt></h2>
-The parameters given by default are those that produce a fair
-approximation
-to the current best models of neutron stars. The polytropic exponent
-should
-be between 3/2 and 5/3 for realistic equations of state. You should
-choose
-the constant of proportionality (for any choice of the exponent) to
-ensure
-that a star whose central density is the nuclear density has a mass of
-about 1 solar mass. For any of these equations of state, change the
-central
-pressure and record the mass of the star. Verify for yourself that all
-these sequences reach a maximum of the mass, after which the mass
-begins
-to decrease with increasing central pressure. Can you build a sequence
-with a maximum mass larger than 2 solar masses? Larger than 3 solar
-masses?
-<p>The computer program will produce arbitrarily small-mass stars if
-you
-choose the central pressure smaller. Try this to see if you can get
-something
-smaller than the 0.02 solar masses that we estimated was the minimum
-for
-a neutron star. Does this mean that our discussion in Investigation
-20.1
-was wrong? Hint: the answer lies in the simplicity of the assumed
-equation
-of state that the computer program uses. What key physics does it leave
-out?
-</p>
-<p>Look up on the internet descriptions of "strange stars" or "strange
-quark" stars. These are stars where the neutrons have transmuted into
-more
-exotic nuclear matter, and they can achieve smaller radii for given
-masses.
-Find suitable values for the parameters and use the program to
-construct
-quark stars. Show that these, too, have a maximum mass. Can you get
-above
-3 solar masses with them?
-</p>
-<p>Another way to play with the program is to assume we know nothing
-about
-nuclear physics, and so the constants given as parameters can be
-anything
-at all. While this will lead to neutron stars of large masses, if you
-choose
-the parameters in the right way, there is one rule that all your models
-will obey: no star will have a gravitational radius 2<i>GM/c</i><sup>2</sup>
-larger than 8/9 of its physical radius. Recall that a black hole is
-formed
-if the star's physical radius shrinks to the size of its gravitational
-radius. Thus, there is a small gap between 8/9 and 1 where there are no
-static stellar models, no matter what equation of state you assume.
-This
-result is called Buchdahl's theorem. Try to break it!
-</p>
-<p>You can make a test of the consistency of general relativity in weak
-gravitational fields with Newtonian gravity by trying to build a model
-of a normal star. After all, if general relativity is the right theory
-of gravity, then the relativistic structure equation should be the
-right
-one even for normal stars. Choose parameters to match a model you
-constructed
-for the Sun using the program <tt><font size="+1">Star</font></tt>.
-You will
-have to use the central temperature that is required by <tt><font size="+1">Star</font></tt>
-to compute the value of the porportionality constant k appropriate to
-the
-solar model. Use that value in <tt><font size="+1">Neutron</font></tt>,
-with
-the central pressure and polytropic exponent you used in <tt><font size="+1">Star</font></tt>,
-and see if you can see any differences between the stellar models.
-There
-should not be any significant changes!
-</p>
-<p></p>
-<hr width="15%" size="4">
-<h2><a name="understanding"></a>Understanding <tt><font size="+3">Neutron</font></tt></h2>
-The modification of the equation of hydrostatic equilibrium for general
-relativity is discussed in Investigation 20.3. The most implementation
-of this equation is straightforward, since it involves no quantities
-that
-are not in the program <tt><font size="+1">Star</font></tt>. The
-treatment
-of the equation of state is, if anything, easier than in <tt><font size="+1">Star</font></tt>
-<br>
-because there is no need to compute <i>k</i> in the preliminary code:
-it is given as a parameter by the user.
-<p></p>
-<hr width="15%" size="4">
-<h2><a name="suggestions"></a>Suggested modifications of <tt><font size="+3">Neutron</font></tt></h2>
-As with the program <tt><font size="+1">Star</font></tt>, you could
-modify
-Neutron to deal with equations of state which change through the star.
-Alternatively, simply do what professional physicists do: provide a
-table
-of values of pressure against density for nuclear matter (which you
-could
-find on the internet or in some advanced text books), and instead of
-using
-a simple polytrope to compute the density as a function of pressure,
-look
-it up in your table. Since tables can be built only with finite steps
-in
-pressure, you will have to interpolate between them, much as we did
-interpolation
-on temperature in the program <tt><font size="+1">Atmosphere</font></tt>.
-<p>If you want to change the program you will have to re-compile it, as
-explained by the help file <a href="https://www.gravityfromthegroundup.org/programs/UsingTriana.html">Using Triana for
-<i>Gravity
-from the ground up</i></a>.
-<br>
-&nbsp;
-</p>
-<h2>
-<hr width="15%" size="4"></h2>
-<h2>
-<a name="listing"></a>Listing of the Java code for <tt><font size="+3">Neutron</font></tt></h2>
-<h3>
-Preliminary definitions of parameters and constants</h3>
-<p><br>
-<tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gamma is the polytropic exponent
-in the equation of state relating</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pressure and density: pressure is
-proportional to (density)^(gamma).</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; It is given by the user in the user
-interface window.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double gamma;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pC is the central pressure of the
-star, in pascals. It is given by</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the user in the user interface
-window.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double pC;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; K is the proportionality constant
-in the equation of state, relating</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pressure to density^gamma. It is
-given by the user in the user</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; interface window.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double K;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; outputType is a String which governs
-what kind of data will be</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; output. All data is output as a
-Curve with x-values being the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; radial distance and y-values being
-one of three choices: pressure,</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; density, or mass. In this case,
-"mass" means "relativistic mass</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; interior to the given radius". The
-user
-chooses one of these four</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in the user interface window.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private String outputType;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Two constants needed in the
-calculation,
-in SI units:</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - G is Newton's gravitational
-constant</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - c2 is the square of the speed
-of light.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double G = 6.672e-11;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp; private double c2 = 8.98755e16;</tt>
-<br>
-&nbsp;
-<br>
-&nbsp;
-</p>
-<h3>Program code</h3>
-<p><br>
-<tt>&nbsp;&nbsp;&nbsp; public void process() throws Exception {</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Define
-variables
-needed for the calculation:</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - gammaRecip
-is the reciprocal of gamma, 1/gamma.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - rhoC is
-the density at the center of the star.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - scale
-is the scale-height of the pressure, roughly the distance</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-over which the pressure will fall by a factor of 2.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - dr is
-the size of the step in radius that the program will make.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - arrays
-radius, p (pressure), rho (density), and mass (relativistic</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-mass function inside the star) hold the values of the associated</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-physical quantities at the successive radial steps. The arrays</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-are initially given 2000 elements. The choice of radial step dr</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-is designed to ensure that the surface of the star (where p = 0)</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-is reached in fewer than 2000 steps. Then give the values of the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-first elements of the arrays.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - lastStep
-is an int that will hold the value of the array index</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-associated with the surface of the star. Set it to zero and</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-use it as a test of whether the surface has been reached (see below).</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - j is a
-loop counter.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double gammaRecip =
-1.0 / gamma;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double rhoC =
-Math.pow(pC
-/ K, gammaRecip);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double scale =
-Math.sqrt(pC
-/ G) / rhoC;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double dr = scale /
-400.;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double[] radius = new
-double[2000];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double[] p = new
-double[2000];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double[] rho = new
-double[2000];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double[] mass = new
-double[2000];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; radius[0] = 0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p[0] = pC;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rho[0] = rhoC;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mass[0] = 0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int lastStep = 0;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int j;</tt>
-<br>
-&nbsp;
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Do the
-calculation
-as long as the top has not been reached.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while ( lastStep ==
-0 ) {</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-As described in the text, we cannot start the loop accurately with the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-first points. Instead we compute the values of pressure etc at the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-first non-zero radial step (radius[1] = dr) by the approximations given</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-in the text.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-radius[1] = dr;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-p[1] = pC;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-rho[1] = rhoC;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-mass[1] = 4.0 * Math.PI * dr * dr * dr * rhoC/ 3.0;</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Do calculation step by step, using the equation of hydrostatic</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-equilibrium (in the second line of the loop).</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-for ( j = 2; j &lt; 2000; j++ ) {</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-radius[j] =&nbsp; radius[j-1] + dr;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-p[j] = p[j-1] - G * ( rho[j-1] + p[j-1]/c2 ) * ( mass[j-1] +
-4*Math.PI*Math.pow(radius[j-1],3)/c2
-) * dr / (radius[j-1] * ( radius[j-1] - 2*G*mass[j-1]/c2) );</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if ( p[j] &lt; 0 ) {</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-lastStep = j; //stop when the pressure goes negative</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-break;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-}</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-mass[j] =&nbsp; mass[j-1] + 4 * Math.PI * radius[j-1] * radius[j-1] *
-rho[j-1]
-* dr;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-rho[j] = Math.pow( p[j]/K, gammaRecip);&nbsp; //polytropic equation of
-state</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-}</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-If we reach this point and lastStep is still zero, then we have</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-used 2000 steps and not yet reached the surface. We must start the</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-loop again with a larger step dr so that we can reach the surface in</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-2000 steps. The next line of the code resets the value of dr, and</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-then when we reach the end-bracket of the "while"-loop the test</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-in the loop will evaluate to true and the "for"-loop will be</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-done again with this step-size.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-If we reach this point and lastStep is no longer zero, then we</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-have finished the calculation. The next step (changing dr) will be</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-executed but we will leave the "while"-loop and so the new value</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-of dr will not be used.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-*/</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-dr *= 2.;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Now prepare
-output arrays depending on what output data type has</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; been
-selected
-by the user. The arrays are only long enough to</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; contain
-the number of points to the surface of the star. Since</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the value
-of the variable lastStep is the step where the pressure</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first went
-negative, if we create arrays of length lastStep then</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this value
-will be excluded, since such arrays start at index 0</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and finish
-at index lastStep-1.</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double[] finalR = new
-double[lastStep];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Curve outData =&nbsp;
-null;</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String unitLabel = "";</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
-(outputType.equals("Pressure"))
-{</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-double[] finalP = new double[lastStep];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-for ( j = 0; j &lt; lastStep; j++ ) {</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-finalR[j] = radius[j];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-finalP[j] = p[j];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-}</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-outData =&nbsp; new Curve( finalR, finalP );</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-unitLabel = " (Pa)";</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if
-(outputType.equals("Density"))
-{</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-double[] finalRho = new double[lastStep];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-for ( j = 0; j &lt; lastStep; j++ ) {</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-finalR[j] = radius[j];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-finalRho[j] = rho[j];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-}</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-outData = new Curve( finalR, finalRho );</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-unitLabel = " (kg/m^3)";</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if
-(outputType.equals("Mass"))
-{</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-double[] finalM = new double[lastStep];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-for ( j = 0; j &lt; lastStep; j++ ) {</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-finalR[j] = radius[j];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-finalM[j] = mass[j];</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-}</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-outData = new Curve( finalR, finalM );</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-unitLabel = " (kg)";</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-outData.setTitle(outputType);</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-outData.setIndependentLabels(0,"altitude
-(m)");</tt>
-<br>
-<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-outData.setDependentLabels(0,outputType
-+ unitLabel);</tt>
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; output( outData );</tt>
-<br>
-&nbsp;
-</p>
-<p><tt>&nbsp;&nbsp;&nbsp; }</tt>
-<br>
-&nbsp;
-<br>
-&nbsp;
-<br>
-&nbsp;
-</p>
-<p></p>
-<hr width="15%" size="4"><br>
-<b><font size="-1">Return to <a href="https://www.gravityfromthegroundup.org/programs/index.html">index</a> of all
-computer
-programs.</font></b>
 
+</main><!-- end main -->
 
-</body></html>
+<!-- ════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer>
+  <img
+    src="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/LicenseBanner.png"
+    alt="Creative Commons Attribution-NonCommercial-ShareAlike License banner" />
+  <span>
+    Python port documentation &copy; 2025 Thomas Yee &mdash;
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+      CC BY-NC-SA 4.0</a>
+    (Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International).
+    Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.<br />
+    License version 1.0 &copy; 2003 Bernard Schutz.
+    Based on Java programs from <em>Gravity From the Ground Up</em>,
+    Cambridge University Press, 2003.
+  </span>
+</footer>
+
+</div><!-- end page-wrap -->
+</body>
+</html>
