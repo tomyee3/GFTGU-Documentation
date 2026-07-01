@@ -1,402 +1,1211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Star (Python)</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Star – Help File | GFtGU Programs</title>
 
-  <meta name="Author" content="Bernard F. Schutz">
-  <meta name="Description" content="Help file for the Python program Star, part of the Gravity From the Ground Up Python suite.">
-  <meta name="KeyWords" content="Gravity from the Ground Up, Star, Python, polytropic star, help file">
+  <!-- MathJax 3 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath:  [['\\(','\\)']],
+        displayMath: [['\\[','\\]']],
+        tags: 'ams'
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+          id="MathJax-script" async></script>
 
   <style>
-    body { background-color: #fdf5e6; color: #000; font-family: Arial, sans-serif; }
-    tt { font-family: monospace; }
+    /* ── Reset & custom properties ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #fdf5e6;
+      --surface:  #ffffff;
+      --border:   #c8bfa0;
+      --accent:   #7b2d00;
+      --accent2:  #a04010;
+      --gold:     #b5811a;
+      --text:     #1c1c1c;
+      --muted:    #5a4a3a;
+      --code-bg:  #f0ede4;
+      --note-bg:  #f4f0e8;
+      --eq-bg:    #f7f2e8;
+      --radius:   5px;
+      --shadow:   0 2px 8px rgba(0,0,0,0.10);
+      --mono:     "Courier New", Courier, monospace;
+      --sans:     "Helvetica Neue", Arial, sans-serif;
+      --serif:    Georgia, "Times New Roman", Times, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 1.80;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Page grid ── */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      grid-column: 1 / -1;
+      background: var(--accent);
+      color: #fff;
+      padding: 26px 38px 20px;
+      border-bottom: 4px solid var(--gold);
+    }
+    header .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 3px;
+      padding: 2px 7px;
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 1.95rem;
+      font-weight: normal;
+      letter-spacing: -.02em;
+    }
+    header h1 em { font-style: normal; color: #ffc9a0; }
+    header .sub {
+      margin-top: 6px;
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: #f0d0b8;
+      line-height: 1.55;
+    }
+    header .sub a {
+      color: #ffd8b8;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,200,150,.4);
+    }
+    header .sub a:hover { border-bottom-color: #ffd8b8; }
+
+    /* ── Sidebar ── */
+    nav {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 0 40px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .nav-label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 14px 18px 4px;
+    }
+    nav a {
+      display: block;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text);
+      text-decoration: none;
+      padding: 5px 18px 5px 24px;
+      border-left: 3px solid transparent;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    nav a:hover {
+      color: var(--accent);
+      border-left-color: var(--gold);
+      background: #fdf0e0;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 40px 52px 60px;
+      max-width: 900px;
+    }
+
+    /* ── Section headings ── */
+    h2 {
+      font-size: 1.35rem;
+      font-weight: normal;
+      color: var(--accent);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+      margin: 44px 0 18px;
+      letter-spacing: -.01em;
+    }
+    h2:first-of-type { margin-top: 0; }
+    h3 {
+      font-size: 1.06rem;
+      font-weight: bold;
+      color: var(--accent2);
+      margin: 26px 0 10px;
+    }
+
+    p { margin-bottom: 14px; }
+    ul, ol { margin: 0 0 14px 24px; }
+    li { margin-bottom: 5px; }
+
+    /* ── Equation blocks ── */
+    .eq-block {
+      background: var(--eq-bg);
+      border: 1px solid var(--gold);
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 14px 22px;
+      margin: 18px 0;
+      overflow-x: auto;
+    }
+    .eq-block .eq-label {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 6px;
+    }
+
+    /* ── Code / inline mono ── */
+    code {
+      font-family: var(--mono);
+      font-size: 0.88em;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1px 5px;
+    }
+    pre {
+      font-family: var(--mono);
+      font-size: 0.85em;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      overflow-x: auto;
+      margin: 14px 0;
+      line-height: 1.55;
+    }
+
+    /* ── Note / info boxes ── */
+    .note {
+      background: var(--note-bg);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      margin: 18px 0;
+      font-family: var(--sans);
+      font-size: 0.90rem;
+    }
+    .note strong { color: var(--accent); }
+
+    /* ── Module cards ── */
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 18px;
+      margin: 20px 0;
+    }
+    .module-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+    }
+    .module-card .mc-name {
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      color: var(--accent);
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .module-card .mc-role {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 3px;
+      padding: 2px 7px;
+      margin-bottom: 10px;
+    }
+    .module-card p {
+      font-family: var(--sans);
+      font-size: 0.87rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .module-card .mc-sig {
+      font-family: var(--mono);
+      font-size: 0.80rem;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 6px 10px;
+      line-height: 1.55;
+      margin-top: 6px;
+    }
+
+    /* ── Parameter table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.92rem;
+    }
+    th {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    td {
+      padding: 7px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #f9f4ec; }
+    td code { font-size: 0.85em; }
+
+    /* ── Scenario cards ── */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .scenario-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+    }
+    .scenario-card h4 {
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .scenario-card p {
+      font-family: var(--sans);
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin: 0 0 8px 0;
+    }
+    .scenario-card .sc-params {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 5px 8px;
+      margin-top: 4px;
+      line-height: 1.6;
+    }
+
+    /* ── Footer ── */
+    footer {
+      grid-column: 1 / -1;
+      background: var(--surface);
+      border-top: 2px solid var(--border);
+      padding: 24px 38px;
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--accent2); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-inner img { height: 28px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 720px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      nav { display: none; }
+      main { padding: 24px 20px 40px; }
+      header { padding: 18px 20px 14px; }
+    }
   </style>
 </head>
 
-<body background="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/BH-posneg.negative.watermark.png">
+<body>
+<div class="page-wrap">
 
-<a href="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license.html">
-  <img src="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/LicenseBanner.png"
-       alt="Creative Commons License Banner"
-       title="Click to view license information."
-       style="border:0; width:375px; height:362px;" align="right">
-</a>
+<!-- ════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════ -->
+<header>
+  <div class="badge">Chapter 8 · Newtonian Stellar Structure</div>
+  <h1>Star &nbsp;—&nbsp; <em>Polytropic Stellar Structure</em></h1>
+  <div class="sub">
+    Part of <em>Gravity from the Ground Up</em> · Bernard Schutz (Cambridge, 2003) ·
+    Python programs at
+    <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Star">github.com/tomyee3/GFTGU-Programs/Star</a>
+  </div>
+</header>
 
-<table cellpadding="2" cellspacing="2" border="3"
-       style="text-align:left; width:50%; margin-left:auto; margin-right:auto;">
-  <tbody>
-    <tr>
-      <td style="vertical-align:top; background-color:#ccc;">
-        <h3 style="color:#ff0000; font-family:monospace; font-weight:bold; text-align:center;">
-          <big><big><big><big>Star (Python)</big></big></big></big>
-        </h3>
+<!-- ════════════════════════════════════════════
+     SIDEBAR NAV
+════════════════════════════════════════════ -->
+<nav id="sidebar">
+  <div class="nav-label">Overview</div>
+  <a href="#physics">Physical Background</a>
+  <a href="#equations">Governing Equations</a>
+  <a href="#initial">Initial Conditions</a>
 
-        <div style="text-align:center;">
-          <big><font size="+2"><big>
-            <span style="color:#000; font-weight:bold;">version 1.0</span>
-          </big></font></big>
+  <div class="nav-label">Numerical Method</div>
+  <a href="#algorithm">Integration Algorithm</a>
+  <a href="#adaptive">Adaptive Step Size</a>
+
+  <div class="nav-label">Program Structure</div>
+  <a href="#modules">Module Overview</a>
+  <a href="#parameters">Input Parameters</a>
+  <a href="#output">Output Modes</a>
+
+  <div class="nav-label">Experiments</div>
+  <a href="#scenarios">Suggested Scenarios</a>
+
+  <div class="nav-label">Reference</div>
+  <a href="#related">Related Programs</a>
+  <a href="#license">License</a>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════════ -->
+<main>
+
+  <!-- ── Physical Background ── -->
+  <section id="physics">
+    <h2>Physical Background</h2>
+
+    <p>
+      The <strong>Star</strong> program models the internal structure of a spherically symmetric
+      star in Newtonian gravity using a <em>polytropic equation of state</em>. Starting from
+      user-supplied central pressure and temperature, it integrates outward through the stellar
+      interior—tracking pressure, density, temperature, and enclosed mass as functions of
+      radius—until the pressure drops to zero at the stellar surface.
+    </p>
+    <p>
+      Real stars are held in mechanical equilibrium by the outward pressure gradient of their hot
+      gas balancing the inward force of self-gravity. In the simplest treatment, the gas obeys
+      two coupled laws: the <strong>ideal gas law</strong>, which relates pressure, density, and
+      temperature; and a <strong>polytropic equation of state</strong>, which relates pressure and
+      density through a power law \(\rho \propto p^{1/\gamma}\). Together, these two relations
+      determine the temperature throughout the star without requiring an explicit treatment of
+      energy generation or radiative transport.
+    </p>
+    <p>
+      A critical feature that distinguishes this program from simpler atmospheric models is that
+      gravity is <em>not</em> constant. The gravitational acceleration at radius \(r\) is
+      determined by the mass \(m(r)\) enclosed within that radius, following Newton's shell
+      theorem: \(g(r) = G\,m(r)/r^2\). The hydrostatic equilibrium equation and the mass
+      continuity equation must therefore be integrated simultaneously as the radius increases
+      outward from the center.
+    </p>
+    <p>
+      The default parameters in <code>main.py</code> are calibrated to give a rough solar model:
+      a central pressure \(p_c = 2.5 \times 10^{16}\) Pa, a central temperature
+      \(T_c = 1.5 \times 10^7\) K, a mean molecular weight \(\mu = 0.61\) appropriate for a
+      fully ionized hydrogen–helium plasma, and a polytropic index \(\gamma = 5/3\)
+      corresponding to a non-relativistic ideal monatomic gas.
+    </p>
+  </section>
+
+  <!-- ── Governing Equations ── -->
+  <section id="equations">
+    <h2>Governing Equations</h2>
+
+    <h3>Ideal Gas Law</h3>
+    <p>
+      The pressure of an ideal gas with mean molecular weight \(\mu\) (in units of the proton mass)
+      is related to its mass density \(\rho\) and temperature \(T\) by
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Ideal Gas Law &nbsp;(1)</div>
+      \[\begin{equation}
+        p \;=\; \frac{\rho\, k_{\mathrm{B}}\, T}{m_p\, \mu}
+        \label{eq:ideal-gas}
+      \end{equation}\]
+    </div>
+    <p>
+      where \(k_{\mathrm{B}} = 1.38 \times 10^{-23}\) J/K is the Boltzmann constant and
+      \(m_p = 1.67 \times 10^{-27}\) kg is the proton mass. It is convenient to define the
+      combination
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">q Factor &nbsp;(2)</div>
+      \[\begin{equation}
+        q \;=\; \frac{m_p\,\mu}{k_{\mathrm{B}}}
+        \label{eq:q-factor}
+      \end{equation}\]
+    </div>
+    <p>
+      so that the ideal gas law becomes \(p = \rho\,T/q\) and the temperature can be recovered
+      at any point as \(T = q\,p/\rho\). The function <code>q_factor(mu)</code> in
+      <code>physics_star.py</code> computes this combination; it is the only place where the
+      values of \(k_{\mathrm{B}}\) and \(m_p\) appear in the code.
+    </p>
+
+    <h3>Polytropic Equation of State</h3>
+    <p>
+      A polytrope relates density to pressure through a power law parameterized by the
+      adiabatic exponent \(\gamma\):
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Polytropic EOS &nbsp;(3)</div>
+      \[\begin{equation}
+        \rho \;=\; D\, p^{1/\gamma}
+        \label{eq:polytrope}
+      \end{equation}\]
+    </div>
+    <p>
+      The proportionality constant \(D\) is fixed by requiring the polytrope to reproduce the
+      central density \(\rho_c\) at the central pressure \(p_c\):
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Polytropic Constant &nbsp;(4)</div>
+      \[\begin{equation}
+        D \;=\; \frac{\rho_c}{p_c^{1/\gamma}}
+        \label{eq:poly-D}
+      \end{equation}\]
+    </div>
+    <p>
+      Once \(D\) is determined from the central conditions, it is used at every subsequent radial
+      step to obtain density from pressure, without any further reference to temperature. This
+      makes the polytropic model self-contained: temperature is not an independent variable but
+      a derived quantity recovered from \(T = q\,p/\rho\).
+    </p>
+
+    <h3>Hydrostatic Equilibrium</h3>
+    <p>
+      A star in mechanical equilibrium satisfies the condition that the outward pressure gradient
+      exactly balances the inward gravitational force per unit volume:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Hydrostatic Equilibrium &nbsp;(5)</div>
+      \[\begin{equation}
+        \frac{dp}{dr} \;=\; -\,\frac{G\,m(r)\,\rho}{r^2}
+        \label{eq:hydrostatic}
+      \end{equation}\]
+    </div>
+    <p>
+      where \(G = 6.672 \times 10^{-11}\) N m\(^2\) kg\(^{-2}\) is Newton's gravitational
+      constant and \(m(r)\) is the mass enclosed within radius \(r\). The local gravitational
+      acceleration \(g(r) = G\,m(r)/r^2\) varies with position, unlike the constant-\(g\)
+      approximation used in atmosphere models.
+    </p>
+
+    <h3>Mass Continuity</h3>
+    <p>
+      The rate of change of enclosed mass with radius is the mass of a thin spherical shell
+      of thickness \(dr\) and radius \(r\):
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Mass Continuity &nbsp;(6)</div>
+      \[\begin{equation}
+        \frac{dm}{dr} \;=\; 4\pi r^2\,\rho
+        \label{eq:mass-cont}
+      \end{equation}\]
+    </div>
+    <p>
+      Equations (5) and (6) are coupled: the pressure gradient depends on \(m(r)\), which in turn
+      depends on the density distribution, which depends on the pressure through the polytrope (3).
+      All four quantities—\(r\), \(p\), \(\rho\), \(m\)—must be advanced simultaneously at each
+      radial step.
+    </p>
+  </section>
+
+  <!-- ── Initial Conditions ── -->
+  <section id="initial">
+    <h2>Initial Conditions</h2>
+
+    <p>
+      At the exact center of the star (\(r = 0\)), the hydrostatic equilibrium equation (5) is
+      singular because \(r^2\) appears in the denominator. The integration therefore begins at
+      the first radial grid point \(r_1 = dr\), a small but finite distance from the center.
+      All initial values are derived from the user-supplied central pressure \(p_c\) and central
+      temperature \(T_c\).
+    </p>
+
+    <h3>Central Density</h3>
+    <p>
+      The central density follows directly from the ideal gas law (1) evaluated at the center:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Central Density &nbsp;(7)</div>
+      \[\begin{equation}
+        \rho_c \;=\; \frac{p_c\,q}{T_c}
+        \label{eq:rho-c}
+      \end{equation}\]
+    </div>
+
+    <h3>Pressure Scale Height</h3>
+    <p>
+      To choose an appropriate radial step size, the program estimates the characteristic length
+      scale over which the pressure varies significantly near the center:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Pressure Scale Height &nbsp;(8)</div>
+      \[\begin{equation}
+        \ell \;=\; \frac{\sqrt{p_c/G}}{\rho_c}
+        \label{eq:scale-height}
+      \end{equation}\]
+    </div>
+    <p>
+      This is approximately the distance over which the pressure falls by a factor of order 2
+      near the center. The radial step size is then
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Radial Step Size &nbsp;(9)</div>
+      \[\begin{equation}
+        dr \;=\; \frac{\ell}{400}
+        \label{eq:dr}
+      \end{equation}\]
+    </div>
+
+    <h3>Initial Array Values at \(r_1 = dr\)</h3>
+    <p>
+      At the first grid point, pressure and density are taken to be their central values.
+      The enclosed mass is that of a small sphere of radius \(dr\) at uniform central density,
+      and the temperature is recovered from the ideal gas law:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Initial Conditions &nbsp;(10)</div>
+      \[\begin{equation}
+        p_1 = p_c, \quad
+        \rho_1 = \rho_c, \quad
+        m_1 = \tfrac{4}{3}\pi\,dr^3\,\rho_c, \quad
+        T_1 = \frac{q\,p_c}{\rho_c}
+        \label{eq:ic}
+      \end{equation}\]
+    </div>
+  </section>
+
+  <!-- ── Integration Algorithm ── -->
+  <section id="algorithm">
+    <h2>Integration Algorithm</h2>
+
+    <p>
+      The driver module advances the arrays \(\{r_j,\, p_j,\, \rho_j,\, T_j,\, m_j\}\) from
+      index \(j = 1\) outward toward the stellar surface using a <strong>forward Euler</strong>
+      finite-difference scheme. At each step \(j\) the following sequence of updates is applied,
+      each delegated to the corresponding function in <code>physics_star.py</code>:
+    </p>
+
+    <h3>Step 1 — Pressure Update</h3>
+    <p>
+      The discrete form of hydrostatic equilibrium (5):
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Finite-Difference Pressure Step &nbsp;(11)</div>
+      \[\begin{equation}
+        p_j \;=\; p_{j-1} \;-\; \frac{G\,\rho_{j-1}\,m_{j-1}\,dr}{r_{j-1}^2}
+        \label{eq:dp}
+      \end{equation}\]
+    </div>
+
+    <h3>Step 2 — Mass Update</h3>
+    <p>
+      The enclosed mass grows by the shell mass between \(r_{j-1}\) and \(r_j\):
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Finite-Difference Mass Step &nbsp;(12)</div>
+      \[\begin{equation}
+        m_j \;=\; m_{j-1} \;+\; 4\pi\,r_{j-1}^2\,\rho_{j-1}\,dr
+        \label{eq:dm}
+      \end{equation}\]
+    </div>
+
+    <h3>Step 3 — Density and Temperature</h3>
+    <p>
+      Once the new pressure \(p_j\) is known, density is recovered from the polytropic
+      relation (3) and temperature from the ideal gas law:
+    </p>
+    <div class="eq-block">
+      <div class="eq-label">Density and Temperature Update &nbsp;(13)</div>
+      \[\begin{equation}
+        \rho_j \;=\; D\,p_j^{1/\gamma}, \qquad
+        T_j \;=\; \frac{q\,p_j}{\rho_j}
+        \label{eq:rho-T-update}
+      \end{equation}\]
+    </div>
+
+    <h3>Surface Detection</h3>
+    <p>
+      The integration loop runs until the pressure turns negative, signaling that the
+      integration has passed through the stellar surface:
+    </p>
+    <pre>if p[j] &lt; 0:
+    last_index = j
+    break</pre>
+    <p>
+      The stellar radius is \(r_{j-1}\) (the last step with positive pressure) and the total
+      stellar mass is \(m_{j-1}\). All arrays are trimmed to <code>last_index</code> before
+      being returned to the plotting module.
+    </p>
+  </section>
+
+  <!-- ── Adaptive Step Size ── -->
+  <section id="adaptive">
+    <h2>Adaptive Step Size</h2>
+
+    <p>
+      The initial radial step \(dr = \ell/400\) is calibrated to resolve the steep central
+      pressure gradient near the core. For some parameter combinations—especially low central
+      pressures or small \(\gamma\)—the stellar radius may be very large and the integration
+      may exhaust all <code>max_points</code> steps without the pressure ever reaching zero.
+    </p>
+    <p>
+      In that case, the driver automatically doubles the step size and restarts from the initial
+      conditions:
+    </p>
+    <pre>while surface not found:
+    dr *= 2
+    restart from r[1]=dr, p[1]=p_c, rho[1]=rho_c, ...</pre>
+    <p>
+      This doubling repeats as many times as necessary until the integration completes within
+      <code>max_points</code> steps. The trade-off is accuracy: a coarser step introduces larger
+      truncation errors. For the default solar parameters, no doubling is needed.
+    </p>
+
+    <div class="note">
+      <strong>Note on accuracy:</strong> The forward Euler method accumulates truncation error of
+      order \(O(dr)\) per step. For the default parameters the step is fine enough that the
+      resulting stellar radius and mass are realistic to within a few percent. Changing to a
+      dramatically different parameter regime may require experimenting with
+      <code>max_points</code> to balance resolution against computation time.
+    </div>
+  </section>
+
+  <!-- ── Module Overview ── -->
+  <section id="modules">
+    <h2>Module Overview</h2>
+
+    <p>
+      The program is divided into four cooperating modules following a strict
+      physics / driver / plot / main separation of concerns. This architecture keeps the
+      physical equations isolated from the numerical integration logic and from the display code.
+    </p>
+
+    <div class="module-grid">
+
+      <!-- physics_star.py -->
+      <div class="module-card">
+        <div class="mc-name">physics_star.py</div>
+        <div class="mc-role">Physics</div>
+        <p>
+          Encodes the physical laws of polytropic stellar structure as pure, stateless functions.
+          Contains exactly three literal numbers—the physical constants \(k_{\mathrm{B}}\),
+          \(m_p\), and \(G\)—and seven functions implementing the ideal gas law, polytropic EOS,
+          hydrostatic equilibrium, and mass continuity. No integration logic resides here.
+        </p>
+        <div class="mc-sig">
+          k_BOLTZMANN = 1.38e-23  # J/K<br>
+          MPROTON     = 1.67e-27  # kg<br>
+          G_NEWTON    = 6.672e-11 # m³ kg⁻¹ s⁻²<br>
           <br>
-          <big><big>
-            <span lang="EN-GB" style="font-size:12pt; font-family:'Times New Roman'; font-weight:bold;">
-              © 2003 Bernard Schutz
-            </span>
-          </big></big>
+          q_factor(mu)<br>
+          central_density(p_c, T_c, mu)<br>
+          polytropic_D(rho_c, p_c, gamma)<br>
+          scale_height(p_c, rho_c)<br>
+          hydrostatic_step(p_prev, rho_prev,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mass_prev, r_prev, dr)<br>
+          mass_step(mass_prev, r_prev, rho_prev, dr)<br>
+          density_from_pressure(p, D, gamma)<br>
+          temperature_from_prho(p, rho, mu)
         </div>
+      </div>
 
-        <h3 style="font-family:helvetica,arial,sans-serif; text-align:center;">
-          <b>
-            Compute the structure of a star with a polytropic equation of state.
-            The Python version models a spherically symmetric star in hydrostatic
-            equilibrium, allowing you to explore how pressure, density, temperature,
-            and enclosed mass vary with radius for different central conditions
-            and compositions.
-          </b>
-        </h3>
-      </td>
-    </tr>
-  </tbody>
-</table>
+      <!-- driver_star.py -->
+      <div class="module-card">
+        <div class="mc-name">driver_star.py</div>
+        <div class="mc-role">Driver</div>
+        <p>
+          Orchestrates the full radial integration from center to surface. Computes central
+          conditions and the initial step size, runs the forward-Euler loop calling
+          <code>physics_star</code> functions at each step, applies step doubling if the surface
+          is not reached within <code>max_points</code> steps, and returns all profiles in a
+          structured dictionary.
+        </p>
+        <div class="mc-sig">
+          integrate_star(<br>
+          &nbsp;&nbsp;p_c,<br>
+          &nbsp;&nbsp;T_c,<br>
+          &nbsp;&nbsp;mu,<br>
+          &nbsp;&nbsp;gamma,<br>
+          &nbsp;&nbsp;max_points = 2000,<br>
+          &nbsp;&nbsp;output_type = "pressure"<br>
+          ) -&gt; dict<br>
+          <br>
+          Returns keys:<br>
+          &nbsp;&nbsp;"radius", "pressure", "density",<br>
+          &nbsp;&nbsp;"temperature", "mass",<br>
+          &nbsp;&nbsp;"last_index", "output_type"
+        </div>
+      </div>
 
-<h2>Contents</h2>
-<ul>
-  <li><a href="#description">Description of <tt>Star</tt></a></li>
-  <li><a href="#using">Using <tt>Star</tt></a></li>
-  <li><a href="#playing">Suggestions for playing with <tt>Star</tt></a></li>
-  <li><a href="#understanding">Understanding <tt>Star</tt></a></li>
-  <li><a href="#suggestions">Suggested modifications</a></li>
-  <li><a href="#listing">Python source code</a></li>
-</ul>
+      <!-- plot_star.py -->
+      <div class="module-card">
+        <div class="mc-name">plot_star.py</div>
+        <div class="mc-role">Plot</div>
+        <p>
+          Receives the result dictionary from the driver and produces a labelled matplotlib
+          graph of the chosen quantity versus radius. Selects axis labels and title automatically
+          from <code>output_type</code>. Raises <code>ValueError</code> for any unrecognized
+          output type string.
+        </p>
+        <div class="mc-sig">
+          plot_star_structure(result: Dict)<br>
+          <br>
+          output_type  →  y-axis label<br>
+          "pressure"   →  "Pressure [Pa]"<br>
+          "density"    →  "Density [kg/m³]"<br>
+          "temperature"→  "Temperature [K]"<br>
+          "mass"       →  "Enclosed mass [kg]"<br>
+          <br>
+          x-axis: "Radius [m]"<br>
+          Title: "Stellar structure: &lt;type&gt; vs radius"
+        </div>
+      </div>
 
-<hr width="15%" size="4">
+      <!-- main.py -->
+      <div class="module-card">
+        <div class="mc-name">main.py</div>
+        <div class="mc-role">Entry Point</div>
+        <p>
+          The user-facing entry script. Sets all physical input parameters to solar-model
+          defaults and calls the driver and plotting modules in sequence. To explore a different
+          stellar model, edit the parameter values here; no other file needs to change.
+        </p>
+        <div class="mc-sig">
+          p_c         = 2.5e16   # central pressure [Pa]<br>
+          T_c         = 1.5e7    # central temperature [K]<br>
+          mu          = 0.61     # mean molecular weight<br>
+          gamma       = 5.0/3.0  # polytropic exponent<br>
+          output_type = "pressure"<br>
+          <br>
+          result = integrate_star(<br>
+          &nbsp;&nbsp;p_c=p_c, T_c=T_c, mu=mu,<br>
+          &nbsp;&nbsp;gamma=gamma,<br>
+          &nbsp;&nbsp;max_points=2000,<br>
+          &nbsp;&nbsp;output_type=output_type)<br>
+          plot_star_structure(result)
+        </div>
+      </div>
 
-<h2 id="description">Description of <tt><font size="+3">Star</font></tt></h2>
+    </div><!-- /module-grid -->
+  </section>
 
-<p>
-The <tt>Star</tt> program computes the internal structure of a star
-using Newtonian gravity and a polytropic equation of state. The star
-is assumed to be spherically symmetric and composed of a perfect fluid
-whose pressure <i>p</i> and density <i>ρ</i> are related by a power law:
-<i>p ∝ ρ<sup>γ</sup></i>, where <i>γ</i> is the polytropic exponent.
-Central pressure, central temperature, and mean molecular weight are
-used to fix the proportionality constant via the ideal gas law.
-</p>
+  <!-- ── Input Parameters ── -->
+  <section id="parameters">
+    <h2>Input Parameters</h2>
 
-<p>
-Starting from the center, the program integrates outward in radius,
-enforcing hydrostatic equilibrium and mass conservation. It builds
-arrays of radius, pressure, density, temperature, and enclosed mass
-until the pressure falls to zero, which defines the stellar surface.
-The resulting model shows the strong contrast between central and
-surface conditions and illustrates how mass, radius, and composition
-are related for a given polytropic exponent.
-</p>
+    <p>
+      All parameters are set in <code>main.py</code>. The defaults produce a rough model of
+      the Sun. Change only the values in <code>main.py</code>; the physics, driver, and plot
+      modules require no modification.
+    </p>
 
-<p>
-The Python implementation follows Bernard Schutz’s original Java
-program from <i>Gravity From the Ground Up</i>, but is organized into
-four modules:
-</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default</th>
+          <th>Units</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>p_c</code></td>
+          <td><code>2.5e16</code></td>
+          <td>Pa</td>
+          <td>
+            Central pressure. Sets the overall energy scale of the stellar model. Higher \(p_c\)
+            generally produces a more massive, more compact star.
+          </td>
+        </tr>
+        <tr>
+          <td><code>T_c</code></td>
+          <td><code>1.5e7</code></td>
+          <td>K</td>
+          <td>
+            Central temperature. Combined with \(p_c\) and \(\mu\) via the ideal gas law to
+            set the central density \(\rho_c\). A higher \(T_c\) yields a lower \(\rho_c\) for
+            the same \(p_c\), producing a larger, less dense star.
+          </td>
+        </tr>
+        <tr>
+          <td><code>mu</code></td>
+          <td><code>0.61</code></td>
+          <td>dimensionless</td>
+          <td>
+            Mean molecular weight in units of the proton mass. For a fully ionized
+            hydrogen–helium solar plasma, \(\mu \approx 0.61\). For a pure neutron fluid,
+            \(\mu = 1\). Smaller \(\mu\) means lighter particles and higher pressure per unit
+            density.
+          </td>
+        </tr>
+        <tr>
+          <td><code>gamma</code></td>
+          <td><code>5.0/3.0</code></td>
+          <td>dimensionless</td>
+          <td>
+            Polytropic exponent \(\gamma\). The value \(5/3\) corresponds to a non-relativistic
+            ideal monatomic gas. Red giants require \(\gamma\) closer to \(4/3\); neutron stars
+            modeled with a stiff EOS use \(\gamma \approx 2\). Values near \(1\) produce very
+            extended, low-density stars.
+          </td>
+        </tr>
+        <tr>
+          <td><code>max_points</code></td>
+          <td><code>2000</code></td>
+          <td>integer</td>
+          <td>
+            Maximum number of radial grid points per integration attempt. If the stellar surface
+            is not reached, the step size doubles and integration restarts. Increase this value
+            for better resolution with extreme parameter choices.
+          </td>
+        </tr>
+        <tr>
+          <td><code>output_type</code></td>
+          <td><code>"pressure"</code></td>
+          <td>string</td>
+          <td>
+            Selects the quantity displayed in the plot. One of <code>"pressure"</code>,
+            <code>"density"</code>, <code>"temperature"</code>, or <code>"mass"</code>.
+            All four profiles are always computed; only the display changes.
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-<ul>
-  <li>a physics module encoding the differential equations and physical constants</li>
-  <li>a driver module performing the radial integration and producing structured output</li>
-  <li>a plot module that turns the structured output into graphs</li>
-  <li>a main module that sets example input parameters and calls the driver and plot modules</li>
-</ul>
+    <div class="note">
+      <strong>Physical meaning of \(\mu\):</strong> For a pure hydrogen plasma (fully ionized),
+      each proton contributes one proton mass and one electron mass to the mean, but the electron
+      mass is negligible, so \(\mu \approx 0.5\). For a solar-composition hydrogen–helium mixture
+      (roughly 75% H, 25% He by mass, both fully ionized), \(\mu \approx 0.61\). For a pure
+      neutron star modeled in Newtonian gravity, \(\mu = 1\) (no free electrons).
+    </div>
+  </section>
 
-<hr width="15%" size="4">
+  <!-- ── Output Modes ── -->
+  <section id="output">
+    <h2>Output Modes</h2>
 
-<h2 id="using">Using <tt><font size="+3">Star</font></tt></h2>
+    <p>
+      Set <code>output_type</code> in <code>main.py</code> to choose which stellar structure
+      profile is plotted. In all modes the horizontal axis is the radius \(r\) in metres,
+      running from the first grid point \(r = dr\) to the stellar surface. All four profiles
+      are computed internally during each run; only the displayed quantity changes.
+    </p>
 
-<p>
-The Python version of <tt>Star</tt> is located at:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Star">
-  https://github.com/tomyee3/GFTGU-Programs/tree/main/Star
-</a>
-</p>
+    <table>
+      <thead>
+        <tr>
+          <th>output_type</th>
+          <th>Quantity plotted</th>
+          <th>Units</th>
+          <th>What to look for</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>"pressure"</code></td>
+          <td>Pressure \(p(r)\)</td>
+          <td>Pa</td>
+          <td>
+            Peaks at the center and falls monotonically to zero at the surface. The radius at
+            which \(p \to 0\) is the stellar radius \(R_\star\).
+          </td>
+        </tr>
+        <tr>
+          <td><code>"density"</code></td>
+          <td>Density \(\rho(r)\)</td>
+          <td>kg m\(^{-3}\)</td>
+          <td>
+            Also highest at the center, falling to zero at the surface. Because
+            \(\rho \propto p^{1/\gamma}\) with \(\gamma > 1\), density falls off
+            more slowly than pressure.
+          </td>
+        </tr>
+        <tr>
+          <td><code>"temperature"</code></td>
+          <td>Temperature \(T(r)\)</td>
+          <td>K</td>
+          <td>
+            Hottest at the center. Since \(T = qp/\rho\) and \(\rho\) falls more slowly than
+            \(p\), the temperature drops faster than pressure but more slowly than
+            a simple linear interpolation would suggest.
+          </td>
+        </tr>
+        <tr>
+          <td><code>"mass"</code></td>
+          <td>Enclosed mass \(m(r)\)</td>
+          <td>kg</td>
+          <td>
+            Increases from nearly zero at the center to the total stellar mass \(M_\star\) at
+            the surface. The curve rises steeply in the dense interior and flattens near the
+            low-density outer layers.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-<p>
-The program is divided conceptually into four modules:
-</p>
+  <!-- ── Suggested Scenarios ── -->
+  <section id="scenarios">
+    <h2>Suggested Scenarios</h2>
 
-<ol>
-  <li>
-    <b>Physics module (for example, <tt>physics.py</tt>):</b><br>
-    Encodes the physical laws and constants used in the model:
-    <ul>
-      <li>Newton’s gravitational constant <tt>G</tt></li>
-      <li>Boltzmann’s constant <tt>k</tt></li>
-      <li>proton mass <tt>m_p</tt></li>
-      <li>hydrostatic equilibrium:
-        <pre>
-dp/dr = - G * ρ(r) * m(r) / r²
-        </pre>
-      </li>
-      <li>mass conservation:
-        <pre>
-dm/dr = 4π r² ρ(r)
-        </pre>
-      </li>
-      <li>polytropic equation of state:
-        <pre>
-ρ = D * p^(1/γ)
-        </pre>
-        where <tt>D</tt> is determined from the central pressure and
-        density.</li>
-      <li>ideal gas law at the center:
-        <pre>
-ρ_c = p_c * m_p * μ / (k * T_c)
-        </pre>
-    </ul>
-    Only physical constants appear as literal numbers in this module;
-    all other quantities are passed in as parameters.
-  </li>
+    <p>
+      The following experiments are drawn from Schutz's original program description and the
+      exercises in <em>Gravity from the Ground Up</em>, Chapter 8. Each requires only changes
+      to the parameter values in <code>main.py</code>.
+    </p>
 
-  <li>
-    <b>Driver module (for example, <tt>driver.py</tt>):</b><br>
-    Performs the radial integration from the center to the surface.
-    It:
-    <ul>
-      <li>computes central density from <tt>p_c</tt>, <tt>T_c</tt>, and <tt>μ</tt></li>
-      <li>derives the polytropic constant <tt>D</tt> and the reciprocal exponent <tt>1/γ</tt></li>
-      <li>chooses an initial radial step <tt>dr</tt> based on a pressure scale height</li>
-      <li>initializes arrays for radius, pressure, density, temperature, and mass</li>
-      <li>uses special starting formulas at the first non-zero radius to avoid singularities</li>
-      <li>steps outward in radius, updating:
-        <pre>
-r[j]   = r[j-1] + dr
-p[j]   = p[j-1] - G * ρ[j-1] * m[j-1] * dr / r[j-1]²
-m[j]   = m[j-1] + 4π r[j-1]² ρ[j-1] dr
-ρ[j]   = D * p[j]^(1/γ)
-T[j]   = (m_p * μ / k) * p[j] / ρ[j]
-        </pre>
-      </li>
-      <li>stops when the pressure becomes zero or negative, recording
-          the index of the stellar surface</li>
-      <li>if the surface is not reached within the allocated number of
-          steps, adjusts <tt>dr</tt> and repeats the integration</li>
-    </ul>
-    The driver returns a structured object (for example, a dictionary)
-    containing the arrays and the index of the surface.
-  </li>
+    <div class="scenario-grid">
 
-  <li>
-    <b>Plot module (for example, <tt>plot_star.py</tt>):</b><br>
-    Uses a plotting library such as Matplotlib to display:
-    <ul>
-      <li>pressure vs radius</li>
-      <li>density vs radius</li>
-      <li>temperature vs radius</li>
-      <li>enclosed mass vs radius</li>
-    </ul>
-    The user can choose which quantity to plot by setting an output
-    type string (for example, <tt>"pressure"</tt>, <tt>"density"</tt>,
-    <tt>"temperature"</tt>, or <tt>"mass"</tt>). Radius is always the
-    horizontal axis; the chosen quantity is the vertical axis. For
-    pressure and density, logarithmic vertical axes are often useful.
-  </li>
+      <div class="scenario-card">
+        <h4>1 · Solar Model Baseline</h4>
+        <p>
+          Run with default parameters. Switch <code>output_type</code> between all four modes
+          to build up a complete picture of the solar interior. Verify that the stellar radius
+          is of order \(7 \times 10^8\) m and the total enclosed mass is of order
+          \(2 \times 10^{30}\) kg.
+        </p>
+        <div class="sc-params">
+          p_c = 2.5e16, T_c = 1.5e7<br>
+          mu = 0.61, gamma = 5.0/3.0<br>
+          output_type = "mass"
+        </div>
+      </div>
 
-  <li>
-    <b>Main module (<tt>main.py</tt>):</b><br>
-    Acts as the entry point for users. It sets example values for:
-    <ul>
-      <li>central pressure <tt>p_c</tt> (in pascals)</li>
-      <li>central temperature <tt>T_c</tt> (in kelvins)</li>
-      <li>mean molecular weight <tt>μ</tt> (dimensionless)</li>
-      <li>polytropic exponent <tt>γ</tt></li>
-      <li>maximum number of radial steps</li>
-      <li>initial scale factor for choosing <tt>dr</tt></li>
-      <li>output type (pressure, density, temperature, or mass)</li>
-    </ul>
-    Users may overwrite these values to model different stars. The
-    main module calls the driver to compute the structure and then
-    passes the result to the plot module to generate the desired graph.
-  </li>
-</ol>
+      <div class="scenario-card">
+        <h4>2 · Central Temperature Sensitivity</h4>
+        <p>
+          Change \(T_c\) by ±10% while keeping \(p_c\) fixed. A higher central temperature
+          lowers the central density (ideal gas law), making the star larger and less massive.
+          Observe how sensitively the stellar radius and total mass respond to this small change.
+        </p>
+        <div class="sc-params">
+          T_c = 1.35e7  # −10%<br>
+          T_c = 1.65e7  # +10%<br>
+          output_type = "mass"
+        </div>
+      </div>
 
-<p>
-To run the program:
-</p>
+      <div class="scenario-card">
+        <h4>3 · Red Giant Model</h4>
+        <p>
+          Set \(\gamma\) close to \(4/3\) to model a gas that is close to the instability
+          threshold. Near-\(4/3\) polytropes produce very extended, tenuous envelopes
+          with radii roughly 100 times larger than a solar-type star. Compare the density
+          profile with the baseline run.
+        </p>
+        <div class="sc-params">
+          gamma = 1.335<br>
+          output_type = "density"
+        </div>
+      </div>
 
-<pre>
-python main.py
-</pre>
+      <div class="scenario-card">
+        <h4>4 · Neutron Star (Newtonian)</h4>
+        <p>
+          Set \(\mu = 1\) (pure neutrons, no free electrons) and \(\gamma = 2\) (stiff
+          nuclear matter). This gives a much more compact object with a much smaller radius.
+          Note that a fully rigorous neutron-star model requires general relativity, as treated
+          in the companion Neutron program.
+        </p>
+        <div class="sc-params">
+          mu = 1.0, gamma = 2.0<br>
+          p_c = 2.5e16<br>
+          output_type = "pressure"
+        </div>
+      </div>
 
-<p>
-Depending on the selected output type, the program will produce one or
-more plots showing the internal structure of the star.
-</p>
+      <div class="scenario-card">
+        <h4>5 · Scaling Relations</h4>
+        <p>
+          For a polytrope, dimensional analysis predicts that stellar radius \(R\) and mass
+          \(M\) scale as power laws in \(p_c\) and \(\rho_c\). Vary \(p_c\) over a factor of
+          10 and plot \(\log R\) versus \(\log p_c\) to measure the exponent. Compare with the
+          theoretical prediction for \(\gamma = 5/3\).
+        </p>
+        <div class="sc-params">
+          p_c in [1e15, 1e16, 1e17]<br>
+          gamma = 5.0/3.0<br>
+          output_type = "mass"
+        </div>
+      </div>
 
-<hr width="15%" size="4">
+      <div class="scenario-card">
+        <h4>6 · Effect of Composition (\(\mu\))</h4>
+        <p>
+          Compare models with \(\mu = 0.5\) (pure hydrogen plasma), \(\mu = 0.61\) (solar),
+          and \(\mu = 1.0\) (pure protons or neutrons). Higher \(\mu\) means heavier particles,
+          higher central density at the same pressure and temperature, and a more compact star.
+        </p>
+        <div class="sc-params">
+          mu in [0.5, 0.61, 1.0]<br>
+          p_c = 2.5e16, T_c = 1.5e7<br>
+          output_type = "mass"
+        </div>
+      </div>
 
-<h2 id="playing">Suggestions for playing with <tt><font size="+3">Star</font></tt></h2>
+    </div><!-- /scenario-grid -->
+  </section>
 
-<p>
-The Python version allows extensive experimentation with stellar
-models. Here are some suggestions:
-</p>
+  <!-- ── Related Programs ── -->
+  <section id="related">
+    <h2>Related Programs</h2>
 
-<ol>
-  <li>
-    <b>Solar model.</b><br>
-    Use the default values for central pressure, temperature, mean
-    molecular weight, and polytropic exponent to construct a model of
-    the Sun. Compare the radial profiles of pressure, density,
-    temperature, and mass with the standard solar model in Chapter 8.
-  </li>
+    <p>
+      The Star program is part of a suite covering stellar and gravitational physics from
+      <em>Gravity from the Ground Up</em>. Documentation for each program is available in
+      the
+      <a href="https://github.com/tomyee3/GFTGU-Documentation">GFTGU Documentation repository</a>.
+    </p>
 
-  <li>
-    <b>Sensitivity to central conditions.</b><br>
-    Change the central temperature by 10% while keeping the polytropic
-    exponent and composition fixed. Examine how the total mass and
-    radius of the model change. Adjust the central pressure to recover
-    the original mass and see how the radius responds.
-  </li>
+    <table>
+      <thead>
+        <tr>
+          <th>Program</th>
+          <th>Chapter</th>
+          <th>Topic</th>
+          <th>Documentation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>Binary</code></td>
+          <td>Ch. 4</td>
+          <td>Newtonian two-body orbit with predictor–corrector integration</td>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/04-Binary">04-Binary</a></td>
+        </tr>
+        <tr>
+          <td><code>Binary_RK45</code></td>
+          <td>Ch. 4</td>
+          <td>Two-body orbit with adaptive RK45 integration</td>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/04-Binary_RK45">04-Binary_RK45</a></td>
+        </tr>
+        <tr>
+          <td><code>MercPert</code></td>
+          <td>Ch. 5</td>
+          <td>Mercury perihelion precession with GR perturbation</td>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/05-MercPert">05-MercPert</a></td>
+        </tr>
+        <tr>
+          <td><code>MercPert_RK45</code></td>
+          <td>Ch. 5</td>
+          <td>Mercury perihelion precession with adaptive RK45</td>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/05-MercPert_RK45">05-MercPert_RK45</a></td>
+        </tr>
+        <tr>
+          <td><code>Multiple</code></td>
+          <td>Ch. 6</td>
+          <td>N-body gravitational simulation</td>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/06-Multiple">06-Multiple</a></td>
+        </tr>
+        <tr>
+          <td><code>Multiple_RK45</code></td>
+          <td>Ch. 6</td>
+          <td>N-body simulation with adaptive RK45</td>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/06-Multiple_RK45">06-Multiple_RK45</a></td>
+        </tr>
+        <tr>
+          <td><code>Neutron</code></td>
+          <td>Ch. 9</td>
+          <td>Relativistic neutron-star structure (TOV equation)</td>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/09-Neutron">09-Neutron</a></td>
+        </tr>
+        <tr>
+          <td><code>RelativisticOrbit</code></td>
+          <td>Ch. 18</td>
+          <td>Test-particle orbit in Schwarzschild spacetime</td>
+          <td><a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/18-RelativisticOrbit">18-RelativisticOrbit</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-  <li>
-    <b>Red giant models.</b><br>
-    Build models with the same composition as the Sun but with a
-    polytropic exponent close to <tt>γ = 4/3</tt>, appropriate for
-    giant stars. Try to construct a model with the Sun’s mass but a
-    radius 100 times larger, and then models with ten times the solar
-    mass.
-  </li>
+  <!-- ── License ── -->
+  <section id="license">
+    <h2>License</h2>
+    <p>
+      These programs and documentation are released under the
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons
+      Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+      You are free to share and adapt the material for non-commercial purposes, provided
+      appropriate credit is given and any derivative works are distributed under the same license.
+    </p>
+    <div style="margin-top: 14px;">
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+        <img src="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/LicenseBanner.png"
+             alt="CC BY-NC-SA 4.0 License Banner"
+             style="max-width: 300px; height: auto; border: 1px solid var(--border); border-radius: 4px;" />
+      </a>
+    </div>
+  </section>
 
-  <li>
-    <b>Neutron star models.</b><br>
-    Use <tt>γ = 2</tt> and a mean molecular weight <tt>μ = 1</tt> to
-    approximate a neutron star in Newtonian gravity. Adjust central
-    pressure and temperature to obtain a radius of about 10 km and a
-    mass of 1.4 solar masses. Compare these models with the fully
-    relativistic ones discussed in the program <tt>Neutron</tt>.
-  </li>
+</main>
 
-  <li>
-    <b>Scaling relations.</b><br>
-    For a fixed polytropic exponent and composition, build several
-    models with different central pressures and temperatures. Check
-    whether the resulting masses and radii obey the scaling relations
-    derived in Investigation 8.6.
-  </li>
-</ol>
+<!-- ════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <strong>Star</strong> &mdash; Polytropic Stellar Structure &nbsp;|&nbsp;
+      <em>Gravity from the Ground Up</em>, Chapter 8 &nbsp;|&nbsp;
+      Bernard Schutz (Cambridge, 2003)
+    </div>
+    <div>
+      Python source:
+      <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Star">GFTGU-Programs / Star</a>
+      &nbsp;&middot;&nbsp;
+      Documentation:
+      <a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/08-Star">GFTGU-Documentation / 08-Star</a>
+    </div>
+    <div>
+      &copy; Thomas Yee &nbsp;&middot;&nbsp;
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+    </div>
+  </div>
+</footer>
 
-<hr width="15%" size="4">
-
-<h2 id="understanding">Understanding <tt><font size="+3">Star</font></tt></h2>
-
-<p>
-The <tt>Star</tt> program is closely related to the atmospheric model
-in <tt>Atmosphere</tt>, but with two key differences:
-</p>
-
-<ol>
-  <li>
-    <b>Variable gravity.</b><br>
-    Gravity cannot be treated as constant inside a star. At the center
-    the gravitational acceleration is zero, while at the surface the
-    entire mass of the star contributes. The program therefore replaces
-    a constant <tt>g</tt> with:
-    <pre>
-g(r) = G * m(r) / r²
-    </pre>
-    where <tt>m(r)</tt> is the mass interior to radius <tt>r</tt>. Only
-    the interior mass contributes, because a spherically symmetric
-    shell of matter outside <tt>r</tt> exerts no net gravitational
-    force at <tt>r</tt>.
-  </li>
-
-  <li>
-    <b>Polytropic equation of state.</b><br>
-    Unlike the Earth’s atmosphere, the temperature structure of a star
-    cannot be specified directly. Instead, the program assumes a
-    polytropic relation between pressure and density and uses the ideal
-    gas law at the center to fix the proportionality constant. Central
-    pressure, central temperature, and mean molecular weight determine
-    the central density via:
-    <pre>
-ρ_c = p_c * m_p * μ / (k * T_c)
-    </pre>
-    From this, the program computes:
-    <pre>
-D = ρ_c / p_c^(1/γ)
-    </pre>
-    so that:
-    <pre>
-ρ = D * p^(1/γ)
-    </pre>
-    holds throughout the star. Temperature at each radius is then
-    recovered from the ideal gas law.
-  </li>
-</ol>
-
-<p>
-The remaining aspects of the program—array management, stopping
-criteria, and plotting—are straightforward extensions of the
-techniques used in <tt>Atmosphere</tt>.
-</p>
-
-<hr width="15%" size="4">
-
-<h2 id="suggestions">Suggested modifications</h2>
-
-<p>
-A useful extension of the present program would be to allow the
-equation of state to change from region to region. For example, the Sun
-has a convection zone where <tt>γ ≈ 4/3</tt>, while deeper layers have
-larger exponents. You could:
-</p>
-
-<ul>
-  <li>divide the star into two or three radial regions</li>
-  <li>assign different polytropic exponents and mean molecular weights
-      to each region</li>
-  <li>ensure continuity of pressure and mass at the boundaries</li>
-</ul>
-
-<p>
-Such a model would more accurately represent real stars while still
-using the same numerical framework.
-</p>
-
-<hr width="15%" size="4">
-
-<h2 id="listing">Python source code</h2>
-
-<p>
-The complete Python implementation of <tt>Star</tt> is available at:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/Star">
-  https://github.com/tomyee3/GFTGU-Programs/tree/main/Star
-</a>
-</p>
-
-<p>
-Updated help documentation is maintained at:
-<br>
-<a href="https://github.com/tomyee3/GFTGU-Documentation/tree/main/08-Star">
-  https://github.com/tomyee3/GFTGU-Documentation/tree/main/08-Star
-</a>
-</p>
-
-<p>
-This documentation is released under the Creative Commons
-Attribution–NonCommercial–ShareAlike 4.0 International License:
-<br>
-<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
-  https://creativecommons.org/licenses/by-nc-sa/4.0/
-</a>
-</p>
-
-<p>
-Creative Commons address:
-<br>
-Creative Commons<br>
-PO Box 1866<br>
-Mountain View, CA 94042<br>
-USA
-</p>
-
+</div><!-- /page-wrap -->
 </body>
 </html>
