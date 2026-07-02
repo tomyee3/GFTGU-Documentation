@@ -1,356 +1,1040 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>CannonTrajectory</title>
-  <meta name="Author" content="Bernard F Schutz">
-  <meta name="Description" content="Help file for the Python program CannonTrajectory, part of the toolbox for the book Gravity from the Ground Up. This unit calculates trajectories of projectiles fired from the ground.">
-  <meta name="KeyWords" content="Gravity from the Ground Up, CannonTrajectory, Python, help file">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CannonTrajectory – Help File | GFtGU Programs</title>
+
+  <!-- MathJax 3 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath:  [['\\(','\\)']],
+        displayMath: [['\\[','\\]']],
+        tags: 'ams'
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+          id="MathJax-script" async></script>
+
+  <style>
+    /* ── Reset & custom properties ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #fdf5e6;
+      --surface:     #ffffff;
+      --border:      #c8bfa0;
+      --accent:      #7b2d00;
+      --accent2:     #a04010;
+      --gold:        #b5811a;
+      --text:        #1c1c1c;
+      --muted:       #5a4a3a;
+      --code-bg:     #f0ede4;
+      --note-bg:     #f4f0e8;
+      --eq-bg:       #f7f2e8;
+      --warn-bg:     #fef8ec;
+      --warn-border: #c08020;
+      --radius:      5px;
+      --shadow:      0 2px 8px rgba(0,0,0,0.10);
+      --mono:        "Courier New", Courier, monospace;
+      --sans:        "Helvetica Neue", Arial, sans-serif;
+      --serif:       Georgia, "Times New Roman", Times, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 1.80;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Page grid ── */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      grid-column: 1 / -1;
+      background: var(--accent);
+      color: #fff;
+      padding: 26px 38px 20px;
+      border-bottom: 4px solid var(--gold);
+    }
+    header .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 3px;
+      padding: 2px 7px;
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 1.95rem;
+      font-weight: normal;
+      letter-spacing: -.02em;
+    }
+    header h1 em { font-style: normal; color: #ffc9a0; }
+    header .sub {
+      margin-top: 6px;
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: #f0d0b8;
+      line-height: 1.55;
+    }
+    header .sub a {
+      color: #ffd8b8;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,200,150,.4);
+    }
+    header .sub a:hover { border-bottom-color: #ffd8b8; }
+
+    /* ── Sidebar ── */
+    nav {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 0 40px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .nav-label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 16px 20px 4px;
+      margin-top: 8px;
+    }
+    nav a {
+      display: block;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text);
+      text-decoration: none;
+      padding: 5px 20px 5px 26px;
+      border-left: 3px solid transparent;
+      line-height: 1.4;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    nav a:hover {
+      color: var(--accent);
+      border-left-color: var(--accent2);
+      background: #f5ede0;
+    }
+    nav a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      font-weight: 600;
+      background: #f5ede0;
+    }
+
+    /* ── Main content ── */
+    main {
+      padding: 40px 50px 60px;
+      max-width: 900px;
+    }
+
+    /* ── Section headings ── */
+    h2 {
+      font-family: var(--sans);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 5px;
+      margin: 44px 0 16px;
+      letter-spacing: -.01em;
+    }
+    h2:first-of-type { margin-top: 0; }
+
+    h3 {
+      font-family: var(--sans);
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--accent2);
+      margin: 26px 0 8px;
+    }
+
+    p { margin-bottom: 0.9em; }
+
+    /* ── Equation blocks ── */
+    .eq-block {
+      background: var(--eq-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 14px 20px 14px 18px;
+      margin: 18px 0;
+      overflow-x: auto;
+    }
+    .eq-label {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    /* ── Module cards ── */
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .module-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px 20px 16px;
+    }
+    .module-card .mc-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .module-card .mc-icon {
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+    .module-card .mc-title {
+      font-family: var(--mono);
+      font-size: 0.93rem;
+      font-weight: bold;
+      color: var(--accent);
+    }
+    .module-card .mc-role {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .module-card p {
+      font-size: 0.88rem;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+    .module-card .sig {
+      font-family: var(--mono);
+      font-size: 0.80rem;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 7px 10px;
+      white-space: pre;
+      overflow-x: auto;
+      color: var(--accent2);
+      line-height: 1.5;
+    }
+
+    /* ── Parameter table ── */
+    .param-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin-top: 12px;
+    }
+    .param-table th {
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .param-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .param-table tr:nth-child(even) td { background: var(--note-bg); }
+    .param-table code {
+      font-family: var(--mono);
+      font-size: 0.85em;
+      background: var(--code-bg);
+      padding: 1px 4px;
+      border-radius: 2px;
+    }
+
+    /* ── Experiment cards ── */
+    .experiment-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 20px;
+      margin-bottom: 14px;
+    }
+    .experiment-card .exp-num {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .experiment-card .exp-title {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 0.96rem;
+      color: var(--accent2);
+      margin-bottom: 6px;
+    }
+    .experiment-card p { font-size: 0.88rem; margin-bottom: 0; }
+
+    /* ── Note / warning boxes ── */
+    .note-box {
+      background: var(--note-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      margin: 16px 0;
+    }
+    .warn-box {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      border-left: 4px solid var(--warn-border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      margin: 16px 0;
+    }
+
+    /* ── Code inline ── */
+    code {
+      font-family: var(--mono);
+      font-size: 0.87em;
+      background: var(--code-bg);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    /* ── Related programs ── */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .related-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      text-decoration: none;
+      color: var(--text);
+      display: block;
+      transition: box-shadow .15s, border-color .15s;
+    }
+    .related-card:hover {
+      border-color: var(--accent2);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+    .related-card .rc-name {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .related-card .rc-ch {
+      font-family: var(--sans);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--gold);
+      margin-bottom: 5px;
+    }
+    .related-card p {
+      font-family: var(--sans);
+      font-size: 0.80rem;
+      color: var(--muted);
+      margin-bottom: 0;
+      line-height: 1.4;
+    }
+
+    /* ── Footer ── */
+    footer {
+      grid-column: 1 / -1;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 20px 38px;
+      font-family: var(--sans);
+      font-size: 0.80rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    footer a { color: var(--accent2); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Scrollspy highlight ── */
+    @media (max-width: 700px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      nav { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+      main { padding: 24px 20px 40px; }
+    }
+  </style>
 </head>
 
-<body text="#000000" bgcolor="#fdf5e6"
-      link="#808080" vlink="#808080" alink="#ff0000"
-      background="https://github.com/tomyee3/GFTGU-Documentation/raw/main/00-License/license_files/BH-posneg.negative.watermark.png">
+<body>
+<div class="page-wrap">
 
-  <span style="font-weight: bold;">
-    <a href="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license.html">
-      <img src="https://github.com/tomyee3/GFTGU-Documentation/blob/main/00-License/license_files/LicenseBanner.png"
-           title="Click to view license information."
-           alt="Creative Commons License Banner"
-           style="border: 0; width: 375px; height: 362px;"
-           align="right">
-    </a>
-  </span>
+  <!-- ═══════════════════════════════════════════════════════ HEADER -->
+  <header>
+    <div class="badge">CHAPTER 1 · INVESTIGATION 1.3</div>
+    <h1><em>CannonTrajectory</em> — Newtonian Projectile Motion</h1>
+    <div class="sub">
+      Python port of Bernard Schutz, <em>Gravity from the Ground Up</em> (Cambridge, 2003) &nbsp;·&nbsp;
+      <a href="https://www.gravityfromthegroundup.org/programs/CannonTrajectory.html" target="_blank">Original help file</a> &nbsp;·&nbsp;
+      <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/CannonTrajectory" target="_blank">Source code on GitHub</a>
+    </div>
+  </header>
 
-  <br>
+  <!-- ═══════════════════════════════════════════════════════ SIDEBAR NAV -->
+  <nav id="sidebar">
+    <div class="nav-label">Contents</div>
+    <a href="#description">Description</a>
+    <a href="#background">Physical Background</a>
+    <a href="#equations">Governing Equations</a>
+    <a href="#algorithm">Algorithm</a>
+    <a href="#modules">Code Modules</a>
+    <a href="#parameters">Parameters</a>
+    <a href="#output">Output</a>
 
-  <table cellpadding="2" cellspacing="2" border="3"
-         style="text-align: left; width: 50%; margin-left: auto; margin-right: auto;">
-    <tbody>
-      <tr>
-        <td style="vertical-align: top; background-color: rgb(204, 204, 204);">
-          <h3 style="color: rgb(102, 255, 153); font-family: monospace; font-weight: bold; text-align: center;">
-            <big><big><big><big><span style="color: rgb(255, 0, 0);">CannonTrajectory<br></span></big></big></big></big>
-          </h3>
-          <div style="text-align: center;">
-            <big><font size="+2"><big>
-              <span style="color: rgb(255, 0, 0);">
-                <small><span style="font-weight: bold;"><small>
-                  <span style="color: rgb(0, 0, 0);">version 1.0<br></span>
-                </small></span></small>
-              </span>
-            </big></font></big>
-            <big><big>
-              <span lang="EN-GB" style="font-size: 12pt; font-family: 'Times New Roman'; font-weight: bold;">
-                © 2003 Bernard Schutz
-              </span>
-            </big></big>
-            <br>
+    <div class="nav-label">Experiments</div>
+    <a href="#experiments">Suggested Experiments</a>
+
+    <div class="nav-label">Reference</div>
+    <a href="#related">Related Programs</a>
+    <a href="#license">License</a>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════ MAIN -->
+  <main>
+
+    <!-- ── Description ─────────────────────────────────────────── -->
+    <section id="description">
+      <h2>Description</h2>
+
+      <p>
+        <strong>CannonTrajectory</strong> is the most elementary program in the GFtGU suite.
+        It computes the trajectory of a projectile — a cannonball, a thrown ball, or any object
+        launched from Earth's surface — under constant gravitational acceleration, with no air
+        resistance. It is introduced in <em>Investigation 1.3</em> of Schutz's text, where it
+        serves as the reader's first encounter with numerical integration and the concept of a
+        program loop.
+      </p>
+      <p>
+        Despite its simplicity, the program introduces two genuinely distinct numerical methods:
+        the basic <strong>Euler method</strong> and the more accurate
+        <strong>improved Euler (Heun) method</strong>. Comparing their outputs at different
+        timesteps gives immediate, visual intuition for the meaning of numerical accuracy and
+        convergence — essential preparation for the more demanding integrators used in later chapters.
+      </p>
+      <p>
+        The original Triana Java program on which this port is based is called
+        <code>CannonTrajectory</code>. The Python port preserves the same physics, loop termination
+        logic, and array-trimming behaviour, while reorganising the code into the standard
+        four-module structure used throughout this repository.
+      </p>
+    </section>
+
+    <!-- ── Physical Background ─────────────────────────────────── -->
+    <section id="background">
+      <h2>Physical Background</h2>
+
+      <h3>Near-surface approximation</h3>
+      <p>
+        Close to Earth's surface, the gravitational acceleration is essentially constant:
+        \( g \approx 9.8 \;\text{m s}^{-2} \) directed downward. This approximation is excellent
+        for trajectories whose horizontal range is small compared to Earth's radius
+        (\(R_\oplus \approx 6.4 \times 10^6\) m). A cannonball fired at 100 m/s travels at most
+        a few hundred metres — comfortably within this regime.
+      </p>
+
+      <h3>No air resistance</h3>
+      <p>
+        The program models vacuum flight. In reality, air drag would substantially reduce the
+        range at even moderate speeds. Neglecting drag keeps the equations analytically tractable
+        and lets the focus remain on the numerical method itself. At the muzzle velocities
+        considered here (\(\lesssim\) a few hundred m/s), drag is important but the qualitative
+        shape of the parabola is preserved.
+      </p>
+
+      <h3>Horizontal and vertical independence</h3>
+      <p>
+        Because gravity acts purely vertically and drag is absent, the horizontal and vertical
+        motions are completely independent. Horizontally the projectile moves at constant
+        velocity; vertically it accelerates downward at rate \(g\). This decoupling is the key
+        insight of Galileo's parabolic-trajectory theorem, and it is preserved exactly in both
+        the Euler and improved Euler integrators implemented here.
+      </p>
+    </section>
+
+    <!-- ── Governing Equations ─────────────────────────────────── -->
+    <section id="equations">
+      <h2>Governing Equations</h2>
+
+      <h3>Equations of motion</h3>
+      <p>
+        With \(x\) the horizontal distance, \(h\) the height, \(u\) the horizontal velocity, and
+        \(v\) the vertical velocity, the continuous equations of motion are:
+      </p>
+
+      <div class="eq-block">
+        <div class="eq-label">Eq. 1 — Horizontal kinematics</div>
+        \[
+          \frac{dx}{dt} = u, \qquad \frac{du}{dt} = 0.
+        \]
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Eq. 2 — Vertical kinematics</div>
+        \[
+          \frac{dh}{dt} = v, \qquad \frac{dv}{dt} = -g.
+        \]
+      </div>
+
+      <p>
+        In the code these four rates of change are returned by
+        <code>derivs_cannon(state)</code> as the NumPy array
+        \([u,\; v,\; 0,\; {-g}]\), corresponding to the state vector
+        \(\mathbf{s} = [x,\; h,\; u,\; v]\).
+      </p>
+
+      <h3>Initial conditions</h3>
+      <p>
+        The projectile is launched from the origin with speed \(v_0\) at angle \(\theta\) above
+        the horizontal:
+      </p>
+
+      <div class="eq-block">
+        <div class="eq-label">Eq. 3 — Launch conditions</div>
+        \[
+          x_0 = 0, \quad h_0 = 0, \quad u_0 = v_0 \cos\theta, \quad v_0^{(v)} = v_0 \sin\theta.
+        \]
+      </div>
+
+      <h3>Analytic solution</h3>
+      <p>
+        For this simple case an exact solution exists and can be used to verify the integrators:
+      </p>
+
+      <div class="eq-block">
+        <div class="eq-label">Eq. 4 — Analytic trajectory</div>
+        \[
+          x(t) = u_0\, t, \qquad h(t) = v_{0}^{(v)}\, t - \tfrac{1}{2} g\, t^2.
+        \]
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Eq. 5 — Range formula</div>
+        \[
+          R = \frac{v_0^2 \sin 2\theta}{g}.
+        \]
+      </div>
+      <p>
+        The range is maximised at \(\theta = 45°\), which is why the default firing angle is 45°.
+        For \(v_0 = 100\) m/s, the analytic range is \(R = 1020.4\) m.
+      </p>
+
+      <h3>Euler method</h3>
+      <p>
+        The simplest time integrator advances the state by one step using only the derivative
+        at the beginning of the interval:
+      </p>
+
+      <div class="eq-block">
+        <div class="eq-label">Eq. 6 — Forward Euler step</div>
+        \[
+          \mathbf{s}^{n+1} = \mathbf{s}^{n} + \Delta t\; \mathbf{f}(\mathbf{s}^{n}),
+        \]
+      </div>
+      <p>
+        where \(\mathbf{f}(\mathbf{s}) = [u,\, v,\, 0,\, {-g}]\) is the derivative vector.
+        Euler is first-order accurate: the global error is \(\mathcal{O}(\Delta t)\).
+      </p>
+
+      <h3>Improved Euler method (Heun's method)</h3>
+      <p>
+        The improved Euler method uses a <em>predictor–corrector</em> pair to achieve
+        second-order accuracy \(\mathcal{O}(\Delta t^2)\):
+      </p>
+
+      <div class="eq-block">
+        <div class="eq-label">Eq. 7 — Heun predictor</div>
+        \[
+          \mathbf{s}^* = \mathbf{s}^{n} + \Delta t\; \mathbf{f}(\mathbf{s}^{n}).
+        \]
+      </div>
+
+      <div class="eq-block">
+        <div class="eq-label">Eq. 8 — Heun corrector</div>
+        \[
+          \mathbf{s}^{n+1} = \mathbf{s}^{n} + \frac{\Delta t}{2}\bigl[\mathbf{f}(\mathbf{s}^{n}) + \mathbf{f}(\mathbf{s}^*)\bigr].
+        \]
+      </div>
+
+      <p>
+        Because the derivatives are linear in this problem
+        (\(\mathbf{f}(\mathbf{s}^*) = \mathbf{f}(\mathbf{s}^n) + [-g\,\Delta t,\; 0,\; 0,\; 0]^T\)
+        for the vertical component), the corrector averages the initial and final vertical
+        velocities — identical to the update used in Schutz's original Java code.
+        For horizontal motion, where the derivative is constant, both methods give the same
+        result; the improvement appears only in the vertical (height) update.
+      </p>
+
+      <div class="note-box">
+        <strong>Schutz's Java equivalent:</strong> In the original Triana code, the improved
+        Euler step is written as <code>w = v − g·dt</code> (predictor vertical velocity),
+        then <code>h = h + (v + w)/2 · dt</code>. This is algebraically identical to
+        Eq.&thinsp;8 for height, since
+        \(\frac{v + (v - g\,\Delta t)}{2} = v - \tfrac{1}{2}g\,\Delta t\).
+      </div>
+    </section>
+
+    <!-- ── Algorithm ───────────────────────────────────────────── -->
+    <section id="algorithm">
+      <h2>Algorithm</h2>
+
+      <h3>Initialisation</h3>
+      <p>
+        The launch angle is converted to radians and the velocity components \(u_0\), \(v_0\)
+        are computed. Pre-allocated NumPy arrays <code>xs</code> and <code>hs</code> of length
+        <code>max_steps</code> are filled with zeros; element 0 is set to the initial position.
+        The integrator function (<code>euler_step</code> or <code>improved_euler_step</code>) is
+        selected according to the <code>method</code> parameter.
+      </p>
+
+      <h3>Integration loop</h3>
+      <p>
+        The main loop advances the state vector by one timestep per iteration:
+      </p>
+      <ol style="margin-left:1.5em; font-size:0.92rem; line-height:2.0;">
+        <li>Apply the chosen stepper: <code>state = stepper(state, dt)</code>.</li>
+        <li>Record <code>xs[j] = state[0]</code>, <code>hs[j] = state[1]</code>.</li>
+        <li>Increment the counter <code>j</code>.</li>
+        <li>Check the termination condition: <code>state[1] &lt; 0.0</code> (height went
+            negative) or <code>j &ge; max_steps</code>.</li>
+      </ol>
+
+      <h3>Termination and array trimming</h3>
+      <p>
+        The loop exits as soon as the projectile's height becomes negative (first step that
+        crosses the ground). The pre-allocated arrays are then trimmed to the actual number of
+        used steps before being returned: <code>xs[:j], hs[:j]</code>. This avoids trailing
+        zeros in the plot, matching the behaviour of the original Triana program.
+      </p>
+
+      <div class="warn-box">
+        <strong>Note on landing interpolation:</strong> The termination height is the first
+        <em>negative</em> value, not zero, so the reported range is the horizontal position at
+        the step <em>after</em> the projectile crosses the ground. For small \(\Delta t\) the
+        error is negligible. Schutz's suggested Experiment 2 (below) describes how to correct
+        this by linear interpolation to find the exact zero crossing.
+      </div>
+    </section>
+
+    <!-- ── Code Modules ────────────────────────────────────────── -->
+    <section id="modules">
+      <h2>Code Modules</h2>
+
+      <div class="module-grid">
+
+        <!-- physics_cannon.py -->
+        <div class="module-card">
+          <div class="mc-head">
+            <span class="mc-icon">⚛️</span>
+            <div>
+              <div class="mc-title">physics_cannon.py</div>
+              <div class="mc-role">Physics &amp; Integrators</div>
+            </div>
           </div>
-          <h3 style="font-family: helvetica, arial, sans-serif; text-align: center;">
-            <b><span style="color: rgb(0, 0, 0);">
-              Investigate the most elementary problem of motion in gravity:
-              the trajectory of a cannonball near the surface of the Earth,
-              using a Python implementation of the original Java program.
-              <br>
-            </span></b>
-          </h3>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          <p>
+            Defines the constant \(g = 9.8\;\text{m s}^{-2}\), the derivative function
+            <code>derivs_cannon</code>, and both time-stepping functions.
+            The state vector convention is <code>[x, h, u, v]</code>.
+          </p>
+          <div class="sig">g = 9.8   # m/s²
 
-  <h2><a name="contents"></a>Contents</h2>
-  <ul>
-    <li><a href="#description">Description of <tt><font size="+1">CannonTrajectory</font></tt></a></li>
-    <li><a href="#using">Using <tt><font size="+1">CannonTrajectory</font></tt> (Python version)</a></li>
-    <li><a href="#understanding">Understanding <tt><font size="+1">CannonTrajectory</font></tt> (Python modules)</a></li>
-    <li><a href="#suggestions">Suggested modifications of <tt><font size="+1">CannonTrajectory</font></tt></a></li>
-    <li><a href="#listing">Listing of the Python code for <tt><font size="+1">CannonTrajectory</font></tt></a></li>
-  </ul>
+def derivs_cannon(state):
+    # returns np.array([u, v, 0.0, -g])
 
-  <hr width="15%" size="4">
+def euler_step(state, dt):
+    # state + dt * derivs_cannon(state)
 
-  <h2><a name="description"></a>Description of <tt><font size="+3">CannonTrajectory</font></tt></h2>
+def improved_euler_step(state, dt):
+    # Heun predictor-corrector
+    # ds1 = derivs_cannon(state)
+    # pred = state + dt * ds1
+    # ds2 = derivs_cannon(pred)
+    # return state + 0.5*dt*(ds1 + ds2)</div>
+        </div>
 
-  <p>
-    The unit called <tt><font size="+1">CannonTrajectory</font></tt> now implements
-    a Python program for computing the trajectory of a cannonball or other
-    projectile fired from the surface of the Earth, at an arbitrary angle and
-    speed. The Python code closely follows Bernard Schutz’s original Java
-    program from <i>Gravity from the Ground Up</i>, but is organized into
-    separate modules for physics, numerical driver, plotting, and a
-    user-facing <tt>main.py</tt>.
-  </p>
+        <!-- driver_cannon.py -->
+        <div class="module-card">
+          <div class="mc-head">
+            <span class="mc-icon">🚀</span>
+            <div>
+              <div class="mc-title">driver_cannon.py</div>
+              <div class="mc-role">Simulation Driver</div>
+            </div>
+          </div>
+          <p>
+            Converts the launch angle to radians, initialises the state vector, selects the
+            integrator, and runs the main loop. Returns trimmed trajectory arrays.
+          </p>
+          <div class="sig">def run_cannon_trajectory(
+    speed    = 100.0,   # muzzle speed (m/s)
+    angle_deg= 45.0,    # firing angle (degrees)
+    dt       = 0.1,     # timestep (s)
+    max_steps= 1000,    # safety ceiling
+    method   = "improved"  # "euler" or "improved"
+) -> (xs, hs):          # trimmed arrays (m)</div>
+        </div>
 
-  <p>
-    The Python source code is available at:
-    <br>
-    <tt>
-      <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/CannonTrajectory">
-        https://github.com/tomyee3/GFTGU-Programs/tree/main/CannonTrajectory
-      </a>
-    </tt>
-  </p>
+        <!-- plot_cannon.py -->
+        <div class="module-card">
+          <div class="mc-head">
+            <span class="mc-icon">📊</span>
+            <div>
+              <div class="mc-title">plot_cannon.py</div>
+              <div class="mc-role">Visualisation</div>
+            </div>
+          </div>
+          <p>
+            Plots the projectile trajectory as a line, marks the launch point as an orange
+            scatter point, enforces equal horizontal and vertical scales
+            (<code>plt.axis("equal")</code> — equivalent to Triana's forced-equal-ranges mode),
+            and displays a grid and legend.
+          </p>
+          <div class="sig">def plot_cannon(xs, hs):
+    # plt.figure(figsize=(8, 6))
+    # plt.plot(xs, hs, label="Projectile trajectory")
+    # plt.scatter([0],[0], color="orange",
+    #             label="Launch point")
+    # plt.xlabel("Horizontal distance (m)")
+    # plt.ylabel("Vertical distance (m)")
+    # plt.title("CannonTrajectory — Newtonian
+    #            Projectile Motion")
+    # plt.axis("equal")
+    # plt.grid(True); plt.legend(); plt.show()</div>
+        </div>
 
-  <p>
-    This program is still the most elementary one in the book, and many later
-    programs are based on it. It is introduced in Investigation 1.3. The
-    Python version preserves the original numerical method (simple time-stepping
-    with a fixed time-step, no Runge–Kutta) and the pedagogical structure of
-    Schutz’s code, while making it easier to run and modify on modern systems.
-  </p>
+        <!-- main.py -->
+        <div class="module-card">
+          <div class="mc-head">
+            <span class="mc-icon">▶️</span>
+            <div>
+              <div class="mc-title">main.py</div>
+              <div class="mc-role">Entry Point</div>
+            </div>
+          </div>
+          <p>
+            Runs the simulation with default parameters and passes the result directly to the
+            plotting function. Edit parameters here to reproduce the experiments below.
+          </p>
+          <div class="sig">from driver_cannon import run_cannon_trajectory
+from plot_cannon  import plot_cannon
 
-  <hr width="15%" size="4">
+xs, hs = run_cannon_trajectory(
+    speed     = 100,
+    angle_deg = 45,
+    dt        = 0.1,
+    method    = "improved"
+)
 
-  <h2><a name="using"></a>Using <tt><font size="+3">CannonTrajectory</font></tt> (Python version)</h2>
+plot_cannon(xs, hs)</div>
+        </div>
 
-  <p>
-    To use the Python version of <tt><font size="+1">CannonTrajectory</font></tt>,
-    you do not need Triana or the original Java environment. Instead, you run
-    the program directly with Python.
-  </p>
+      </div><!-- /module-grid -->
+    </section>
 
-  <ol>
-    <li>
-      <b>Get the code:</b>
-      <br>
-      Clone or download the repository:
-      <br>
-      <tt>https://github.com/tomyee3/GFTGU-Programs/tree/main/CannonTrajectory</tt>
-    </li>
+    <!-- ── Parameters ─────────────────────────────────────────── -->
+    <section id="parameters">
+      <h2>Parameters</h2>
 
-    <li>
-      <b>Install Python and dependencies:</b>
-      <br>
-      Make sure you have a recent version of Python (3.x) installed.
-      The plotting module uses <tt>matplotlib</tt>, so you may need to install it:
-      <br>
-      <tt>pip install matplotlib</tt>
-    </li>
+      <table class="param-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Default</th>
+            <th>Units</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>speed</code></td>
+            <td>100</td>
+            <td>m/s</td>
+            <td>Muzzle speed (magnitude of initial velocity)</td>
+          </tr>
+          <tr>
+            <td><code>angle_deg</code></td>
+            <td>45</td>
+            <td>degrees</td>
+            <td>Firing angle above the horizontal; 45° maximises range in vacuum</td>
+          </tr>
+          <tr>
+            <td><code>dt</code></td>
+            <td>0.1</td>
+            <td>s</td>
+            <td>Fixed timestep; reduce to improve accuracy, increase to study truncation error</td>
+          </tr>
+          <tr>
+            <td><code>max_steps</code></td>
+            <td>1000</td>
+            <td>—</td>
+            <td>Safety ceiling on loop iterations; prevents runaway for very small <code>dt</code></td>
+          </tr>
+          <tr>
+            <td><code>method</code></td>
+            <td><code>"improved"</code></td>
+            <td>—</td>
+            <td>Integration scheme: <code>"euler"</code> (1st order) or <code>"improved"</code> (Heun, 2nd order)</td>
+          </tr>
+          <tr>
+            <td><code>g</code></td>
+            <td>9.8</td>
+            <td>m/s²</td>
+            <td>Surface gravitational acceleration (defined in <code>physics_cannon.py</code>)</td>
+          </tr>
+        </tbody>
+      </table>
 
-    <li>
-      <b>Set parameters in <tt>main.py</tt>:</b>
-      <br>
-      Open <tt>main.py</tt> in a text editor. Near the top you will find example
-      values for:
-      <ul>
-        <li><tt>dt</tt> – the time-step in seconds</li>
-        <li><tt>speed</tt> – the launch speed in meters per second</li>
-        <li><tt>angle_deg</tt> – the launch angle in degrees, measured from the horizontal</li>
+      <div class="note-box" style="margin-top:14px;">
+        <strong>Analytic check:</strong> With the defaults (<code>speed=100</code>,
+        <code>angle_deg=45</code>), the analytic range is
+        \(R = v_0^2 \sin 90° / g = 10000/9.8 \approx 1020\) m and the
+        time of flight is \(T = 2 v_{0y}/g = 2 \times 70.71 / 9.8 \approx 14.4\) s,
+        requiring \(\lceil T/\Delta t \rceil = 144\) steps — well within
+        <code>max_steps = 1000</code>.
+      </div>
+    </section>
+
+    <!-- ── Output ─────────────────────────────────────────────── -->
+    <section id="output">
+      <h2>Output</h2>
+
+      <p>
+        The program produces a single matplotlib window titled
+        <em>"CannonTrajectory — Newtonian Projectile Motion"</em> showing:
+      </p>
+      <ul style="margin-left:1.5em; font-size:0.92rem; line-height:2.0;">
+        <li>A blue line tracing the parabolic trajectory from launch to just below ground level.</li>
+        <li>An orange dot marking the launch point at the origin.</li>
+        <li>Equal horizontal and vertical scales (<code>plt.axis("equal")</code>) so the
+            parabola's true aspect ratio is preserved — this faithfully reproduces Triana's
+            forced-equal-ranges display mode.</li>
+        <li>Grid lines and a legend.</li>
       </ul>
-      These are set to example values (typically similar to Schutz’s defaults:
-      speed ≈ 100 m/s, angle ≈ 45°, dt ≈ 0.1 s). You may overwrite these values
-      to experiment with different trajectories.
-    </li>
+      <p>
+        The <code>run_cannon_trajectory</code> function additionally returns the
+        NumPy arrays <code>xs</code> and <code>hs</code> (each of length equal to the actual
+        number of steps taken), suitable for further analysis or overlay plots.
+      </p>
+    </section>
 
-    <li>
-      <b>Run the program:</b>
-      <br>
-      From a terminal in the <tt>CannonTrajectory</tt> directory, run:
-      <br>
-      <tt>python main.py</tt>
-      <br>
-      The driver module will compute the trajectory and the plot module will
-      open a window showing the path of the projectile (horizontal distance
-      versus vertical height).
-    </li>
+    <!-- ── Suggested Experiments ──────────────────────────────── -->
+    <section id="experiments">
+      <h2>Suggested Experiments</h2>
 
-    <li>
-      <b>Interpreting the plot:</b>
-      <br>
-      The plot uses equal scales on the horizontal and vertical axes by default
-      (or can be configured to do so in the plotting code), so the trajectory
-      appears with correct geometric proportions. You can adjust zoom and
-      axis limits using standard <tt>matplotlib</tt> controls.
-    </li>
-  </ol>
+      <div class="experiment-card">
+        <div class="exp-num">Experiment 1</div>
+        <div class="exp-title">Accuracy of the two integrators</div>
+        <p>
+          Run the simulation twice with the same parameters, once with
+          <code>method="euler"</code> and once with <code>method="improved"</code>.
+          Compare the final range (last element of <code>xs</code>) against the analytic
+          value \(R = v_0^2 \sin 2\theta / g\). Then repeat with <code>dt</code> halved
+          and quartered. You should find that the Euler error halves each time you halve
+          <code>dt</code> (first-order), while the improved Euler error quarters
+          (second-order). This is the numerical signature of convergence order.
+        </p>
+      </div>
 
-  <p>
-    Updated documentation for the Python version of <tt>CannonTrajectory</tt>
-    is maintained in the GFTGU-Documentation repository:
-    <br>
-    <tt>
-      <a href="https://github.com/tomyee3/GFTGU-Documentation">
-        https://github.com/tomyee3/GFTGU-Documentation
-      </a>
-    </tt>
-  </p>
+      <div class="experiment-card">
+        <div class="exp-num">Experiment 2 (Schutz suggestion)</div>
+        <div class="exp-title">Degrade accuracy — plain Euler for height</div>
+        <p>
+          In <code>improved_euler_step</code>, replace the corrector height update with a
+          plain Euler update: use <code>state[1] + dt * ds1[1]</code> instead of the
+          averaged value. This is the "less accurate" variant Schutz describes: the height
+          uses only the initial vertical velocity, while horizontal distance still uses the
+          averaged value. Compare the resulting range error against the standard improved
+          Euler result at the same timestep — and verify that the degraded version's error
+          scales as \(\mathcal{O}(\Delta t)\) rather than \(\mathcal{O}(\Delta t^2)\).
+        </p>
+      </div>
 
-  <hr width="15%" size="4">
+      <div class="experiment-card">
+        <div class="exp-num">Experiment 3 (Schutz suggestion)</div>
+        <div class="exp-title">Interpolated landing point</div>
+        <p>
+          The loop terminates at the first step where \(h &lt; 0\). Improve the accuracy of
+          the reported range by linear interpolation: if the last two heights are
+          \(h_{n-1} > 0\) and \(h_n < 0\), the zero crossing is at
+          \(x^* = x_{n-1} + (x_n - x_{n-1}) \cdot h_{n-1} / (h_{n-1} - h_n)\).
+          Add this correction to the driver and verify that it reduces the range error
+          significantly, even for large \(\Delta t\).
+        </p>
+      </div>
 
-  <h2><a name="understanding"></a>Understanding <tt><font size="+3">CannonTrajectory</font></tt> (Python modules)</h2>
+      <div class="experiment-card">
+        <div class="exp-num">Experiment 4</div>
+        <div class="exp-title">Optimal firing angle</div>
+        <p>
+          Loop over firing angles from 1° to 89° in 1° steps and record the range for each.
+          Plot range vs. angle. Confirm that the maximum occurs at 45° and that the range
+          curve is symmetric about 45° (i.e., complementary angles give the same range).
+          Try this with both the Euler and improved Euler methods — does the choice of
+          integrator shift the numerically optimal angle?
+        </p>
+      </div>
 
-  <p>
-    The Python implementation of <tt><font size="+1">CannonTrajectory</font></tt>
-    follows Schutz’s original Java logic very closely, but separates concerns
-    into four modules:
-  </p>
+      <div class="experiment-card">
+        <div class="exp-num">Experiment 5</div>
+        <div class="exp-title">Effect of muzzle speed</div>
+        <p>
+          Fix the angle at 45° and vary <code>speed</code> from 50 to 500 m/s.
+          The range should scale as \(v_0^2\). Plot range vs. \(v_0^2\) on a linear scale
+          and verify the slope equals \(\sin 90° / g = 1/g\). At very high speeds the
+          flat-Earth, constant-\(g\) approximation breaks down — note that EarthOrbit
+          (Chapter 4) treats this regime properly.
+        </p>
+      </div>
 
-  <ol>
-    <li>
-      <b>Physics module (<tt>physics.py</tt>):</b>
-      <br>
-      This module encodes the physical laws governing the motion of the
-      projectile. The only literal numbers in this module represent physical
-      constants, such as the acceleration due to gravity:
-      <br>
-      <tt>g = 9.8 </tt>
-      <br>
-      It provides functions that compute the acceleration and update rules
-      for position and velocity, mirroring the simple constant-acceleration
-      model used in the original Java program.
-    </li>
+      <div class="experiment-card">
+        <div class="exp-num">Experiment 6</div>
+        <div class="exp-title">Overlay multiple trajectories</div>
+        <p>
+          Call <code>run_cannon_trajectory</code> for angles of 15°, 30°, 45°, 60°, and 75°
+          at <code>speed = 100</code> m/s and overlay all five trajectories on a single
+          matplotlib figure. Observe that the 15°/75° pair and the 30°/60° pair each share
+          the same range (as the analytic formula predicts). Add a horizontal line at the
+          maximum range for reference.
+        </p>
+      </div>
 
-    <li>
-      <b>Driver module (<tt>driver.py</tt>):</b>
-      <br>
-      This module performs the numerical integration of the equations of
-      motion. It implements the same finite-difference scheme as Schutz’s
-      Java code:
-      <ul>
-        <li>Horizontal motion: <tt>x = x + u * dt</tt></li>
-        <li>Vertical speed update: <tt>w = v - g * dt</tt></li>
-        <li>Vertical position using average speed:
-          <br>
-          <tt>h = h + (v + w) / 2 * dt</tt>
-        </li>
-      </ul>
-      The driver stores the sequence of positions in arrays (or lists) and
-      stops when either:
-      <ul>
-        <li>the projectile returns to the ground (<tt>h &lt; 0</tt>), or</li>
-        <li>a maximum number of steps is reached (analogous to the 1000-step
-            limit in the Java code).</li>
-      </ul>
-      The driver returns structured output (e.g. a dictionary or a small
-      data class) containing arrays of horizontal and vertical positions.
-    </li>
+    </section>
 
-    <li>
-      <b>Plot module (<tt>plot_cannon.py</tt> or similar):</b>
-      <br>
-      This module takes the structured output from the driver and produces
-      a graph using <tt>matplotlib</tt>. It is responsible only for plotting:
-      setting axis labels, titles, and visual style. The computational logic
-      is kept separate from the plotting machinery, in contrast to the
-      original Triana-based Java environment where plotting was integrated
-      via the <tt>Curve</tt> data type and <tt>SGTGrapher</tt>.
-    </li>
+    <!-- ── Related Programs ────────────────────────────────────── -->
+    <section id="related">
+      <h2>Related Programs</h2>
 
-    <li>
-      <b>Main module (<tt>main.py</tt>):</b>
-      <br>
-      This is the user-facing entry point. It:
-      <ul>
-        <li>Defines example values for <tt>dt</tt>, <tt>speed</tt>, and
-            <tt>angle_deg</tt>.</li>
-        <li>Calls the driver to compute the trajectory.</li>
-        <li>Passes the results to the plot module to display the graph.</li>
-      </ul>
-      Users can modify the parameters in <tt>main.py</tt> without touching
-      the physics or driver code, making experimentation straightforward.
-    </li>
-  </ol>
+      <div class="related-grid">
 
-  <p>
-    Conceptually, the Python program still illustrates the same ideas as the
-    original Java version: loops, numerical integration of motion under
-    constant acceleration, and the importance of choosing an appropriate
-    time-step. The separation into modules simply makes these ideas clearer
-    and more reusable.
-  </p>
-
-  <hr width="15%" size="4">
-
-  <h2><a name="suggestions"></a>Suggested modifications of <tt><font size="+3">CannonTrajectory</font></tt></h2>
-
-  <p>
-    The suggestions from Schutz’s original help file still apply, and are
-    now easier to implement in Python:
-  </p>
-
-  <ul>
-    <li>
-      <b>Change the vertical integration method:</b>
-      <br>
-      In the driver module, you can replace the more accurate average-speed
-      update:
-      <br>
-      <tt>h = h + (v + w) / 2 * dt</tt>
-      <br>
-      with the simpler:
-      <br>
-      <tt>h = h + w * dt</tt>
-      <br>
-      Then experiment with different values of <tt>dt</tt> in <tt>main.py</tt>
-      to see how the accuracy of the trajectory depends on the time-step.
-    </li>
-
-    <li>
-      <b>Improve the landing point:</b>
-      <br>
-      Currently, the trajectory ends when the height first becomes negative.
-      You can refine the estimate of the horizontal distance at which the
-      projectile actually hits the ground by interpolating between the last
-      positive height and the first negative height. In Python, this can be
-      done by solving a simple linear equation using the last two points and
-      replacing the final stored point with the interpolated landing point.
-    </li>
-
-    <li>
-      <b>Extend the physics:</b>
-      <br>
-      Because the physics is isolated in <tt>physics.py</tt>, you can add
-      effects such as air resistance or variable gravity without changing
-      the plotting code. This mirrors the spirit of Schutz’s suggestions for
-      modifying the original Java program, but with a cleaner structure.
-    </li>
-  </ul>
-
-  <p>
-    If you wish to contribute improvements or educational extensions, you can
-    fork the GitHub repository and submit pull requests, keeping the spirit
-    of the Creative Commons license.
-  </p>
-
-  <hr width="15%" size="4">
-
-  <h2><a name="listing"></a>Listing of the Python code for <tt><font size="+3">CannonTrajectory</font></tt></h2>
-
-  <p>
-    The full Python source code is available in the GFTGU-Programs repository:
-  </p>
-
-  <ul>
-    <li>
-      <tt>
-        <a href="https://github.com/tomyee3/GFTGU-Programs/tree/main/CannonTrajectory">
-          https://github.com/tomyee3/GFTGU-Programs/tree/main/CannonTrajectory
+        <a href="EarthOrbit_Help.html" class="related-card">
+          <div class="rc-name">EarthOrbit</div>
+          <div class="rc-ch">Chapter 4</div>
+          <p>
+            The natural successor: replaces constant \(g\) with the inverse-square law and
+            places the cannon in orbit around a full-sized Earth. Implements Newton's Cannon
+            thought experiment.
+          </p>
         </a>
-      </tt>
-    </li>
-  </ul>
 
-  <p>
-    The code is released under a Creative Commons Attribution-NonCommercial-ShareAlike
-    4.0 International License (CC BY-NC-SA 4.0). For details, see:
-    <br>
-    <tt>
-      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
-        https://creativecommons.org/licenses/by-nc-sa/4.0/
-      </a>
-    </tt>
-  </p>
+        <a href="Orbit_Help.html" class="related-card">
+          <div class="rc-name">Orbit</div>
+          <div class="rc-ch">Chapter 4</div>
+          <p>
+            General Newtonian two-body orbit with adaptive timestep control (predictor–corrector
+            with eps1/eps2 accuracy test). Shows what happens when orbital mechanics replaces
+            flat-Earth kinematics.
+          </p>
+        </a>
 
-  <p>
-    Creative Commons can be contacted at:
-    <br>
-    Creative Commons<br>
-    PO Box 1866<br>
-    Mountain View, CA 94042<br>
-    USA
-  </p>
+        <a href="RelativisticOrbit_Help.html" class="related-card">
+          <div class="rc-name">RelativisticOrbit</div>
+          <div class="rc-ch">Chapter 8</div>
+          <p>
+            Extends the Newtonian orbit integrator to geodesic motion in the Schwarzschild
+            metric, introducing the general-relativistic corrections responsible for Mercury's
+            perihelion advance.
+          </p>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ── License ────────────────────────────────────────────── -->
+    <section id="license">
+      <h2>License</h2>
+      <p>
+        Python source code in this repository is released under the
+        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+          Creative Commons Attribution–NonCommercial–ShareAlike 4.0 International
+          (CC BY-NC-SA 4.0)</a> licence, consistent with the terms under which
+        Schutz's original Triana programs were distributed.
+      </p>
+      <p>
+        The underlying physics and textbook content are from:
+        B. F. Schutz, <em>Gravity from the Ground Up</em>, Cambridge University Press, 2003.
+      </p>
+    </section>
+
+  </main><!-- /main -->
+
+  <!-- ═══════════════════════════════════════════════════════ FOOTER -->
+  <footer>
+    <span>
+      <strong>GFtGU Programs</strong> — Python ports of Schutz (2003) Triana simulations
+    </span>
+    <span>·</span>
+    <a href="https://github.com/tomyee3/GFTGU-Programs" target="_blank">GitHub: GFTGU-Programs</a>
+    <span>·</span>
+    <a href="https://github.com/tomyee3/GFTGU-Documentation" target="_blank">GitHub: GFTGU-Documentation</a>
+    <span>·</span>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>
+  </footer>
+
+</div><!-- /page-wrap -->
+
+<!-- ── Scrollspy (lightweight) ── -->
+<script>
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
 
 </body>
 </html>
